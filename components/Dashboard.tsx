@@ -1385,7 +1385,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div className="flex items-center gap-2 md:pl-4 border-l border-cyan-900/50">
             <button
               onClick={toggleFullScreen}
-              className="p-1.5 bg-black border border-cyan-900/50 rounded-[4px] text-cyan-700 hover:text-cyan-400 hover:border-cyan-500/50 transition-colors hidden sm:block"
+              className="p-1.5 bg-black border border-cyan-900/50 rounded-[4px] text-cyan-700 hover:text-cyan-400 hover:border-cyan-500/50 transition-colors"
               title="Toggle Fullscreen"
             >
               {isFullScreen ? <Minimize size={13} /> : <Maximize size={13} />}
