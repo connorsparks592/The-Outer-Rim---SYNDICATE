@@ -107,7 +107,7 @@ const App = () => {
 
     return (
         <div className="w-full h-full relative font-sans select-none">
-            {screen === 'START' && <FullscreenButton />}
+            <FullscreenButton />
             <BackgroundAudioPlayer 
                 src={audioTrack} 
                 volume={audioVolume} 
