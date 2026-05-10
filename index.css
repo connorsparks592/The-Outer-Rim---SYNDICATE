@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --font-title: "Orbitron", sans-serif;
+  --font-display: "Chakra Petch", sans-serif;
+  --font-cinzel: "Cinzel", serif;
+  
+  --color-tatooine-gold: #feda4a;
+  --color-tatooine-sand: #c1a173;
+  --color-tatooine-sky: #4bd5ee;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-200 overflow-hidden font-sans;
+  }
+}
+
+@layer components {
+  .hud-panel {
+    @apply bg-black/60 border border-cyan-500/20 backdrop-blur-sm shadow-[0_0_15px_rgba(6,182,212,0.1)];
+  }
+  
+  .terminal-text {
+    @apply font-mono text-sm leading-relaxed;
+  }
+
+  .scanline {
+    @apply absolute inset-0 pointer-events-none z-10;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    background-size: 100% 4px;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@layer utilities {
+  .glow-cyan {
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.3);
+  }
+
+  .glow-yellow {
+    text-shadow: 0 0 10px rgba(254, 218, 74, 0.8), 0 0 20px rgba(254, 218, 74, 0.3);
+  }
+
+  .shadow-cyan {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 20px rgba(248, 113, 113, 0.4);
+  }
+
+  .glow-sabacc-gold {
+    box-shadow: 0 0 40px rgba(234, 179, 8, 0.5);
+  }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.92; }
+  10% { opacity: 0.99; }
+  15% { opacity: 0.91; }
+  20% { opacity: 0.99; }
+  25% { opacity: 0.85; }
+  30% { opacity: 0.99; }
+  70% { opacity: 0.99; }
+  72% { opacity: 0.88; }
+  75% { opacity: 0.99; }
+  77% { opacity: 0.94; }
+  80% { opacity: 0.99; }
+  85% { opacity: 0.91; }
+  90% { opacity: 0.99; }
+  95% { opacity: 0.97; }
+  100% { opacity: 0.99; }
+}
+
+.animate-flicker {
+  animation: flicker 4s infinite;
+}
+
+@keyframes scanline-move {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.moving-scanline {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(6, 182, 212, 0.1) 50%,
+    transparent 100%
+  );
+  height: 100%;
+  width: 100%;
+  animation: scanline-move 8s linear infinite;
+  pointer-events: none;
+  z-index: 50;
+  position: absolute;
+}
