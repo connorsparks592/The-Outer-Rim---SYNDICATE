@@ -7,14 +7,12 @@ import { Play, Sparkles, User, ChevronRight, Sword, Shield, Cpu, Zap, Star } fro
 
 export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> = ({ onFinished, volume }) => {
     const [phase, setPhase] = useState<'intro' | 'logo' | 'crawl'>('intro');
-    const [audioPlaying, setAudioPlaying] = useState(false);
     const [isFadingOut, setIsFadingOut] = useState(false);
 
     useEffect(() => {
         // Phase 1: Blue Intro Text
         const introTimer = setTimeout(() => {
             setPhase('logo');
-            setAudioPlaying(true);
         }, 4000);
 
         // Phase 2: Logo Burst
@@ -40,7 +38,6 @@ export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> 
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black z-[50] overflow-hidden"
         >
-            <BackgroundAudioPlayer src={AUDIO.MAIN_TITLE} volume={volume} isPlaying={audioPlaying} loop={false} />
             
             <AnimatePresence mode="wait">
                 {phase === 'intro' && (

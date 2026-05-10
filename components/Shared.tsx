@@ -23,19 +23,47 @@ export const BackgroundAudioPlayer: React.FC<{ src: string; volume: number; isPl
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isPlaying) {
+    let cleanupListeners = () => {};
+
+    const tryPlay = () => {
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
           console.warn("Audio playback failed:", error);
+          const onInteract = () => {
+            if (audioRef.current && audioRef.current.src) {
+              audioRef.current.play().catch(() => {});
+            }
+            cleanupListeners();
+          };
+          
+          window.addEventListener('click', onInteract);
+          window.addEventListener('keydown', onInteract);
+          window.addEventListener('touchstart', onInteract);
+          
+          cleanupListeners = () => {
+            window.removeEventListener('click', onInteract);
+            window.removeEventListener('keydown', onInteract);
+            window.removeEventListener('touchstart', onInteract);
+          };
         });
       }
+    };
+
+    if (isPlaying) {
+      tryPlay();
     } else {
       audio.pause();
     }
+
+    return () => {
+      audio.pause();
+      cleanupListeners();
+    };
   }, [isPlaying, src]);
 
-  return <audio key={src} ref={audioRef} src={src} loop={loop} preload="auto" />;
+  // Remove key={src} so the exact same DOM element is reused, bypassing some iOS Safari restrictions
+  return <audio ref={audioRef} src={src} loop={loop} preload="auto" />;
 };
 
 export const FullscreenButton = () => {

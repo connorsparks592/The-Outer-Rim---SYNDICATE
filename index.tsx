@@ -49,8 +49,13 @@ const App = () => {
             setAudioVolume(0.4);
             setIsGlobalAudioPlaying(true);
         } else if (screen === 'INTRO') {
-            // OpeningCrawl handles its own audio (Main Title with delay)
             setIsGlobalAudioPlaying(false);
+            const timer = setTimeout(() => {
+                setAudioTrack(AUDIO.MAIN_TITLE);
+                setAudioVolume(0.6);
+                setIsGlobalAudioPlaying(true);
+            }, 4000);
+            return () => clearTimeout(timer);
         } else if (screen === 'CREATOR') {
             setAudioTrack(AUDIO.MENU_THEME);
             setAudioVolume(0.4);
