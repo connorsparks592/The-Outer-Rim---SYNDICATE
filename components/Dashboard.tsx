@@ -1593,7 +1593,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="h-1 md:h-1.5 bg-black/80 rounded-full overflow-hidden border border-white/10">
               <motion.div
                 animate={{
-                  width: `${(gameState.stats?.xp! / gameState.stats?.xpToNextLevel!) * 100}%`,
+                  width: `${((gameState.stats?.xp || 0) / (gameState.stats?.xpToNextLevel || 1)) * 100}%`,
                 }}
                 className="h-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]"
               />
