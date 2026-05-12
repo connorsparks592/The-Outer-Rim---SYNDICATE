@@ -52,15 +52,34 @@ export const updateReputation = (gameState: SaveData, faction: string, amount: n
     const currentRep = gameState.reputation?.[faction] || 0;
     const newRep = currentRep + amount;
     
+    // Define faction opposition
+    const opposition: Record<string, string> = {
+        'rebels': 'empire',
+        'empire': 'rebels',
+    };
+
+    let updatedReputation = {
+        ...gameState.reputation,
+        [faction]: newRep
+    };
+
+    let logMessage = `Reputation with ${faction.toUpperCase()} ${amount >= 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)}.`;
+
+    // Apply opposing penalty
+    const opponent = opposition[faction];
+    if (opponent && amount !== 0) {
+        const penalty = Math.floor(amount * (amount > 0 ? -0.5 : 0.5));
+        const opponentCurrentRep = updatedReputation[opponent] || 0;
+        updatedReputation[opponent] = opponentCurrentRep + penalty;
+        logMessage += ` (Rep with ${opponent.toUpperCase()} changed by ${penalty})`;
+    }
+    
     return {
         ...gameState,
-        reputation: {
-            ...gameState.reputation,
-            [faction]: newRep
-        },
+        reputation: updatedReputation,
         history: [
             ...gameState.history,
-            `Reputation with ${faction.toUpperCase()} ${amount >= 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)}.`
+            logMessage
         ]
     };
 };

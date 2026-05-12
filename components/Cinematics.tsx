@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BackgroundAudioPlayer, CommandButton, cn } from './Shared';
 import { AUDIO, IMAGES, RACES, CLASSES, BACKSTORIES } from '../data';
-import { Character, Stats, Race, CharClass } from '../types';
+import { Character, Stats, Race, CharClass, SaveData } from '../types';
+import { loadGame } from '../utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { Play, Sparkles, User, ChevronRight, Sword, Shield, Cpu, Zap, Star, X, FileText, Settings } from 'lucide-react';
 
@@ -82,6 +83,11 @@ export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> 
     const [phase, setPhase] = useState<'intro' | 'logo' | 'crawl'>('intro');
     const [isFadingOut, setIsFadingOut] = useState(false);
 
+    const handleSkip = () => {
+        setIsFadingOut(true);
+        setTimeout(onFinished, 1500);
+    };
+
     useEffect(() => {
         // Phase 1: Blue Intro Text
         const introTimer = setTimeout(() => {
@@ -103,12 +109,7 @@ export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> 
             clearTimeout(logoTimer);
             clearTimeout(finishTimer);
         };
-    }, []);
-
-    const handleSkip = () => {
-        setIsFadingOut(true);
-        setTimeout(onFinished, 1500);
-    };
+    }, [onFinished]);
 
     return (
         <motion.div 

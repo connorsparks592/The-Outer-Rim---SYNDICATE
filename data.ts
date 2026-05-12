@@ -128,6 +128,11 @@ export const IMAGES = {
   NPC_KALDUN:
     "https://i.postimg.cc/6p1vW5D5/Gemini-Generated-Image-7r4z897r4z897r4z.png",
 
+  NPC_REBEL_LEADER: "https://images.unsplash.com/photo-1544725176-7c40e5f71c5e?q=80&w=1000&auto=format&fit=crop",
+  NPC_IMPERIAL_LEADER: "https://images.unsplash.com/photo-1558231732-75ca46401037?q=80&w=1000&auto=format&fit=crop",
+  NPC_HUTT_LEADER: "https://images.unsplash.com/photo-1596727147705-61a532da6599?q=80&w=1000&auto=format&fit=crop",
+  NPC_TUSKEN_LEADER: "https://images.unsplash.com/photo-1590487988256-9ed22133802e?q=80&w=1000&auto=format&fit=crop",
+
   ENEMY_TUSKEN:
     "https://images.unsplash.com/photo-1605218427360-36390f85841c?q=80&w=1000&auto=format&fit=crop",
   ENEMY_THUG:
@@ -621,6 +626,24 @@ export const SECTORS = {
     description: "Your secret headquarters.",
     imageUrl: IMAGES.SAFEHOUSE,
   },
+  rebel_base: {
+    id: "rebel_base",
+    name: "Rebel Outpost",
+    description: "A hidden rebel cell on the outskirts of the Jundland Wastes.",
+    imageUrl: IMAGES.SAFEHOUSE, // placeholder
+  },
+  imperial_hq: {
+    id: "imperial_hq",
+    name: "Imperial Garrison HQ",
+    description: "A fortified stronghold of the Galactic Empire.",
+    imageUrl: IMAGES.IMPERIAL_OUTPOST,
+  },
+  tusken_settlement: {
+    id: "tusken_settlement",
+    name: "Tusken Encampment",
+    description: "A volatile settlement of the indigenous Tusken Raiders.",
+    imageUrl: IMAGES.SAFEHOUSE, // placeholder
+  },
 };
 
 export interface RTCEvent {
@@ -956,6 +979,50 @@ export const RTC_EVENTS: RTCEvent[] = [
 ];
 
 export const initialQuests: Quest[] = [
+  {
+    id: "q_rebel",
+    title: "Supply the Resistance",
+    description: "Provide essential supplies to the local Rebel cell.",
+    status: "active",
+    currentStepIndex: 0,
+    type: "side",
+    steps: [
+      { id: 1, description: "Deliver supplies to Commander Vahn.", completed: false },
+    ],
+  },
+  {
+    id: "q_imperial",
+    title: "Smash the Insurgents",
+    description: "Eliminate a rebel insurgent presence for the Empire.",
+    status: "active",
+    currentStepIndex: 0,
+    type: "side",
+    steps: [
+      { id: 1, description: "Report to Moff Gideon at the garrison.", completed: false },
+    ],
+  },
+  {
+    id: "q_hutt",
+    title: "Debt Collection",
+    description: "Recover borrowed credits for the local crime syndicate.",
+    status: "active",
+    currentStepIndex: 0,
+    type: "side",
+    steps: [
+      { id: 1, description: "Speak with Jabba about the outstanding debts.", completed: false },
+    ],
+  },
+  {
+    id: "q_tusken",
+    title: "Sacred Artifact",
+    description: "Retrieve a lost artifact for the Tusken Chieftain.",
+    status: "active",
+    currentStepIndex: 0,
+    type: "side",
+    steps: [
+      { id: 1, description: "Meet with the Tusken Chieftain.", completed: false },
+    ],
+  },
   {
     id: "q1",
     title: "The Blue Milk Run",
@@ -1638,6 +1705,98 @@ export const NPC_DATABASE: Record<string, NPC> = {
         ],
       },
     },
+  },
+  rebel_commander: {
+    id: "rebel_commander",
+    name: "Commander Vahn",
+    imageUrl: IMAGES.NPC_REBEL_LEADER,
+    greetingId: "intro",
+    dialogueTree: {
+        intro: {
+          id: "intro",
+          text: "The Rebellion appreciates your efforts. Tatooine is a strategic point, but we need more than just hope.",
+          options: [
+            { label: 'Take the supply run mission (+5 Rebel Rep, -2 Imperial Rep)', action: (g: any) => { 
+                g.updateReputation('rebels', 5); 
+                g.updateReputation('empire', -2);
+                g.updateQuest('q_rebel', 1);
+                const scenarios = ["Deliver supplies to the secret Jundland rebel outpost", "Recover stolen fuel cells from an Imperial patrol", "Transport encrypted rebel intelligence to the safehouse"];
+                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+                g.addToLog(`Accepted Rebel supply mission: ${scenario}`);
+            }},
+            { label: 'Nothing for now.', nextId: null }
+          ]
+       }
+    }
+  },
+  imperial_commander: {
+    id: "imperial_commander",
+    name: "Moff Gideon",
+    imageUrl: IMAGES.NPC_IMPERIAL_LEADER,
+    greetingId: "intro",
+    dialogueTree: {
+        intro: {
+          id: "intro",
+          text: "Order must be maintained. The Empire rewards loyalty... and punishes dissent with absolute efficiency.",
+          options: [
+            { label: 'Take the insurgent hunt mission (+5 Imperial Rep, -2 Rebel Rep)', action: (g: any) => { 
+                g.updateReputation('empire', 5); 
+                g.updateReputation('rebels', -2);
+                g.updateQuest('q_imperial', 1);
+                const scenarios = ["Locate a rogue rebel comms dish in the Jundland Wastes", "Eliminate a rebel saboteur in town", "Search for a hidden rebel weapon cache"];
+                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+                g.addToLog(`Accepted Imperial insurgent hunt mission: ${scenario}`);
+            }},
+            { label: 'Nothing for now.', nextId: null }
+          ]
+       }
+    }
+  },
+  hutt_commander: {
+    id: "hutt_commander",
+    name: "Jabba the Hutt",
+    imageUrl: IMAGES.NPC_HUTT_LEADER,
+    greetingId: "intro",
+    dialogueTree: {
+       intro: {
+          id: "intro",
+          text: "You seek audience with me? Bring me credits, and perhaps I'll overlook your incompetence.",
+          options: [
+            { label: 'Take the debt collection mission (+5 Hutt Rep, -2 Tusken Rep)', action: (g: any) => { 
+                g.updateReputation('hutt', 5); 
+                g.updateReputation('tusken', -2);
+                g.updateQuest('q_hutt', 1);
+                const scenarios = ["Collect credits from a stubborn moisture farmer", "Retrieve goods from an overdue smuggler", "Intimidate a cantina owner into paying up"];
+                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+                g.addToLog(`Accepted Hutt debt collection mission: ${scenario}`);
+            }},
+            { label: 'Nothing for now.', nextId: null }
+          ]
+       }
+    }
+  },
+  tusken_commander: {
+    id: "tusken_commander",
+    name: "Tusken Chieftain",
+    imageUrl: IMAGES.NPC_TUSKEN_LEADER,
+    greetingId: "intro",
+    dialogueTree: {
+       intro: {
+          id: "intro",
+          text: "*The chieftain grunts, his voice a series of guttural clicks and barks. He gestures to the horizon.*",
+          options: [
+            { label: 'Take the sacred artifact retrieval mission (+5 Tusken Rep, -2 Hutt Rep)', action: (g: any) => { 
+                g.updateReputation('tusken', 5); 
+                g.updateReputation('hutt', -2);
+                g.updateQuest('q_tusken', 1);
+                const scenarios = ["Recover a stolen ancestral mask", "Retrieve a lost mystical totem from scavengers", "Clear out trespassers from a sacred burial ground"];
+                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+                g.addToLog(`Accepted Tusken sacred artifact mission: ${scenario}`);
+            }},
+            { label: 'Nothing for now.', nextId: null }
+          ]
+       }
+    }
   },
   imperial_officer: {
     id: "imperial_officer",

@@ -722,6 +722,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
       addToLog(detailed || "You see nothing unusual.");
 
       // Trigger chance encounters
+      const lowRepFactions = Object.entries(gameState.reputation).filter(([_, rep]) => rep <= -50);
+      if (lowRepFactions.length > 0) {
+        startCombat("bounty_hunter");
+        addToLog(`[COMBAT] You are tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`);
+        return;
+      }
+      
       if (currentLocation.encounters) {
         const isTracker = gameState.stats?.charClass?.id === "bounty_hunter";
         const roll = Math.random();
