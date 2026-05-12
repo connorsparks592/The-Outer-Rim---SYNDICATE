@@ -4,8 +4,28 @@ const SAVE_KEY = 'outer_rim_save_v1';
 
 export function loadGame(): SaveData | null {
     try {
-        const data = localStorage.getItem(SAVE_KEY);
-        if (data) return JSON.parse(data);
+        const rawData = localStorage.getItem(SAVE_KEY);
+        if (!rawData) return null;
+        
+        let data = JSON.parse(rawData);
+        
+        // Migration logic
+        let version = data.version || 0;
+        
+        if (version < 1) {
+            // Migrating to version 1: Ensure reputation and activeContracts exist
+            data = {
+                ...data,
+                version: 1,
+                reputation: data.reputation || {},
+                activeContracts: data.activeContracts || []
+            };
+            
+            // Save the migrated data back to localStorage
+            localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+        }
+        
+        return data as SaveData;
     } catch (e) {
         console.error("Failed to load game", e);
     }
@@ -14,6 +34,8 @@ export function loadGame(): SaveData | null {
 
 export function saveGame(data: SaveData) {
     try {
+        // Always save with the current version
+        data.version = 1;
         localStorage.setItem(SAVE_KEY, JSON.stringify(data));
     } catch (e) {
         console.error("Failed to save game", e);

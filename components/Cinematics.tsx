@@ -3,7 +3,54 @@ import { BackgroundAudioPlayer, CommandButton, cn } from './Shared';
 import { AUDIO, IMAGES, RACES, CLASSES, BACKSTORIES } from '../data';
 import { Character, Stats, Race, CharClass } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Sparkles, User, ChevronRight, Sword, Shield, Cpu, Zap, Star, X, FileText } from 'lucide-react';
+import { Play, Sparkles, User, ChevronRight, Sword, Shield, Cpu, Zap, Star, X, FileText, Settings } from 'lucide-react';
+
+// ... (existing code)
+
+const SaveManagerModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+    const handleDeleteSave = () => {
+        localStorage.removeItem('outer_rim_save_v1');
+        onClose();
+        window.location.reload(); // Refresh to update the state
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative bg-black border border-cyan-900/50 rounded-xl p-6 md:p-8 max-w-sm w-full text-left shadow-[0_0_50px_rgba(8,145,178,0.2)]"
+            >
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-sans font-bold text-cyan-500 uppercase tracking-widest">Save Manager</h2>
+                    <button onClick={onClose} className="p-2 text-cyan-700 hover:text-cyan-400">
+                        <X size={24} />
+                    </button>
+                </div>
+                
+                <div className="space-y-4">
+                    <p className="text-sm text-gray-400">Manage your game data safely.</p>
+                    <button 
+                        onClick={handleDeleteSave}
+                        className="w-full px-6 py-3 bg-red-900/20 text-red-500 hover:bg-red-900/40 hover:text-red-400 transition-colors uppercase tracking-widest text-sm font-bold rounded"
+                    >
+                        Delete Save Data
+                    </button>
+                </div>
+                
+                <div className="mt-8 pt-4 border-t border-cyan-900/50 flex justify-end">
+                    <button 
+                        onClick={onClose}
+                        className="px-6 py-2 bg-cyan-900/20 text-cyan-400 hover:bg-cyan-900/40 hover:text-cyan-300 transition-colors uppercase tracking-widest text-sm font-bold rounded"
+                    >
+                        Close
+                    </button>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
 
 export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> = ({ onFinished, volume }) => {
     const [phase, setPhase] = useState<'intro' | 'logo' | 'crawl'>('intro');
@@ -265,6 +312,7 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => vo
     const [fading, setFading] = useState(false);
     const [showChangelog, setShowChangelog] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
+    const [showSaveManager, setShowSaveManager] = useState(false);
 
     const handleNewGameClick = () => {
         setFading(true);
@@ -305,12 +353,20 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => vo
                     icon={<Play size={18} className="text-yellow-600" />}
                 />
                 {hasSave && (
-                    <CommandButton 
-                        label="Restore Uplink" 
-                        onClick={onContinue} 
-                        className="w-full py-5 text-lg border-cyan-800 bg-black/40"
-                        icon={<Sparkles size={18} className="text-cyan-600" />}
-                    />
+                    <div className="flex gap-2">
+                        <CommandButton 
+                            label="Restore Uplink" 
+                            onClick={onContinue} 
+                            className="w-full py-5 text-lg border-cyan-800 bg-black/40 flex-grow"
+                            icon={<Sparkles size={18} className="text-cyan-600" />}
+                        />
+                        <button
+                            onClick={() => setShowSaveManager(true)}
+                            className="p-4 border border-cyan-800 bg-black/40 text-cyan-600 hover:text-cyan-400 hover:border-cyan-600 transition-colors"
+                        >
+                            <Settings size={20} />
+                        </button>
+                    </div>
                 )}
                 
                 <div className="flex items-center justify-center gap-6 mt-4">
@@ -333,6 +389,7 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => vo
 
             {showChangelog && <ChangelogModal onClose={() => setShowChangelog(false)} />}
             {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
+            {showSaveManager && <SaveManagerModal onClose={() => setShowSaveManager(false)} />}
 
             <div className={`absolute inset-0 bg-black transition-opacity duration-[1500ms] ease-in-out pointer-events-none z-20 ${fading ? 'opacity-100' : 'opacity-0'}`} />
         </div>

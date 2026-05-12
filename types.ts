@@ -221,6 +221,7 @@ export interface Contract {
 }
 
 export interface SaveData { 
+    version: number;
     currentLocationId: string; 
     stats: Character | null; 
     inventory: Item[]; 
