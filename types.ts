@@ -49,6 +49,7 @@ export interface Location {
     nightNpcs?: string[]; 
     nightSearchables?: Searchable[]; 
     ambient?: string[]; 
+    sector?: string;
 }
 
 export interface Locations { [key: string]: Location; }
@@ -60,14 +61,17 @@ export interface Item {
     name: string; 
     rarity: 'common' | 'uncommon' | 'rare' | 'legendary'; 
     count: number; 
-    type?: 'weapon' | 'consumable' | 'misc' | 'furniture' | 'utility'; 
+    type?: 'weapon' | 'consumable' | 'misc' | 'furniture' | 'utility' | 'clothing' | 'droid'; 
     dmg?: number; 
+    armor?: number;
     heal?: number; 
     service?: 'sabacc' | 'podracing_live' | 'buff_provider';
     buffEffect?: { stat: keyof Stats, value: number, durationHours: number };
     repModifier?: Record<string, number>;
+    abilities?: string[]; // e.g. ['translation', 'slicing', 'combat_assist']
     lastUsedAt?: number;
     description?: string;
+    price: number;
 }
 
 export interface QuestStep { id: number; description: string; completed: boolean; }
@@ -83,9 +87,41 @@ export interface Quest {
     type: 'main' | 'side'; 
 }
 
-export interface Race { id: string; name: string; description: string; bonuses: Partial<Stats>; }
+export interface Race { id: string; name: string; description: string; bonuses: Partial<Stats>; uniqueTrait: string; }
 
-export interface CharClass { id: string; name: string; description: string; bonuses: Partial<Stats>; startingItem: Item; }
+export interface CharClass { id: string; name: string; description: string; bonuses: Partial<Stats>; startingItem: Item; uniqueBuff: string; }
+
+export interface Backstory {
+    id: string;
+    name: string;
+    description: string;
+    buff: { stat: keyof Stats, value: number } | { item: string } | null;
+}
+
+export interface Faction {
+    id: string;
+    name: string;
+    description: string;
+}
+
+export interface SkillNode {
+    id: string;
+    name: string;
+    description: string;
+    cost: number;
+    statRequirement?: { stat: keyof Stats, value: number };
+    prerequisiteSkillId?: string;
+    icon: string; // Lucide icon name
+    category: 'Combat' | 'Slicing' | 'Diplomacy' | 'Survival';
+}
+
+export interface Perk {
+    id: string;
+    name: string;
+    description: string;
+    reqLevel: number;
+    icon: string;
+}
 
 export interface Character { 
     name: string; 
@@ -100,6 +136,8 @@ export interface Character {
     xp: number;
     xpToNextLevel: number;
     skillPoints: number;
+    unlockedSkillIds: string[];
+    unlockedPerkIds: string[];
 }
 
 export interface Enemy { id: string; name: string; hp: number; maxHp: number; dmg: number; xp: number; credits: number; imageUrl: string; introText: string; }
@@ -112,6 +150,9 @@ export interface DialogueOption {
     reqSkill?: keyof Stats; 
     reqVal?: number; 
     reqItem?: string; 
+    reqCredits?: number;
+    reqRace?: string;
+    reqBackgroundContains?: string;
     reqQuestState?: { id: string, step: number, completed?: boolean }; 
     reqReputation?: { id: string, min: number };
     reqTime?: 'day' | 'night'; 
@@ -120,13 +161,25 @@ export interface DialogueOption {
 
 export interface DialogueNode { id: string; text: string; options: DialogueOption[]; }
 
+export interface ConditionalGreeting {
+    reqQuestState?: { id: string, step?: number, completed?: boolean };
+    reqReputation?: { id: string, min: number };
+    reqItem?: string;
+    reqRace?: string;
+    reqBackgroundContains?: string;
+    greetingId: string;
+}
+
 export interface NPC { 
     id: string; 
     name: string; 
     imageUrl: string; 
     greetingId: string; 
     nightGreetingId?: string; 
+    conditionalGreetings?: ConditionalGreeting[]; 
     dialogueTree: Record<string, DialogueNode>; 
+    shopInventory?: string[]; // Array of item IDs
+    language?: string; // e.g. 'binary', 'huttinese', 'jawan'
     onlyBetween?: [number, number]; // [startHour, endHour]
 }
 
@@ -180,9 +233,15 @@ export interface SaveData {
     history: string[]; 
     lastLoginDate?: string; 
     lastStipendClaimDate?: string; 
+    dailyStreak: number;
+    lastDailyRewardClaimDate?: string;
+    completedDailyContracts: string[];
     defeatedNpcs?: string[]; 
     activeRace?: ActiveRace | null;
     activeSlicingTask?: SlicingTask | null;
+    equippedWeaponId?: string | null;
+    equippedClothingId?: string | null;
+    activeDroidId?: string | null;
     reputation: Record<string, number>;
     activeContracts: Contract[];
 }

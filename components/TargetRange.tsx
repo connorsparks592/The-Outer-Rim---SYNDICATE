@@ -8,7 +8,7 @@ interface TargetRangeProps {
     onFinish: (score: number, creditsEarned: number) => void;
 }
 
-interface Target {
+interface ShootingTarget {
     id: number;
     x: number;
     y: number;
@@ -20,7 +20,7 @@ export const TargetRange: React.FC<TargetRangeProps> = ({ onClose, onFinish }) =
     const [gameState, setGameState] = useState<'IDLE' | 'PLAYING' | 'FINISHED'>('IDLE');
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(30);
-    const [targets, setTargets] = useState<Target[]>([]);
+    const [targets, setTargets] = useState<ShootingTarget[]>([]);
     const [highScore, setHighScore] = useState(() => Number(localStorage.getItem('shooting_high_score') || 0));
 
     const spawnTarget = useCallback(() => {

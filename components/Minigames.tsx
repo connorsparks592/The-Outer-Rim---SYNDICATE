@@ -10,12 +10,16 @@ export const SlicingGame: React.FC<{
     onWin: () => void;
     onLose: () => void;
     onClose: () => void;
-}> = ({ difficulty, onWin, onLose, onClose }) => {
+    bonus?: number; // 0 to 1, e.g. 0.2 means 20% easier
+}> = ({ difficulty, onWin, onLose, onClose, bonus = 0 }) => {
     const config = {
         easy: { stages: 2, tolerance: 30, speed: 18 },
         medium: { stages: 3, tolerance: 20, speed: 28 },
         hard: { stages: 4, tolerance: 10, speed: 40 }
     }[difficulty];
+
+    const actualTolerance = config.tolerance * (1 + bonus);
+    const actualSpeed = config.speed * (1 - bonus * 0.5);
 
     const [stage, setStage] = useState(0);
     const [position, setPosition] = useState(50);
@@ -36,7 +40,7 @@ export const SlicingGame: React.FC<{
 
         const animate = () => {
             setPosition(prev => {
-                let next = prev + (direction * (config.speed * 0.05));
+                let next = prev + (direction * (actualSpeed * 0.05));
                 if (next >= 100) {
                     next = 100;
                     setDirection(-1);
@@ -58,7 +62,7 @@ export const SlicingGame: React.FC<{
         setLocked(true);
         const diff = Math.abs(position - target);
         
-        if (diff <= config.tolerance / 2) {
+        if (diff <= actualTolerance / 2) {
             setTimeout(() => {
                 if (stage + 1 >= config.stages) {
                     setStatus('won');
@@ -88,6 +92,13 @@ export const SlicingGame: React.FC<{
                 <div className="bg-cyan-500/10 p-6 flex flex-col items-center">
                     <ShieldAlert className="text-cyan-400 mb-2" size={40} />
                     <h2 className="text-2xl font-title text-white tracking-widest uppercase">Security Override</h2>
+                    {bonus > 0 && (
+                        <div className="flex items-center gap-2 mt-2 px-3 py-1 bg-green-500/20 border border-green-500/40 rounded-full animate-pulse">
+                            <span className="text-[10px] text-green-400 font-mono uppercase font-black tracking-widest">
+                                Droid Assist Active (+{Math.round(bonus * 100)}%)
+                            </span>
+                        </div>
+                    )}
                     <p className="text-[10px] text-cyan-600 font-mono uppercase tracking-[0.2em] mt-1">
                         Active Node: {difficulty} // Layer {stage + 1}
                     </p>
@@ -98,8 +109,8 @@ export const SlicingGame: React.FC<{
                         <div 
                             className="absolute top-0 bottom-0 bg-cyan-500/30 border-x border-cyan-400/50"
                             style={{ 
-                                left: `${target - (config.tolerance / 2)}%`, 
-                                width: `${config.tolerance}%` 
+                                left: `${target - (actualTolerance / 2)}%`, 
+                                width: `${actualTolerance}%` 
                             }}
                         />
                         <motion.div 
@@ -179,10 +190,6 @@ export const SabaccGame: React.FC<{
     // AI State
     const [enemyAction, setEnemyAction] = useState<string>("");
 
-    useEffect(() => {
-        setupGame();
-    }, []);
-
     const setupGame = () => {
         const newDeck = createSabaccDeck();
         const pHand = [newDeck.pop()!, newDeck.pop()!];
@@ -197,6 +204,10 @@ export const SabaccGame: React.FC<{
         setPhase('betting');
         setMsg("Round 1: Betting");
     };
+
+    useEffect(() => {
+        setupGame();
+    }, []);
 
     const handleAction = (type: 'draw' | 'swap' | 'stand') => {
         if (phase !== 'action') return;

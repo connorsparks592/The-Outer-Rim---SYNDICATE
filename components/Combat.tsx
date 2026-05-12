@@ -155,7 +155,7 @@ export const Combat: React.FC<CombatProps> = ({
                         </div>
                         <div className="h-2 bg-cyan-950 border border-cyan-500/20 rounded-full overflow-hidden">
                             <motion.div 
-                                animate={{ width: `${(gameState.stats?.currentHp! / gameState.stats?.maxHp!) * 100}%` }}
+                                animate={{ width: `${((gameState.stats?.currentHp || 0) / (gameState.stats?.maxHp || 100)) * 100}%` }}
                                 className="h-full bg-cyan-500 shadow-[0_0_10px_cyan]"
                             />
                         </div>

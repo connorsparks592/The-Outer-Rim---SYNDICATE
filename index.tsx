@@ -19,6 +19,9 @@ const DEFAULT_GAME_STATE: SaveData = {
     lootedContainers: [],
     unlockedContainers: [],
     lastStipendClaimDate: '',
+    dailyStreak: 0,
+    lastDailyRewardClaimDate: '',
+    completedDailyContracts: [],
     history: ["System Initialized.", "Location: Tatooine, Outer Rim.", "Objective: Survive."],
     defeatedNpcs: [],
     reputation: { 'empire': 0, 'rebellion': 0, 'hutt': 0, 'guild': 0 },
@@ -54,7 +57,7 @@ const App = () => {
                 setAudioTrack(AUDIO.MAIN_TITLE);
                 setAudioVolume(0.6);
                 setIsGlobalAudioPlaying(true);
-            }, 4000);
+            }, 3000);
             return () => clearTimeout(timer);
         } else if (screen === 'CREATOR') {
             setAudioTrack(AUDIO.MENU_THEME);
@@ -81,6 +84,11 @@ const App = () => {
     const handleContinue = () => {
         const saved = loadGame();
         if (saved) {
+            // Migration for new fields
+            if (saved.stats) {
+                if (!saved.stats.unlockedSkillIds) saved.stats.unlockedSkillIds = [];
+                if (!saved.stats.unlockedPerkIds) saved.stats.unlockedPerkIds = [];
+            }
             setGameState(saved);
             setScreen('GAME');
         }
@@ -91,11 +99,13 @@ const App = () => {
     };
 
     const handleCharacterCreated = (char: Character) => {
+        const startingItem = char.charClass.startingItem;
         setGameState(prev => ({
             ...prev,
             stats: char,
-            // Merge starting class item into inventory
-            inventory: [...prev.inventory, char.charClass.startingItem]
+            inventory: [...prev.inventory, startingItem],
+            equippedWeaponId: (startingItem.type === 'weapon' || startingItem.dmg) ? startingItem.id : prev.equippedWeaponId,
+            equippedClothingId: startingItem.type === 'clothing' ? startingItem.id : prev.equippedClothingId
         }));
         setScreen('GAME');
     };

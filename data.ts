@@ -4,10 +4,13 @@ import {
   Quest,
   Race,
   CharClass,
+  Backstory,
+  Faction,
   Locations,
   NPC,
   Character,
   Podracer,
+  Enemy,
 } from "./types";
 
 // --- CONFIGURATION ---
@@ -201,6 +204,7 @@ export const ITEM_DATABASE: Item[] = [
     count: 1,
     type: "weapon",
     dmg: 8,
+    price: 450,
   },
   {
     id: "bh1",
@@ -209,6 +213,7 @@ export const ITEM_DATABASE: Item[] = [
     count: 3,
     type: "weapon",
     dmg: 12,
+    price: 350,
   },
   {
     id: "m1",
@@ -225,6 +230,7 @@ export const ITEM_DATABASE: Item[] = [
     count: 1,
     type: "weapon",
     dmg: 7,
+    price: 200,
   },
   {
     id: "stimpack",
@@ -233,8 +239,141 @@ export const ITEM_DATABASE: Item[] = [
     count: 1,
     type: "consumable",
     heal: 20,
+    price: 50,
   },
-  { id: "2", name: "Power Cell", rarity: "common", count: 1, type: "misc" },
+  {
+    id: "blaster_rifle",
+    name: "Blaster Rifle",
+    rarity: "rare",
+    count: 1,
+    type: "weapon",
+    dmg: 12,
+    price: 850,
+    description: "Standard issue E-11 blaster rifle. Accurate and deadly."
+  },
+  {
+    id: "heavy_blaster",
+    name: "DL-44 Heavy Blaster",
+    description: "A classic. High power, high reliability. Handles well and packs a punch.",
+    price: 1200,
+    type: "weapon",
+    rarity: "legendary",
+    dmg: 22,
+  },
+  {
+    id: "pulse_rifle",
+    name: "Cycler Rifle",
+    description: "Primitive but effective. Fires physical slugs that penetrate energy shields.",
+    price: 450,
+    type: "weapon",
+    rarity: "rare",
+    dmg: 18,
+  },
+  {
+    id: "flight_suit",
+    name: "Reinforced Flight Suit",
+    description: "Standard pilot gear, modified with light plating for extra protection.",
+    price: 350,
+    type: "clothing",
+    rarity: "uncommon",
+    armor: 5,
+  },
+  {
+    id: "bounty_armor",
+    name: "Custom Durasteel Plate",
+    description: "Mandalorian-grade? Probably not, but it's heavy enough to stop a blaster bolt.",
+    price: 1500,
+    type: "clothing",
+    rarity: "legendary",
+    armor: 20,
+  },
+  {
+    id: "r2_unit",
+    name: "R2 Astromech Droid",
+    description: "A versatile astromech droid. Excellent for slicing, universal translation, and emergency repairs.",
+    price: 2500,
+    type: "droid",
+    rarity: "rare",
+    abilities: ["Slicing Support", "Universal Translation", "Repair Support"],
+  },
+  {
+    id: "protocol_droid",
+    name: "3PO Protocol Droid",
+    description: "Fluent in over six million forms of communication. Essential for diplomacy and etiquette.",
+    price: 1800,
+    type: "droid",
+    rarity: "rare",
+    abilities: ["Universal Translation", "Etiquette Analysis"],
+  },
+  {
+    id: "vibro_ax",
+    name: "Gamorrean Vibro-Ax",
+    rarity: "rare",
+    count: 1,
+    type: "weapon",
+    dmg: 15,
+    price: 600,
+    description: "A brutal melee weapon used by palace guards. Vibrating edge cuts through armor."
+  },
+  {
+    id: "blast_vest",
+    name: "Blast Vest",
+    rarity: "uncommon",
+    count: 1,
+    type: "clothing",
+    armor: 3,
+    price: 300,
+    description: "Basic protection against light blaster fire and shrapnel."
+  },
+  {
+    id: "bounty_hunter_plate",
+    name: "Mandalorian Plate",
+    rarity: "legendary",
+    count: 1,
+    type: "clothing",
+    armor: 12,
+    price: 5000,
+    description: "Rare beskar alloy plating. Nearly indestructible and highly coveted."
+  },
+  {
+    id: "smuggler_jacket",
+    name: "Smuggler's Flight Jacket",
+    rarity: "rare",
+    count: 1,
+    type: "clothing",
+    armor: 5,
+    price: 1200,
+    description: "Stylish and practical. Features hidden pockets for small contraband."
+  },
+  {
+    id: "power_converter",
+    name: "Tosche Station Power Converter",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 25,
+    description: "You were going to go pick some of these up anyway."
+  },
+  {
+    id: "bacta_stim",
+    name: "Bacta Injector",
+    rarity: "rare",
+    count: 1,
+    type: "consumable",
+    heal: 50,
+    price: 250,
+    description: "High-grade bacta for immediate wound closure and tissue regeneration."
+  },
+  {
+    id: "death_sticks",
+    name: "Death Sticks",
+    rarity: "common",
+    count: 1,
+    type: "consumable",
+    buffEffect: { stat: "per", value: -2, durationHours: 4 },
+    price: 10,
+    description: "You want to go home and rethink your life."
+  },
   {
     id: "blue_milk",
     name: "Blue Milk",
@@ -242,6 +381,7 @@ export const ITEM_DATABASE: Item[] = [
     count: 1,
     type: "consumable",
     heal: 5,
+    price: 2,
   },
   {
     id: "slicer_spike",
@@ -249,6 +389,7 @@ export const ITEM_DATABASE: Item[] = [
     rarity: "rare",
     count: 1,
     type: "misc",
+    price: 150,
   },
   {
     id: "fusion_cutter",
@@ -354,6 +495,69 @@ export const ITEM_DATABASE: Item[] = [
     description:
       "A handheld device for bypassing low-level Imperial frequencies.",
   },
+  {
+    id: "comlink",
+    name: "C-10 Comlink",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 15,
+    description: "Standard encrypted long-range communicator.",
+  },
+  {
+    id: "credits_pouch",
+    name: "Leather Credit Pouch",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 10,
+    description: "A small pouch for carrying physical credit chits.",
+  },
+  {
+    id: "scrap",
+    name: "Metal Scraps",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 5,
+    description: "Salvaged starship hull plating and wires.",
+  },
+  {
+    id: "re-breather",
+    name: "Emergency Re-breather",
+    rarity: "uncommon",
+    count: 1,
+    type: "utility",
+    price: 45,
+    description: "Allows survival in toxic or low-oxygen environments.",
+  },
+  {
+    id: "sensor_pouch",
+    name: "Diagnostic Sensor Pouch",
+    rarity: "uncommon",
+    count: 1,
+    type: "utility",
+    price: 60,
+    description: "A set of sensors for analyzing biological and mechanical data.",
+  },
+  {
+    id: "hydrospanner",
+    name: "Hydrospanner",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 25,
+    description: "Essential tool for adjusting pressurized fluid lines.",
+  },
+  {
+    id: "power_cell",
+    name: "Power Cell",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 20,
+    description: "Standard energy cell for blasters and tools.",
+  },
 ];
 
 export const HOLONET_ARTICLES: HoloNetArticle[] = [
@@ -377,6 +581,377 @@ export const HOLONET_ARTICLES: HoloNetArticle[] = [
     body: "Jabba the Hutt announces a 15% increase in water taxes for all moisture farmers.",
     source: "Tatooine Traders",
     date: "35:2",
+  },
+];
+
+export const SECTORS = {
+  mos_eisley: {
+    id: "mos_eisley",
+    name: "Mos Eisley",
+    description: "A wretched hive of scum and villainy. The primary spaceport hub on Tatooine.",
+    imageUrl: IMAGES.STREET,
+  },
+  mos_espa: {
+    id: "mos_espa",
+    name: "Mos Espa",
+    description: "Famous for its podracing and heavy merchant influence.",
+    imageUrl: IMAGES.MOS_ESPA,
+  },
+  jundland_wastes: {
+    id: "jundland_wastes",
+    name: "Jundland Wastes",
+    description: "Desolate canyons and rocky plateaus. Home to Tusken Raiders and hermits.",
+    imageUrl: IMAGES.JUNDLAND_WASTES,
+  },
+  dune_sea: {
+    id: "dune_sea",
+    name: "The Dune Sea",
+    description: "The vast, endless sands of Tatooine. Silent and deadly.",
+    imageUrl: IMAGES.SANDCRAWLER,
+  },
+  anchorhead: {
+    id: "anchorhead",
+    name: "Anchorhead",
+    description: "A remote mining settlement and outpost. Quieter than the main cities.",
+    imageUrl: IMAGES.ANCHORHEAD,
+  },
+  safehouse: {
+    id: "safehouse",
+    name: "Syndicate Base",
+    description: "Your secret headquarters.",
+    imageUrl: IMAGES.SAFEHOUSE,
+  },
+};
+
+export interface RTCEvent {
+  id: string;
+  name: string;
+  message: string;
+  chance: number; // 0-1 per check
+  sector?: string;
+  condition?: (gameState: any) => boolean;
+  onTrigger?: (gameState: any) => Partial<any> | void;
+}
+
+export const RTC_EVENTS: RTCEvent[] = [
+  {
+    id: "sandstorm",
+    name: "Sandstorm",
+    message: "[ENV-ALERT] A heavy sandstorm is blowing in from the Dune Sea. Visibility is low.",
+    chance: 0.05,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "imperial_patrol",
+    name: "Imperial Patrol",
+    message: "[SEC-ALERT] Imperial stormtroopers are conducting random ID checks in the sector.",
+    chance: 0.08,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "bounty_tracker",
+    name: "HoloNet Alert",
+    message: "[NEWS] Bounty Hunters' Guild reports a rogue Jedi spotted in the Mid Rim.",
+    chance: 0.03,
+  },
+  {
+    id: "market_crash",
+    name: "Market Volatility",
+    message: "[ECON] Galactic credit exchange rate fluctuates. Merchant prices may vary.",
+    chance: 0.04,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "cantina_band",
+    name: "Cantina Band",
+    message: "[AMB] The Modal Nodes just started a new set at the Cantina.",
+    chance: 0.1,
+    condition: (gs) => gs.currentLocationId === "mos_eisley_cantina",
+  },
+  {
+    id: "jawa_scavengers",
+    name: "Jawa Sighting",
+    message: "[AMB] A Sandcrawler is spotted on the horizon, scavenging scrap metal.",
+    chance: 0.07,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "podracing_hype",
+    name: "Race Day Hype",
+    message: "[NEWS] The Boonta Eve Classic is approaching. Betting pools are growing.",
+    chance: 0.1,
+    sector: "Mos Espa",
+  },
+  {
+    id: "droid_malfunction",
+    name: "Droid Malfunction",
+    message: "[EVT] A nearby astromech droid has binary hiccups. Beep-boop-whirrr!",
+    chance: 0.12,
+  },
+  {
+    id: "spice_runners",
+    name: "Spice Runner",
+    message: "[SEC] A Kessel runner just made a low-altitude pass over Mos Eisley.",
+    chance: 0.05,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "krayt_dragon",
+    name: "Krayt Roar",
+    message: "[ENV] A bone-chilling roar echoes through the canyon floor.",
+    chance: 0.02,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "found_credits",
+    name: "Lucky Find",
+    message: "[LOOT] You found a lost credit chip in the sand! (+25 Credits)",
+    chance: 0.02,
+    onTrigger: (gs) => ({ credits: gs.credits + 25 }),
+  },
+  {
+    id: "rebel_transmission",
+    name: "Encrypted Stream",
+    message: "[HACK] Your comm-link intercepted a burst transmission in Rebel cipher.",
+    chance: 0.03,
+  },
+  {
+    id: "scrap_value_up",
+    name: "Scrap Boom",
+    message: "[ECON] Galactic scrap prices have surged. It's a good time to sell.",
+    chance: 0.05,
+    sector: "Mos Espa",
+  },
+  {
+    id: "tusken_raiders",
+    name: "Tusken Ambush",
+    message: "[SEC-ALERT] Tusken Raiders are harassing travelers near the homesteads.",
+    chance: 0.04,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "bounty_notice",
+    name: "Bounty Notice",
+    message: "[GUILD] A new high-priority bounty has been posted on the HoloNet.",
+    chance: 0.06,
+  },
+  {
+    id: "vaporator_moisture",
+    name: "Vaporator Yield",
+    message: "[LOOT] A nearby moisture vaporator has excess yield. You collect some water. (+1 Rations)",
+    chance: 0.03,
+    sector: "Anchorhead",
+  },
+  {
+    id: "droid_fight",
+    name: "Street Brawl",
+    message: "[AMB] Two power droids are bumping into each other in a metallic fight.",
+    chance: 0.08,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "hidden_stash",
+    name: "Hidden Stash",
+    message: "[LOOT] You spotted a loose panel hiding some credits. (+50 Credits)",
+    chance: 0.015,
+    onTrigger: (gs) => ({ credits: gs.credits + 50 }),
+  },
+  {
+    id: "jabba_favor",
+    name: "Crime Boss Activity",
+    message: "[SEC] Jabba's sail barge was seen leaving the palace. The locals are nervous.",
+    chance: 0.04,
+    sector: "Dune Sea",
+  },
+  {
+    id: "sector_scan",
+    name: "Satellite Scan",
+    message: "[NAV] An orbital scan reveals clear paths through the Dune Sea canyons.",
+    chance: 0.1,
+    sector: "Dune Sea",
+  },
+  {
+    id: "comms_jamming",
+    name: "Frequency Jamming",
+    message: "[NAV-ALERT] Local comms are being jammed by an unknown source.",
+    chance: 0.05,
+  },
+  {
+    id: "celebration",
+    name: "Street Celebration",
+    message: "[AMB] Locals are celebrating a successful harvest. The mood is lighter.",
+    chance: 0.07,
+    sector: "Anchorhead",
+  },
+  {
+    id: "sewer_rats",
+    name: "Womp Rat Sighting",
+    message: "[AMB] A group of womp rats scurries through the alleyway.",
+    chance: 0.15,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "star_destroyer",
+    name: "Imperial Presence",
+    message: "[SEC] A Star Destroyer is visible in the upper atmosphere, blocking out the suns.",
+    chance: 0.05,
+  },
+  {
+    id: "droid_auction",
+    name: "Droid Auction",
+    message: "[NEWS] Merchant Row is holding a flash auction for refurbished pit droids.",
+    chance: 0.08,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "sand_crawler_moving",
+    name: "Sandcrawler Trek",
+    message: "[AMB] You hear the deep rumble of massive treads in the distance.",
+    chance: 0.12,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "moisture_vaporator_hum",
+    name: "Vaporator Hum",
+    message: "[AMB] The moisture vaporators are producing a steady, reassuring drone.",
+    chance: 0.2,
+    sector: "Anchorhead",
+  },
+  {
+    id: "swoop_bike_pass",
+    name: "Swoop Pass",
+    message: "[AMB] A swoop bike screams past you, kicking up a rooster tail of sand.",
+    chance: 0.1,
+    sector: "Mos Espa",
+  },
+  {
+    id: "jawa_barter",
+    name: "Jawa Barter",
+    message: "[EVT] A Jawa tries to sell you a shiny but useless piece of scrap. You decline.",
+    chance: 0.06,
+  },
+  {
+    id: "rebel_spy",
+    name: "Shadowy Figure",
+    message: "[SEC] You spot a hooded figure watching the Imperial outpost from the shadows.",
+    chance: 0.04,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "kessel_run_rumor",
+    name: "Spaceport Rumor",
+    message: "[AMB] Overheard at the dock: Someone just beat the Kessel Run record. Again.",
+    chance: 0.05,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "power_surge",
+    name: "Grid Surge",
+    message: "[ENV] A momentary power surge flickers the lights. The city hums louder.",
+    chance: 0.07,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "bantha_herd",
+    name: "Bantha Herd",
+    message: "[AMB] A herd of Banthas is migrating across the canyon floor.",
+    chance: 0.09,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "sarlacc_burp",
+    name: "Great Pit Rumble",
+    message: "[ENV] The ground trembles slightly. Something is stirring in the Great Pit of Carkoon.",
+    chance: 0.03,
+    sector: "Dune Sea",
+  },
+  {
+    id: "scrapper_luck",
+    name: "Discarded Parts",
+    message: "[LOOT] You scavenge some usable tech parts from a junk pile. (+15 Credits)",
+    chance: 0.05,
+    onTrigger: (gs) => ({ credits: gs.credits + 15 }),
+  },
+  {
+    id: "imperial_evasion",
+    name: "Bypassing Patrols",
+    message: "[REP] You successfully navigated around a stormtrooper checkpoint without detection.",
+    chance: 0.03,
+    onTrigger: (gs) => ({ reputation: { ...gs.reputation, empire: (gs.reputation.empire || 0) - 1 } }),
+  },
+  {
+    id: "pazaak_winning",
+    name: "Gambler's Luck",
+    message: "[AMB] You overhear cheers from a nearby high-stakes Pazaak table.",
+    chance: 0.1,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "holonet_leak",
+    name: "HoloNet Leak",
+    message: "[HACK] An unsecured data stream reveals blueprints for a new droid model.",
+    chance: 0.02,
+  },
+  {
+    id: "desert_flower",
+    name: "Desert Bloom",
+    message: "[ENV] Rare desert flowers have sprouted after the morning dew. A brief moment of beauty.",
+    chance: 0.02,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "tusken_war_cry",
+    name: "Tusken Cry",
+    message: "[AMB] A distant Tusken war cry sends shivers down your spine.",
+    chance: 0.1,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "ship_landing",
+    name: "Ship Arrival",
+    message: "[NAV] A Corellian freighter just touched down in Bay 94.",
+    chance: 0.08,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "market_haggling",
+    name: "Haggling Duel",
+    message: "[AMB] A merchant and a customer are locked in a fierce debate over the price of a power cell.",
+    chance: 0.12,
+    sector: "Mos Eisley",
+  },
+  {
+    id: "droid_beeping",
+    name: "Binary Chatter",
+    message: "[AMB] The air is filled with the clicks and whistles of droids communicating.",
+    chance: 0.15,
+  },
+  {
+    id: "smoke_signal",
+    name: "Desert Signal",
+    message: "[SEC] You spot a thin trail of smoke rising from a nearby ridge.",
+    chance: 0.06,
+    sector: "Jundland Wastes",
+  },
+  {
+    id: "hidden_treasure",
+    name: "Buried Stash",
+    message: "[LOOT] You dig up a small box buried under the sand. (+100 Credits)",
+    chance: 0.01,
+    onTrigger: (gs) => ({ credits: gs.credits + 100 }),
+  },
+  {
+    id: "radio_static",
+    name: "Ghost Frequency",
+    message: "[HACK] Your comm-link captures a snippet of an old distress signal from the Clone Wars.",
+    chance: 0.02,
+  },
+  {
+    id: "safehouse_hum",
+    name: "Safehouse Systems",
+    message: "[AMB] The safehouse computers are whirring contentedly. All data remains secure.",
+    chance: 0.2,
+    sector: "Safehouse",
   },
 ];
 
@@ -555,6 +1130,7 @@ export const RACES: Race[] = [
     description:
       "Versatile and ambitious. Humans dominate the Core Worlds but are found everywhere.",
     bonuses: { lck: 1, cha: 1 },
+    uniqueTrait: "Adaptable: Gain 10% more XP from completed quests."
   },
   {
     id: "twilek",
@@ -562,12 +1138,14 @@ export const RACES: Race[] = [
     description:
       "Charismatic and agile. Known for their head-tails (lekku) and sharp wits.",
     bonuses: { cha: 2 },
+    uniqueTrait: "Seductive Charm: High chance to persuade NPCs or bypass minor checks."
   },
   {
     id: "rodian",
     name: "Rodian",
     description: "Alert hunters with keen eyes and infrared vision.",
     bonuses: { per: 2 },
+    uniqueTrait: "Tracker's Instinct: 15% better rewards from bounty contracts."
   },
   {
     id: "wookiee",
@@ -575,6 +1153,7 @@ export const RACES: Race[] = [
     description:
       "Immense strength and endurance. Loyal but dangerous when provoked.",
     bonuses: { str: 2, end: 1, cha: -1 },
+    uniqueTrait: "Berserker Rage: Deal 20% more damage in combat."
   },
   {
     id: "droid",
@@ -582,6 +1161,28 @@ export const RACES: Race[] = [
     description:
       "Calculated and intelligent. Mechanical lifeforms programmed for specific tasks.",
     bonuses: { int: 2, end: 2, cha: -2 },
+    uniqueTrait: "Silicon Plating: Take 15% less damage from physical attacks."
+  },
+  {
+    id: "zabrak",
+    name: "Zabrak",
+    description: "Fierce and resilient warriors. Known for their facial tattoos and crowning horns.",
+    bonuses: { str: 1, end: 1 },
+    uniqueTrait: "Iron Will: Resist 10% of all damage."
+  },
+  {
+    id: "chiss",
+    name: "Chiss",
+    description: "Blue-skinned and tactical. Highly intelligent string-pullers from the Unknown Regions.",
+    bonuses: { int: 2, per: 1 },
+    uniqueTrait: "Tactical Genius: 15% bonus credits when turning in quests."
+  },
+  {
+    id: "trandoshan",
+    name: "Trandoshan",
+    description: "Reptilian bounty hunters with regenerative scaling and an appetite for Wookiees.",
+    bonuses: { str: 2 },
+    uniqueTrait: "Regeneration: Heal 5 HP after every combat encounter."
   },
 ];
 
@@ -593,13 +1194,14 @@ export const CLASSES: CharClass[] = [
       "Luck favors the bold. You live by your wits and your blaster.",
     bonuses: { lck: 2, agi: 1 },
     startingItem: {
-      id: "1",
-      name: "Blaster Pistol",
+      id: "scoundrel_blaster",
+      name: "DL-44 Heavy Blaster",
       rarity: "rare",
       count: 1,
       type: "weapon",
-      dmg: 8,
+      dmg: 10,
     },
+    uniqueBuff: "Fast Talker: Get a 10% discount on all purchases."
   },
   {
     id: "bounty_hunter",
@@ -607,13 +1209,14 @@ export const CLASSES: CharClass[] = [
     description: "Relentless pursuer. No target escapes your sight.",
     bonuses: { per: 2, str: 1 },
     startingItem: {
-      id: "bh1",
-      name: "Wrist Rocket",
+      id: "bh_rifle",
+      name: "EE-3 Carbine Rifle",
       rarity: "uncommon",
-      count: 3,
+      count: 1,
       type: "weapon",
       dmg: 12,
     },
+    uniqueBuff: "Tracker: 20% increased chance to find credits in encounters."
   },
   {
     id: "mechanic",
@@ -621,13 +1224,14 @@ export const CLASSES: CharClass[] = [
     description: "If it's broken, you fix it. Technology speaks to you.",
     bonuses: { int: 2, end: 1 },
     startingItem: {
-      id: "m1",
-      name: "Fusion Cutter",
+      id: "mech_spanner",
+      name: "Heavy Hydrospanner",
       rarity: "uncommon",
       count: 1,
       type: "weapon",
-      dmg: 6,
+      dmg: 8,
     },
+    uniqueBuff: "Scrapper: Start with the Scavenger skill unlocked."
   },
   {
     id: "merc",
@@ -635,14 +1239,30 @@ export const CLASSES: CharClass[] = [
     description: "Soldier of fortune. Trained in combat and heavy weaponry.",
     bonuses: { str: 2, end: 1 },
     startingItem: {
-      id: "mc1",
-      name: "Vibroblade",
+      id: "merc_carbine",
+      name: "E-11 Blaster Rifle",
       rarity: "uncommon",
       count: 1,
       type: "weapon",
-      dmg: 7,
+      dmg: 9,
     },
+    uniqueBuff: "Battle Hardened: Max HP is increased by 15."
   },
+];
+
+export const BACKSTORIES: Backstory[] = [
+    { id: "street_rat", name: "Street Rat", description: "You grew up on the mean streets, learning to snatch bread and credits to survive.", buff: { stat: "agi", value: 1 } },
+    { id: "kid_stuff", name: "Kid Stuff", description: "Your parents are still alive and well on Tatooine, occasionally sending you modest care packages.", buff: { item: "Blue Milk" } },
+    { id: "wanted", name: "Wanted", description: "Someone out there is looking for you, and it's not for a reward. You are faster on your feet because of it.", buff: { stat: "per", value: 1 } },
+    { id: "task_master", name: "Task Master", description: "You've been pushed harder than most during your time as an apprentice.", buff: { stat: "int", value: 1 } },
+    { id: "lone_wolf", name: "Lone Wolf", description: "You thrive when you're on your own, away from the distractions of others.", buff: { stat: "str", value: 1 } },
+];
+
+export const FACTIONS: Faction[] = [
+    { id: "hutt_cartel", name: "Hutt Cartel", description: "The ruthless crime syndicate that controls much of Tatooine." },
+    { id: "empire", name: "Galactic Empire", description: "The galactic regime with an iron fist, seeking order and control." },
+    { id: "rebels", name: "Rebel Alliance", description: "Freedom fighters seeking to restore the Republic and end Imperial tyranny." },
+    { id: "local_tatooine", name: "Local Tatooine Settlers", description: "Common folk just trying to scrape by on a harsh desert planet." },
 ];
 
 export const ENEMIES: Record<string, Enemy> = {
@@ -710,10 +1330,97 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Wuher",
     imageUrl: IMAGES.NPC_WUHER,
     greetingId: "intro",
+    conditionalGreetings: [
+      {
+        reqRace: "droid",
+        greetingId: "droid_intro"
+      },
+      {
+        reqBackgroundContains: "jawa",
+        greetingId: "jawa_intro"
+      },
+      {
+        reqQuestState: { id: "q1", completed: true },
+        greetingId: "loyal",
+      },
+      {
+        reqQuestState: { id: "q1", step: 1 },
+        greetingId: "waiting_for_milk",
+      },
+      {
+        reqQuestState: { id: "q1", step: 2 },
+        greetingId: "have_milk_question",
+      },
+    ],
     dialogueTree: {
+      loyal: {
+        id: "loyal",
+        text: "My favorite customer! Ever since you cleared out those pests, business has been booming. First round is on the house.",
+        options: [
+          { 
+            label: "Thanks, Wuher. (Free Drink)", 
+            nextId: null,
+            action: (g) => g.addToLog("Wuher: 'Enjoy! Don't tell the others.'")
+          },
+          { label: "Any more work?", nextId: "no_work" },
+          { label: "Just stopping by.", nextId: null }
+        ]
+      },
+      no_work: {
+        id: "no_work",
+        text: "Things are quiet for now. Go talk to Greedo in the back booth if you're looking for real trouble.",
+        options: [{ label: "I will.", nextId: null }]
+      },
+      waiting_for_milk: {
+        id: "waiting_for_milk",
+        text: "You're back empty-handed? That Blue Milk isn't going to walk itself over here. Look, if you've forgotten, head to the Bazaar. The Jawa vendor usually has a crate stashed behind his stall or near the back. Just tell him I sent you, he knows the drill.",
+        options: [
+          { label: "I'm heading back to the Bazaar now.", nextId: null },
+          { label: "Where exactly is the Bazaar?", nextId: "bazaar_directions" }
+        ]
+      },
+      bazaar_directions: {
+        id: "bazaar_directions",
+        text: "Exit the Cantina, turn left past the moisture vaporators. It's the big open area with all the stalls. You can't miss it.",
+        options: [{ label: "Got it.", nextId: null }]
+      },
+      have_milk_question: {
+        id: "have_milk_question",
+        text: "I see you're back. Judging by the dust on your cloak, you've been to the Bazaar. Did you secure my shipment?",
+        options: [
+          {
+            label: "I have the milk you wanted.",
+            nextId: "quest_end",
+            action: (g: any) => {
+              g.updateQuest("q1", 3);
+              g.completeQuest("q1");
+              g.setQuests((prev: any[]) =>
+                prev.map((q: any) =>
+                  q.id === "q2"
+                    ? { ...q, status: "active", currentStepIndex: 1 }
+                    : q,
+                ),
+              );
+              g.setCredits((c: number) => c + 100);
+              g.addToLog("Wuher takes the milk and tosses you a credit bag.");
+              g.setInventory((inv: any[]) => {
+                const idx = inv.findIndex((i) => i.id === "blue_milk");
+                if (idx > -1) {
+                  const newInv = [...inv];
+                  if (newInv[idx].count > 1) newInv[idx].count--;
+                  else newInv.splice(idx, 1);
+                  return newInv;
+                }
+                return inv;
+              });
+            }
+          },
+          { label: "Working on it.", nextId: null }
+        ]
+      },
       intro: {
         id: "intro",
-        text: "Good to see you again! Looks like we've both settled into this dusty life on Tatooine pretty well, huh? Same old routine—surviving and making credits. If you're looking to branch out and make a real reputation for yourself, I've got a line on some business. Interested?",
+        text: "Ah, my absolute best friend in the entire galaxy! Sit! Sit! I still haven't forgotten how you dragged me out of that burning sandcrawler back in the Wastes. I owe you my life, kid! Look, you're the only soul in this dirt pit I actually trust. If you're looking to make some real credits, I've got something lined up. For you, anything.",
         options: [
           {
             label: "Just a drink (5 credits).",
@@ -777,6 +1484,30 @@ export const NPC_DATABASE: Record<string, NPC> = {
           { label: "Nothing.", nextId: null },
         ],
       },
+      droid_intro: {
+        id: "droid_intro",
+        text: "Normally I yell 'We don't serve your kind here!' when a droid rolls in... but for my best friend who pulled me from that burning sandcrawler? You can leak oil all over the bar if you want! What do you need, my mechanical savior?",
+        options: [
+          {
+            label: "I seek employment. (And to not leak oil)",
+            reqQuestState: { id: "q1", step: 0 },
+            nextId: "quest_proposal_day",
+          },
+          { label: "[Leave] My gratitude subroutines are fulfilled.", nextId: null }
+        ]
+      },
+      jawa_intro: {
+        id: "jawa_intro",
+        text: "My absolute favorite scavenger! I don't care if you smell like scrap oil and Jawa sweat—you saved my life back in the Wastes, and you're the only person in this dirt pit I trust! Sit down! How can I help my best friend make some credits?",
+        options: [
+          {
+            label: "I'm always looking for work, friend.",
+            reqQuestState: { id: "q1", step: 0 },
+            nextId: "quest_proposal_day",
+          },
+          { label: "Just passing through to say hi.", nextId: null }
+        ]
+      },
       drink: {
         id: "drink",
         text: "Here you go. Best drink in the Outer Rim. Good to have you back.",
@@ -816,7 +1547,32 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Greedo",
     imageUrl: IMAGES.NPC_GREEDO,
     greetingId: "intro",
+    conditionalGreetings: [
+      {
+        reqQuestState: { id: "q2", step: 2 },
+        greetingId: "waiting",
+      },
+      {
+        reqQuestState: { id: "q2", step: 4 },
+        greetingId: "post_teemo",
+      },
+    ],
     dialogueTree: {
+      waiting: {
+        id: "waiting",
+        text: "Kaelen is still in that garage. If Teemo finds out you're coming, he'll double the guard. Don't waste time.",
+        options: [
+          { label: "On my way.", nextId: null }
+        ],
+      },
+      post_teemo: {
+        id: "post_teemo",
+        text: "The Old Quarter feels... different without the Dune Rippers breathing down our necks. You've earned some respect around here.",
+        options: [
+          { label: "Teemo had a lot of data on the Imperial tech.", nextId: "debrief" },
+          { label: "Just checking in.", nextId: null }
+        ]
+      },
       intro: {
         id: "intro",
         text: "Oota goota, Solo? Wait... you're not him. Wuher says you want to be a player. Ambitious. Teemo the Snitch has a stranglehold on the Old Quarter, and it's stagnating. If you want power, you need assets.",
@@ -883,7 +1639,27 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Imperial Officer",
     imageUrl: IMAGES.NPC_OFFICER,
     greetingId: "intro",
+    conditionalGreetings: [
+      {
+        reqRace: "chiss",
+        greetingId: "chiss_intro",
+      },
+      {
+        reqRace: "wookiee",
+        greetingId: "wookiee_intro",
+      },
+    ],
     dialogueTree: {
+      chiss_intro: {
+        id: "chiss_intro",
+        text: "A Chiss. We don't see many of your kind outside the Unknown Regions, but your intellect is well known to the Empire. State your business.",
+        options: [{ label: "I am merely observing local customs.", nextId: null }],
+      },
+      wookiee_intro: {
+        id: "wookiee_intro",
+        text: "A Wookiee? Let me see your transit papers! If you don't have them, consider yourself assigned to the spice mines. Back away!",
+        options: [{ label: "[Growl and walk away]", nextId: null }],
+      },
       intro: {
         id: "intro",
         text: "Citizen. Move along unless you want to be detained.",
@@ -909,12 +1685,34 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Market Clerk",
     imageUrl: IMAGES.NPC_CLERK,
     greetingId: "intro",
+    shopInventory: ["stimpack", "comlink", "credits_pouch", "scrap", "power_cell"],
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "Welcome to the market. We trade many items.",
-        options: [{ label: "Just looking.", nextId: null }],
+        text: "Welcome to the market. We have standard supplies for any traveler. If you have the credits, we have the goods.",
+        options: [
+          { label: "Trade Items", nextId: "trade" },
+          { 
+            label: "Ask about rare cargo", 
+            nextId: "rare_info",
+            reqReputation: { id: "merchant", min: 20 }
+          },
+          { label: "Just looking.", nextId: null },
+        ],
       },
+      trade: {
+        id: "trade",
+        text: "Our inventory is updated daily. What are you looking for?",
+        options: [
+          { label: "Open Store Interface", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
+          { label: "Back", nextId: "intro" }
+        ]
+      },
+      rare_info: {
+        id: "rare_info",
+        text: "Since you've done right by the merchants around here... I heard a shipment of contraband Imperial sensors was intercepted. They're being held at the Records Office. High value if you can slice the lock.",
+        options: [{ label: "Interesting. Thanks.", nextId: null }]
+      }
     },
   },
   droid_doc: {
@@ -922,11 +1720,13 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "2-1B Medical Droid",
     imageUrl: IMAGES.NPC_DROID_DOC,
     greetingId: "intro",
+    shopInventory: ["stimpack", "re-breather", "sensor_pouch"],
     dialogueTree: {
       intro: {
         id: "intro",
         text: "Greetings. I am 2-1B, your primary medical assistant. My sensors indicate several physiological anomalies requiring immediate attention. Shall I initiate a full bacta-wash and cellular regeneration cycle?",
         options: [
+          { label: "Open Medical Supply Terminal", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
           {
             label: "Initiate cellular regeneration. (50 Credits)",
             nextId: null,
@@ -953,12 +1753,64 @@ export const NPC_DATABASE: Record<string, NPC> = {
     id: "jawa_vendor",
     name: "Jawa",
     imageUrl: IMAGES.NPC_JAWA,
+    language: "jawan",
     greetingId: "intro",
+    shopInventory: ["scrap", "hydrospanner", "fusion_cutter", "power_converter", "flight_suit"],
+    conditionalGreetings: [
+      {
+        reqQuestState: { id: "q1", step: 1 },
+        greetingId: "milk_greeting",
+      },
+      {
+        reqQuestState: { id: "q1", step: 2 },
+        greetingId: "milk_done",
+      },
+      {
+        reqRace: "wookiee",
+        greetingId: "scared_jawa",
+      },
+      {
+        reqRace: "trandoshan",
+        greetingId: "scared_jawa",
+      },
+    ],
     dialogueTree: {
+      scared_jawa: {
+        id: "scared_jawa",
+        text: "Utinni! (The Jawa shrieks and immediately ducks behind a pile of old power converters, peeking out nervously)",
+        options: [
+          { label: "Relax, little one. I just want to trade.", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
+          { label: "[Growl and leave]", nextId: null },
+        ]
+      },
+      milk_done: {
+        id: "milk_done",
+        text: "(He waves you away, busy sorting through shiny pieces of metal)",
+        options: [{ label: "Leave.", nextId: null }]
+      },
+      milk_greeting: {
+        id: "milk_greeting",
+        text: "Utinni! (He recognizes you as Wuher's messenger and points to a crate in the corner)",
+        options: [
+          {
+            label: "Take the Blue Milk.",
+            nextId: null,
+            action: (g: any) => {
+              g.updateQuest("q1", 2);
+              g.setInventory((i: any) => [
+                ...i,
+                { ...ITEM_DATABASE.find((x) => x.id === "blue_milk")!, count: 1 },
+              ]);
+              g.addToLog("Received Blue Milk Crate.");
+            }
+          }
+        ]
+      },
       intro: {
         id: "intro",
         text: "Utinni! (He gestures to a pile of junk)",
         options: [
+          { label: "Trade Scrap & Supplies", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
           {
             label: "Wuher sent me for the Blue Milk.",
             reqQuestState: { id: "q1", step: 1 },
@@ -1119,19 +1971,164 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Guild Master Targa",
     imageUrl: IMAGES.NPC_GUILD,
     greetingId: "intro",
+    conditionalGreetings: [
+      {
+        reqReputation: { id: "guild", min: 40 },
+        greetingId: "member_intro",
+      },
+      {
+        reqRace: "trandoshan",
+        greetingId: "trandoshan_intro",
+      },
+      {
+        reqRace: "zabrak",
+        greetingId: "zabrak_intro",
+      },
+    ],
+    dialogueTree: {
+      member_intro: {
+        id: "member_intro",
+        text: "Back from the field, Hunter? The Guild is only as strong as its active members. What do you need?",
+        options: [
+          { label: "Access Guild Contracts", nextId: null, action: (g) => g.addToLog("System: Initializing Contract Terminal... [Access Granted]") },
+          { label: "I need more training.", nextId: "training" },
+          { label: "Just preparing for my next job.", nextId: null },
+        ],
+      },
+      trandoshan_intro: {
+        id: "trandoshan_intro",
+        text: "A Trandoshan? Excellent. Your kind make natural hunters. The Guild is always looking for pure predatory instincts. Are you looking to join?",
+        options: [
+          { label: "I want to become a Guild Tracker.", nextId: "training", reqReputation: { id: "guild", min: 40 } },
+          { label: "I have 400 Credits for the membership fee.", nextId: "join_success", reqCredits: 400, action: (g: any) => { g.setCredits((c: number) => c - 400); g.updateReputation("guild", 50); g.addToLog("Targa: 'Discounted for a fellow predator. Welcome to the Guild.'"); } },
+          { label: "I have a recommendation from Greedo.", nextId: "greedo_check", reqQuestState: { id: "q2", step: 4, completed: true } },
+          { label: "Maybe later.", nextId: null },
+        ],
+      },
+      zabrak_intro: {
+        id: "zabrak_intro",
+        text: "A Zabrak outside Iridonia? I respect your people's resilience. The Guild values strength and determination. What brings you to this dustball?",
+        options: [
+          { label: "I'm looking for specialized training.", nextId: "training", reqReputation: { id: "guild", min: 40 } },
+          { label: "I have 500 Credits for the membership fee.", nextId: "join_success", reqCredits: 500, action: (g: any) => { g.setCredits((c: number) => c - 500); g.updateReputation("guild", 50); g.addToLog("Targa: 'A standard entry, but accepted. Welcome to the Guild.'"); } },
+          { label: "I have a recommendation from Greedo.", nextId: "greedo_check", reqQuestState: { id: "q2", step: 4, completed: true } },
+          { label: "Just passing through.", nextId: null },
+        ],
+      },
+      intro: {
+        id: "intro",
+        text: "The Bounty Hunters' Guild doesn't just take anyone who can pull a trigger. We need reliability. We need professionals. You look like you've got some miles on those boots, but are you Guild material?",
+        options: [
+          { 
+            label: "I'm looking for specialized training.", 
+            nextId: "training",
+            reqReputation: { id: "guild", min: 40 }
+          },
+          { 
+            label: "I'm the best tracker you'll find on this dustball.", 
+            nextId: "prove_it",
+            reqSkill: "per",
+            reqVal: 6,
+          },
+          { 
+             label: "Access Guild Contracts",
+             nextId: null,
+             reqReputation: { id: "guild", min: 40 },
+             action: (g) => g.addToLog("System: Initializing Contract Terminal... [Access Granted]")
+          },
+          { 
+            label: "I have 500 Credits for the membership fee.", 
+            nextId: "join_success",
+            reqCredits: 500,
+            action: (g: any) => {
+              g.setCredits((c: number) => c - 500);
+              g.updateReputation("guild", 50);
+              g.addToLog("Targa: 'A standard entry, but accepted. Welcome to the Guild.'");
+            }
+          },
+          { 
+            label: "I have a recommendation from Greedo.", 
+            nextId: "greedo_check",
+            reqQuestState: { id: "q2", step: 4, completed: true }
+          },
+          { label: "Maybe another time.", nextId: null },
+        ],
+      },
+      training: {
+        id: "training",
+        text: "Knowledge is as sharp as any blade. We offer combat drills and technical workshops. It will cost you 200 credits per session. Ready to sharpen your edge?",
+        options: [
+          { 
+            label: "Strength Training (200 Credits)", 
+            nextId: null, 
+            reqCredits: 200, 
+            action: (g) => {
+              g.setCredits((c: number) => c - 200);
+              g.setStats((s: any) => ({ ...s, stats: { ...s.stats, str: s.stats.str + 1 } }));
+              g.addToLog("Targa: 'Push your limits. Again!' (+1 STR)");
+            }
+          },
+          { 
+            label: "Bypass Protocols Workshop (200 Credits)", 
+            nextId: null, 
+            reqCredits: 200, 
+            action: (g) => {
+              g.setCredits((c: number) => c - 200);
+              g.setStats((s: any) => ({ ...s, stats: { ...s.stats, int: s.stats.int + 1 } }));
+              g.addToLog("Targa: 'Not every door needs an explosion.' (+1 INT)");
+            }
+          },
+          { label: "Back", nextId: "intro" }
+        ]
+      },
+      prove_it: {
+        id: "prove_it",
+        text: "Perception is half the battle. You spotted my concealed carry, didn't you? Impressive. I'll waive the entry fee. The Guild could use eyes like yours.",
+        options: [
+          { 
+            label: "Glad to be here.", 
+            nextId: null,
+            action: (g: any) => {
+              g.updateReputation("guild", 75);
+              g.addToLog("Targa: 'Don't make me regret this.'");
+            }
+          }
+        ]
+      },
+      greedo_check: {
+        id: "greedo_check",
+        text: "Greedo? That green lizard actually likes someone? Fine. If he trusts you enough to share his territory, the Guild will extend a hand. Basic membership active.",
+        options: [
+          { 
+            label: "Tell Greedo I'm in.", 
+            nextId: null,
+            action: (g: any) => {
+              g.updateReputation("guild", 40);
+            }
+          }
+        ]
+      },
+      join_success: {
+        id: "join_success",
+        text: "Your credits have been logged. You now have access to the Guild Contract Network and the Training Range. Don't die on your first job; it's a lot of paperwork.",
+        options: [{ label: "Understood.", nextId: null }],
+      },
+    },
+  },
+  quartermaster_jax: {
+    id: "quartermaster_jax",
+    name: "Quartermaster Jax",
+    imageUrl: "https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=1000&auto=format&fit=crop",
+    greetingId: "intro",
+    shopInventory: ["heavy_blaster", "bounty_armor", "pulse_rifle", "blaster_rifle"],
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "The Guild is for professionals only.",
+        text: "You want protection or you want to deal damage? The Guild only stocks the best. Prices are non-negotiable.",
         options: [
-          { label: "I want to join.", nextId: "join" },
-          { label: "Just looking.", nextId: null },
+          { label: "Show me your gear.", nextId: null, action: (g) => g.setShopNpcId("quartermaster_jax") },
+          { label: "Leave.", nextId: null },
         ],
-      },
-      join: {
-        id: "join",
-        text: "Prove yourself first.",
-        options: [{ label: "I will.", nextId: null }],
       },
     },
   },
@@ -1140,34 +2137,37 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Rusty",
     imageUrl: IMAGES.NPC_RUSTY,
     greetingId: "intro",
+    shopInventory: ["r2_unit", "protocol_droid", "power_cell", "power_converter"],
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "Spare a credit? I was a pilot once...",
+        text: "Beep-boop-brrrrt! Oh, sorry. My translator module is acting up. Welcome to Circuit City. Best droids in the sector, guaranteed. Looking for a companion or just some scrap?",
         options: [
-          {
-            label: "Here (5 credits).",
-            nextId: null,
-            action: (g: any) => {
-              if (g.credits >= 5) {
-                g.setCredits((c: number) => c - 5);
-                g.addToLog("You gave Rusty 5 credits.");
-              } else {
-                g.addToLog("Not enough credits.");
-              }
-            },
-          },
-          { label: "Sorry.", nextId: null },
+          { label: "Show me your droids.", nextId: null, action: (g) => g.setShopNpcId("rusty") },
+          { label: "Do you fix droids here?", nextId: "repair" },
+          { label: "Leave.", nextId: null },
+        ],
+      },
+      repair: {
+        id: "repair",
+        text: "Mostly sales, but if you've got a motivator that's blown, I can take a look. It'll cost you though. Credits aren't cheap on this ball of dust.",
+        options: [
+          { label: "I'll keep that in mind.", nextId: "intro" },
         ],
       },
     },
   },
-
   kaelen: {
     id: "kaelen",
     name: "Kaelen Vorr",
     imageUrl: IMAGES.NPC_KAELEN,
     greetingId: "intro",
+    conditionalGreetings: [
+      {
+        reqQuestState: { id: "q2", step: 4 },
+        greetingId: "safehouse_greeting",
+      },
+    ],
     dialogueTree: {
       intro: {
         id: "intro",
@@ -1183,12 +2183,28 @@ export const NPC_DATABASE: Record<string, NPC> = {
             nextId: null,
             reqQuestState: { id: "q2", step: 2 },
           },
-          {
-            label: "We should go. Greedo is waiting.",
-            nextId: null,
-            reqQuestState: { id: "q2", step: 4 },
-          }, // Fallback exit if already joined
         ],
+      },
+      safehouse_greeting: {
+        id: "safehouse_greeting",
+        text: "The safehouse is ready. I'm already working on the decryption modules. Do you have the components we discussed?",
+        options: [
+          { label: "Give Components", nextId: "components", reqItem: "parts_kit" },
+          { label: "Not yet. I'll be back.", nextId: null },
+        ],
+      },
+      components: {
+        id: "components",
+        text: "Perfect. This should be enough to bypass the first layer. I'll need more time.",
+        options: [
+          { 
+            label: "Keep at it.", 
+            nextId: null,
+            action: (g: any) => {
+              g.addToLog("Quest Updated: Kaelen is working on the datapad.");
+            }
+          }
+        ]
       },
       rescue: {
         id: "rescue",
@@ -1661,12 +2677,49 @@ export const NPC_DATABASE: Record<string, NPC> = {
 };
 
 export const initialLocations: Locations = {
+  jabba_entrance: {
+        id: "jabba_entrance",
+        name: "Jabba's Palace Entrance",
+        description: "The ominous entrance to the Hutt's palace, guarded by security droids.",
+        imageUrl: IMAGES.CANTINA,
+        sector: "Jabba's Palace",
+        exits: ["mos_eisley_street", "jabba_throne_room"],
+        actions: ["Look Around"],
+    },
+    jabba_throne_room: {
+        id: "jabba_throne_room",
+        name: "Jabba's Throne Room",
+        description: "The opulent and smelly center of Jabba's power.",
+        imageUrl: IMAGES.CANTINA,
+        sector: "Jabba's Palace",
+        exits: ["jabba_entrance", "jabba_dungeon", "jabba_kitchen"],
+        actions: ["Look Around"],
+    },
+    jabba_dungeon: {
+        id: "jabba_dungeon",
+        name: "Dungeon",
+        description: "Cold, dark, and damp, holding captives for Jabba's amusement.",
+        imageUrl: IMAGES.ALLEY_NIGHT,
+        sector: "Jabba's Palace",
+        exits: ["jabba_throne_room"],
+        actions: ["Look Around"],
+    },
+    jabba_kitchen: {
+        id: "jabba_kitchen",
+        name: "Kitchen",
+        description: "A chaotic kitchen where exotic dishes are prepared for the Hutt.",
+        imageUrl: IMAGES.GUILD,
+        sector: "Jabba's Palace",
+        exits: ["jabba_throne_room"],
+        actions: ["Look Around"],
+    },
   mos_eisley_street: {
     id: "mos_eisley_street",
     name: "Main Street",
     description: "The dusty central artery of Mos Eisley.",
     imageUrl: IMAGES.STREET,
     nightImageUrl: IMAGES.STREET_NIGHT,
+    sector: "Mos Eisley",
     exits: [
       "mos_eisley_cantina",
       "tourism_office",
@@ -1675,6 +2728,7 @@ export const initialLocations: Locations = {
       "mos_eisley_old_quarter",
       "spaceport",
       "mos_eisley_gate",
+      "jabba_entrance",
     ],
     actions: ["Look Around"],
     searchables: [
@@ -1719,6 +2773,7 @@ export const initialLocations: Locations = {
     description:
       "A vast, rocky canyon system. Tusken Raiders are known to ambush travelers here.",
     imageUrl: IMAGES.JUNDLAND_WASTES,
+    sector: "Jundland Wastes",
     exits: [
       "mos_eisley_gate",
       "lars_homestead",
@@ -1850,6 +2905,7 @@ export const initialLocations: Locations = {
   grand_arena: {
     id: "grand_arena",
     name: "Mos Espa Grand Arena",
+    sector: "Mos Espa",
     description:
       "The massive stadium where the Boonta Eve Classic is held. You can hear engines revving.",
     imageUrl: IMAGES.GRAND_ARENA,
@@ -1944,6 +3000,7 @@ export const initialLocations: Locations = {
   mos_eisley_cantina: {
     id: "mos_eisley_cantina",
     name: "Mos Eisley Cantina",
+    sector: "Mos Eisley",
     description:
       "The Cantina is dimly lit and crowded. Smoke hangs in the air, mixing with the sound of an upbeat Bith band playing the same song on loop. Patrons from a thousand worlds drink, argue, and make shady deals in the shadows.",
     detailedDescription:
@@ -2129,6 +3186,7 @@ export const initialLocations: Locations = {
     description:
       "A small, dusty township on the edge of the Jundland Wastes. Less dangerous than Mos Eisley, but just as forgotten.",
     imageUrl: IMAGES.ANCHORHEAD,
+    sector: "Anchorhead",
     exits: ["jundland_wastes", "tosche_station"],
     npcs: ["fixer"],
     actions: ["Look Around"],
@@ -2266,6 +3324,7 @@ export const initialLocations: Locations = {
       "The shop is quiet, the droids powered down for the night. The eyes of a dozen astromechs glow faintly in standby mode, watching the street through the grate.",
     imageUrl: IMAGES.DROID_SHOP,
     exits: ["merchant_row"],
+    npcs: ["rusty"],
     actions: ["Look Around", "Inspect Droids"],
     ambient: [
       "Droids chirp and whistle.",
@@ -2296,6 +3355,7 @@ export const initialLocations: Locations = {
   mos_eisley_bazaar: {
     id: "mos_eisley_bazaar",
     name: "The Bazaar",
+    sector: "Mos Eisley",
     description:
       "An open-air market within Merchant Row. Food stalls dominate this area.",
     detailedDescription:
@@ -2360,6 +3420,7 @@ export const initialLocations: Locations = {
   casino: {
     id: "casino",
     name: "Calrissian's Casino",
+    sector: "Mos Eisley",
     description:
       "A hidden underground gambling den. Pazaak tables are full, and high-stakes Sabacc games are running in the back.",
     nightDescription:
@@ -2398,6 +3459,7 @@ export const initialLocations: Locations = {
   general_shop: {
     id: "general_shop",
     name: "General Store",
+    sector: "Mos Eisley",
     description:
       "Shelves packed with survival gear, water rations, and power packs.",
     nightDescription:
@@ -2436,13 +3498,14 @@ export const initialLocations: Locations = {
   bounty_guild: {
     id: "bounty_guild",
     name: "Bounty Hunters' Guild",
+    sector: "Mos Eisley",
     description:
       "A dimly lit hall where hunters gather to pick up contracts. The atmosphere is tense.",
     nightDescription:
       "The Guild hall is busier now than during the day. Hunters prefer the cover of darkness. The holographic bounty board casts a red glow over the drinking patrons.",
     imageUrl: IMAGES.GUILD,
     exits: ["merchant_row"],
-    npcs: ["guild_master_targa"],
+    npcs: ["guild_master_targa", "quartermaster_jax"],
     actions: [
       "Look Around",
       "Collect Daily Stipend",
@@ -2641,6 +3704,7 @@ export const initialLocations: Locations = {
   swoop_garage: {
     id: "swoop_garage",
     name: "Swoop Bike Garage",
+    sector: "Mos Eisley",
     description:
       "The headquarters of Teemo's swoop gang, the 'Dune Rippers'. Oil stains the floor. A heavy cargo lift sits in the corner.",
     detailedDescription:
@@ -2704,6 +3768,7 @@ export const initialLocations: Locations = {
     description:
       "The bunker is humming with activity. A massive strategy table dominates the room, covered in maps of the Dune Sea and Imperial patrols. Kaelen is busy working at a cluttered workbench.",
     npcs: ["kaelen"],
+    sector: "Safehouse",
     reqQuestState: { id: "q2", step: 4, completed: true },
     hideIfLocked: true,
     nightDescription:
