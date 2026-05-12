@@ -2847,7 +2847,7 @@ export const initialLocations: Locations = {
         description: "The ominous entrance to the Hutt's palace, guarded by security droids.",
         imageUrl: IMAGES.CANTINA,
         sector: "Jabba's Palace",
-        exits: ["mos_eisley_street", "jabba_throne_room"],
+        exits: ["jundland_wastes", "jabba_throne_room"],
         actions: ["Look Around"],
     },
     jabba_throne_room: {
@@ -2892,7 +2892,6 @@ export const initialLocations: Locations = {
       "mos_eisley_old_quarter",
       "spaceport",
       "mos_eisley_gate",
-      "jabba_entrance",
     ],
     actions: ["Look Around"],
     searchables: [
@@ -2944,6 +2943,7 @@ export const initialLocations: Locations = {
       "krayt_valley",
       "sandcrawler",
       "anchorhead",
+      "jabba_entrance",
     ],
     actions: ["Look Around"],
     encounters: [
