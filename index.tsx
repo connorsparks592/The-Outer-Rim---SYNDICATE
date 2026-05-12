@@ -32,6 +32,7 @@ const App = () => {
     const [screen, setScreen] = useState<'START' | 'INTRO' | 'CREATOR' | 'GAME'>('START');
     const [gameState, setGameState] = useState<SaveData>(DEFAULT_GAME_STATE);
     const [hasSave, setHasSave] = useState(false);
+    const [activeSlot, setActiveSlot] = useState(1);
 
     // Audio Logic
     const [audioTrack, setAudioTrack] = useState(AUDIO.MENU_THEME);
@@ -39,9 +40,12 @@ const App = () => {
     const [isGlobalAudioPlaying, setIsGlobalAudioPlaying] = useState(true);
 
     useEffect(() => {
-        const saved = loadGame();
-        if (saved) {
-            setHasSave(true);
+        // Check if ANY slot has a save (for 'hasSave' state)
+        for (let i = 1; i <= 4; i++) {
+            if (loadGame(i)) {
+                setHasSave(true);
+                break;
+            }
         }
     }, []);
 
@@ -81,8 +85,8 @@ const App = () => {
         setScreen('INTRO');
     };
 
-    const handleContinue = () => {
-        const saved = loadGame();
+    const handleContinue = (slot: number) => {
+        const saved = loadGame(slot);
         if (saved) {
             // Migration for new fields
             if (saved.stats) {
@@ -90,6 +94,7 @@ const App = () => {
                 if (!saved.stats.unlockedPerkIds) saved.stats.unlockedPerkIds = [];
             }
             setGameState(saved);
+            setActiveSlot(slot);
             setScreen('GAME');
         }
     };
@@ -111,7 +116,7 @@ const App = () => {
     };
 
     const handleSave = () => {
-        saveGame(gameState);
+        saveGame(gameState, activeSlot);
         setGameState(prev => ({ ...prev, history: [...prev.history, "Game Saved."] }));
     };
 

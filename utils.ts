@@ -1,10 +1,11 @@
 import { SaveData } from "./types";
 
-const SAVE_KEY = 'outer_rim_save_v1';
+const SAVE_KEY_BASE = 'outer_rim_save_slot_';
 
-export function loadGame(): SaveData | null {
+export function loadGame(slot: number = 1): SaveData | null {
     try {
-        const rawData = localStorage.getItem(SAVE_KEY);
+        const key = `${SAVE_KEY_BASE}${slot}`;
+        const rawData = localStorage.getItem(key);
         if (!rawData) return null;
         
         let data = JSON.parse(rawData);
@@ -22,7 +23,7 @@ export function loadGame(): SaveData | null {
             };
             
             // Save the migrated data back to localStorage
-            localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+            localStorage.setItem(key, JSON.stringify(data));
         }
         
         return data as SaveData;
@@ -32,11 +33,12 @@ export function loadGame(): SaveData | null {
     return null;
 }
 
-export function saveGame(data: SaveData) {
+export function saveGame(data: SaveData, slot: number = 1) {
     try {
         // Always save with the current version
         data.version = 1;
-        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+        const key = `${SAVE_KEY_BASE}${slot}`;
+        localStorage.setItem(key, JSON.stringify(data));
     } catch (e) {
         console.error("Failed to save game", e);
     }

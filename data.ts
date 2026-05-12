@@ -1252,10 +1252,15 @@ export const CLASSES: CharClass[] = [
 
 export const BACKSTORIES: Backstory[] = [
     { id: "street_rat", name: "Street Rat", description: "You grew up on the mean streets, learning to snatch bread and credits to survive.", buff: { stat: "agi", value: 1 } },
-    { id: "kid_stuff", name: "Kid Stuff", description: "Your parents are still alive and well on Tatooine, occasionally sending you modest care packages.", buff: { item: "Blue Milk" } },
+    { id: "kid_stuff", name: "Kid Stuff", description: "Your parents are still alive and well on Tatooine, occasionally sending you modest care packages.", buff: { stat: "cha", value: 1 } },
     { id: "wanted", name: "Wanted", description: "Someone out there is looking for you, and it's not for a reward. You are faster on your feet because of it.", buff: { stat: "per", value: 1 } },
     { id: "task_master", name: "Task Master", description: "You've been pushed harder than most during your time as an apprentice.", buff: { stat: "int", value: 1 } },
     { id: "lone_wolf", name: "Lone Wolf", description: "You thrive when you're on your own, away from the distractions of others.", buff: { stat: "str", value: 1 } },
+    { id: "smuggler", name: "Smuggler", description: "You spent years navigating hyperspace lanes and avoiding Imperial blockades.", buff: { stat: "agi", value: 1 } },
+    { id: "moisture_farmer", name: "Moisture Farmer", description: "You know the harsh desert better than anyone, and how to make the most of limited resources.", buff: { stat: "end", value: 1 } },
+    { id: "imperial_deserter", name: "Imperial Deserter", description: "You abandoned the Empire, taking valuable technical knowledge—and maybe a piece of gear—with you.", buff: { stat: "int", value: 1 } },
+    { id: "jawa_scavenger", name: "Jawa Scavenger", description: "You have a knack for finding valuable tech in the most unlikely piles of junk.", buff: { stat: "per", value: 1 } },
+    { id: "podracer", name: "Podracer", description: "You've survived high-speed crashes and mechanical failures that would kill a lesser being.", buff: { stat: "str", value: 1 } },
 ];
 
 export const FACTIONS: Faction[] = [

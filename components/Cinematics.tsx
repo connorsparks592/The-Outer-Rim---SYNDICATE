@@ -7,11 +7,21 @@ import { Play, Sparkles, User, ChevronRight, Sword, Shield, Cpu, Zap, Star, X, F
 
 // ... (existing code)
 
-const SaveManagerModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-    const handleDeleteSave = () => {
-        localStorage.removeItem('outer_rim_save_v1');
-        onClose();
-        window.location.reload(); // Refresh to update the state
+const SaveManagerModal: React.FC<{ onClose: () => void, onSaveSlotSelected: (slot: number) => void }> = ({ onClose, onSaveSlotSelected }) => {
+    
+    const [slots, setSlots] = useState<{ id: number; data: SaveData | null }[]>([]);
+
+    useEffect(() => {
+        const slotsData = [1, 2, 3, 4].map(id => ({
+            id,
+            data: loadGame(id)
+        }));
+        setSlots(slotsData);
+    }, []);
+
+    const handleDeleteSave = (slot: number) => {
+        localStorage.removeItem(`outer_rim_save_slot_${slot}`);
+        setSlots(prev => prev.map(s => s.id === slot ? { ...s, data: null } : s));
     };
 
     return (
@@ -30,13 +40,29 @@ const SaveManagerModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 </div>
                 
                 <div className="space-y-4">
-                    <p className="text-sm text-gray-400">Manage your game data safely.</p>
-                    <button 
-                        onClick={handleDeleteSave}
-                        className="w-full px-6 py-3 bg-red-900/20 text-red-500 hover:bg-red-900/40 hover:text-red-400 transition-colors uppercase tracking-widest text-sm font-bold rounded"
-                    >
-                        Delete Save Data
-                    </button>
+                    {slots.map(slot => (
+                        <div key={slot.id} className="p-3 border border-cyan-900/30 rounded flex items-center justify-between">
+                            <span className="text-cyan-600 font-mono">Slot {slot.id}</span>
+                            {slot.data ? (
+                                <div className="flex gap-2">
+                                    <button 
+                                        onClick={() => onSaveSlotSelected(slot.id)}
+                                        className="text-xs text-cyan-400 hover:text-cyan-200 uppercase"
+                                    >
+                                        Select
+                                    </button>
+                                    <button 
+                                        onClick={() => handleDeleteSave(slot.id)}
+                                        className="text-xs text-red-500 hover:text-red-300 uppercase"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            ) : (
+                                <span className="text-xs text-gray-600 uppercase">Empty</span>
+                            )}
+                        </div>
+                    ))}
                 </div>
                 
                 <div className="mt-8 pt-4 border-t border-cyan-900/50 flex justify-end">
@@ -119,11 +145,11 @@ export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> 
                     <motion.div 
                         key="logo"
                         initial={{ scale: 3, opacity: 0 }}
-                        animate={{ scale: 1, opacity: [0, 1, 1, 0.5, 0] }}
+                        animate={{ scale: [3, 1, 0], opacity: [0, 1, 0] }}
                         transition={{ 
                             duration: 8, 
-                            times: [0, 0.05, 0.4, 0.8, 1],
-                            ease: "easeOut"
+                            times: [0, 0.25, 1],
+                            ease: "linear"
                         }}
                         className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
                     >
@@ -308,7 +334,7 @@ const InfoModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
 };
 
-export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => void, hasSave: boolean }> = ({ onNewGame, onContinue, hasSave }) => {
+export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: (slot: number) => void, hasSave: boolean }> = ({ onNewGame, onContinue, hasSave }) => {
     const [fading, setFading] = useState(false);
     const [showChangelog, setShowChangelog] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
@@ -317,6 +343,11 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => vo
     const handleNewGameClick = () => {
         setFading(true);
         setTimeout(onNewGame, 1500);
+    };
+
+    const handleSlotSelected = (slot: number) => {
+        setShowSaveManager(false);
+        onContinue(slot);
     };
 
     return (
@@ -356,7 +387,7 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => vo
                     <div className="flex gap-2">
                         <CommandButton 
                             label="Restore Uplink" 
-                            onClick={onContinue} 
+                            onClick={() => setShowSaveManager(true)} 
                             className="w-full py-5 text-lg border-cyan-800 bg-black/40 flex-grow"
                             icon={<Sparkles size={18} className="text-cyan-600" />}
                         />
@@ -389,7 +420,7 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: () => vo
 
             {showChangelog && <ChangelogModal onClose={() => setShowChangelog(false)} />}
             {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
-            {showSaveManager && <SaveManagerModal onClose={() => setShowSaveManager(false)} />}
+            {showSaveManager && <SaveManagerModal onClose={() => setShowSaveManager(false)} onSaveSlotSelected={handleSlotSelected} />}
 
             <div className={`absolute inset-0 bg-black transition-opacity duration-[1500ms] ease-in-out pointer-events-none z-20 ${fading ? 'opacity-100' : 'opacity-0'}`} />
         </div>
