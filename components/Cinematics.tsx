@@ -623,6 +623,11 @@ export const CharacterCreator: React.FC<{ onFinished: (char: Character) => void 
                                     >
                                         <div className="font-bold text-cyan-400 mb-1">{bs.name}</div>
                                         <div>{bs.description}</div>
+                                        {bs.buff && (
+                                            <div className="text-yellow-500 text-[10px] mt-1 italic">
+                                                Benefit: { 'stat' in bs.buff ? `+${bs.buff.value} ${bs.buff.stat.toUpperCase()}` : `Item: ${bs.buff.item}` }
+                                            </div>
+                                        )}
                                     </button>
                                 ))}
                             </div>

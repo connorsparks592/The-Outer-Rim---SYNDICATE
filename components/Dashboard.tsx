@@ -136,6 +136,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [gameState.history, logKey]);
+
+  useEffect(() => {
+    if (navScrollRef.current) {
+        navScrollRef.current.scrollTop = 0;
+    }
+  }, [gameState.currentLocationId, showSectorMap]);
 
   const addToLog = (text: string) => {
     setGameState((prev) => ({
@@ -1643,7 +1656,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               {realTime.toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
-                hour12: false,
+                hour12: true,
               })}
             </span>
           </div>
@@ -1992,7 +2005,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       {showSectorMap ? "Back to Exits" : "Sector Map"}
                     </button>
                   </div>
-                  <div className="flex-1 overflow-y-auto pr-2 no-scrollbar space-y-4">
+                  <div className="flex-1 overflow-y-auto pr-2 no-scrollbar space-y-4" ref={navScrollRef}>
                     {showSectorMap ? (
                       <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                         {Object.entries(
