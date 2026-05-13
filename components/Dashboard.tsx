@@ -101,6 +101,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [isTraveling, setIsTraveling] = useState(false);
   const [travelTo, setTravelTo] = useState<string | null>(null);
   const [showSectorMap, setShowSectorMap] = useState(false);
+  const [showAmbushCinematic, setShowAmbushCinematic] = useState(false);
   const [activeMinigame, setActiveMinigame] = useState<
     | "slicing"
     | "sabacc"
@@ -160,11 +161,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const navScrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const scrollToBottom = useCallback(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      const scrollContainer = scrollRef.current;
+      // Use requestAnimationFrame to ensure the DOM has updated
+      requestAnimationFrame(() => {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      });
     }
-  }, [gameState.history, logKey]);
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [gameState.history, logKey, dialogueNode, scrollToBottom]);
 
   useEffect(() => {
     if (navScrollRef.current) {
@@ -175,7 +184,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const addToLog = (text: string) => {
     setGameState((prev) => ({
       ...prev,
-      history: [...prev.history, text].slice(-50), // Keep last 50 lines
+      history: [...(prev.history || []), text].slice(-50), // Keep last 50 lines
     }));
     setLogKey((k) => k + 1);
   };
@@ -239,18 +248,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
     const baseDmg = combatEnemy.dmg + Math.floor(Math.random() * 3) - 1;
     const finalDmg = Math.max(1, baseDmg - armor);
 
-    let died = false;
     setGameState((prev) => {
       if (!prev.stats) return prev;
       const newHp = Math.max(0, prev.stats.currentHp - finalDmg);
-      if (newHp <= 0) died = true;
       return { ...prev, stats: { ...prev.stats, currentHp: newHp } };
     });
 
     addToLog(
       `[COMBAT] ${combatEnemy.name} hits you for ${finalDmg} damage!${armor > 0 ? ` (${armor} armor absorbed)` : ""}`,
     );
-    if (died) handleCombatLoss();
   };
 
   useEffect(() => {
@@ -329,6 +335,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }
   }, [enemyCooldown, combatEnemy]);
 
+  // Player death check
+  useEffect(() => {
+    if (gameState.stats && gameState.stats.currentHp <= 0 && combatEnemy) {
+      handleCombatLoss();
+    }
+  }, [gameState.stats?.currentHp, combatEnemy]);
+
   const handleCombatWin = () => {
     if (!combatEnemy) return;
     const xp = combatEnemy.xp;
@@ -336,16 +349,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
     const enemyId = combatEnemy.id;
 
     setGameState((prev) => {
-      const newDefeated = [...(prev.defeatedNpcs || [])];
-      if (enemyId === "teemo") newDefeated.push("teemo");
-
       let newState = {
         ...prev,
         credits: prev.credits + credits,
-        defeatedNpcs: newDefeated,
+        defeatedNpcs: [...(prev.defeatedNpcs || []), enemyId],
+        history: [...(prev.history || []), `[COMBAT] Defeated ${combatEnemy.name}. Gained ${xp} XP and ${credits} Credits.`].slice(-50),
         quests: prev.quests.map((q) => {
           if (q.id === "q2" && enemyId === "teemo")
-            return { ...q, currentStepIndex: 4 };
+            return { ...q, currentStepIndex: 2 }; // Correct index for 'Rescue Kaelen'
           if (q.id === "q3" && enemyId === "thug" && q.currentStepIndex === 2)
             return { ...q, currentStepIndex: 3 };
           return q;
@@ -367,9 +378,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           ...(newState.completedDailyContracts || []),
           contract.id,
         ];
-        addToLog(
-          `[CONTRACT COMPLETE] Target eliminated. Reward: ${contract.reward} Credits synced.`,
-        );
+        newState.history = [...(newState.history || []), `[CONTRACT COMPLETE] Target eliminated. Reward: ${contract.reward} Credits synced.`].slice(-50);
       }
 
       // Award XP
@@ -381,7 +390,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         enemyId === "thug" &&
         newState.currentLocationId === "mos_eisley_old_quarter"
       ) {
-        // Sample quest progression mapping
         newState.quests = newState.quests.map((q) => {
           if (q.id === "q_tutorial" && q.currentStepIndex === 1)
             return { ...q, currentStepIndex: 2 };
@@ -391,17 +399,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       // Major Boss completion logic
       if (enemyId === "teemo") {
-        newState.quests = newState.quests.map((q) =>
-          q.id === "q2"
-            ? { ...q, status: "completed", currentStepIndex: 4 }
-            : q,
-        );
-        addToLog("SYSTEM: Threat neutralized. Sector influence shifting...");
+        newState.history = [...(newState.history || []), "SYSTEM: Threat neutralized. Kaelen is free to speak."].slice(-50);
       }
 
       // Reputation for major enemies
       if (enemyId === "teemo") {
-        newState = updateReputation(newState, "hutt", -50);
         newState = updateReputation(newState, "guild", 20);
       }
 
@@ -473,9 +475,25 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const locExits = isNight
     ? currentLocation.nightExits || currentLocation.exits
     : currentLocation.exits;
-  const locNpcs = isNight
+  const locNpcs = (isNight
     ? currentLocation.nightNpcs || currentLocation.npcs || []
-    : currentLocation.npcs || [];
+    : currentLocation.npcs || []
+  ).filter((npcId) => {
+    const npc = NPC_DATABASE[npcId];
+    if (!npc) return false;
+    if (npc.reqQuestState) {
+      const q = gameState.quests.find((q) => q.id === npc.reqQuestState!.id);
+      if (!q) return false;
+      if (npc.reqQuestState.completed) return q.status === "completed";
+      if (npc.reqQuestState.step !== undefined)
+        return (
+          q.currentStepIndex >= npc.reqQuestState.step ||
+          q.status === "completed"
+        );
+    }
+    if (gameState.defeatedNpcs?.includes(npcId)) return false;
+    return true;
+  });
   const locActions = isNight
     ? currentLocation.nightActions || currentLocation.actions || []
     : currentLocation.actions || [];
@@ -620,9 +638,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     const roll = Math.random();
     if (roll < huntedChance) {
-      startCombat("bounty_hunter");
+      const attackingFaction = lowRepFactions[0][0];
+      const enemyType = attackingFaction === "hutt" ? "jabba_enforcer" : "bounty_hunter";
+      
+      startCombat(enemyType);
       addToLog(
-        `[COMBAT] You were tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`,
+        `[COMBAT] You were tracked down by ${attackingFaction === "hutt" ? "a Gamorrean Guard" : "a bounty hunter"} hired by the ${attackingFaction.toUpperCase()}!`,
       );
     } else if (roll < huntedChance + baseDanger * 0.03 * encounterMultiplier) {
       if (baseDanger >= 5) fallbackEnemy = "tusken"; // dangerous areas default to Tusken Raiders
@@ -636,6 +657,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const handleMove = async (exitId: string) => {
     const nextLoc = locations[exitId];
     if (!nextLoc) return;
+
+    // --- SWOOP GARAGE EXIT BLOCK ---
+    // If quest q2 is on step index 2 (Rescue Kaelen), block exit to Old Quarter until conversation finished.
+    if (gameState.currentLocationId === "swoop_garage" && exitId !== "safehouse") {
+      const q2 = gameState.quests.find((q) => q.id === "q2");
+      if (q2 && q2.currentStepIndex === 2) {
+        addToLog(
+          "Kaelen calls out: 'Hey! Don't just leave yet. We need to talk about what just happened here.'",
+        );
+        return;
+      }
+    }
 
     // Requirement Check
     if (nextLoc.reqQuestState) {
@@ -695,9 +728,34 @@ export const Dashboard: React.FC<DashboardProps> = ({
       }
     }
 
+    // --- GAMORREAN AMBUSH ENCOUNTER ---
+    if (
+      gameState.currentLocationId === "safehouse" &&
+      exitId === "swoop_garage" &&
+      (gameState.reputation["kaelenTalkedTo"] || 0) >= 1 &&
+      gameState.defeatedNpcs?.includes("teemo") &&
+      !gameState.flags?.includes("jabbas_ambush_triggered")
+    ) {
+      setGameState((prev) => ({
+        ...prev,
+        flags: [...(prev.flags || []), "jabbas_ambush_triggered"],
+        currentLocationId: "jabbas_palace",
+      }));
+      setShowAmbushCinematic(true);
+      return;
+    }
+
     // --- SECTOR TRAVEL TRANSITION ---
     const currentLoc = locations[gameState.currentLocationId];
+    
+    // Explicit bypass for safehouse <-> garage
+    const isBaseTransit = (
+      (gameState.currentLocationId === "safehouse" && exitId === "swoop_garage") ||
+      (gameState.currentLocationId === "swoop_garage" && exitId === "safehouse")
+    );
+
     if (
+      !isBaseTransit &&
       nextLoc.sector &&
       currentLoc.sector &&
       nextLoc.sector !== currentLoc.sector
@@ -871,9 +929,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       const roll = Math.random();
       if (lowRepFactions.length > 0 && roll < 0.1) {
-        startCombat("bounty_hunter");
+        const attackingFaction = lowRepFactions[0][0];
+        const enemyType = attackingFaction === "hutt" ? "jabba_enforcer" : "bounty_hunter";
+
+        startCombat(enemyType);
         addToLog(
-          `[COMBAT] You are tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`,
+          `[COMBAT] You are tracked down by ${attackingFaction === "hutt" ? "a Gamorrean Guard" : "a bounty hunter"} hired by the ${attackingFaction.toUpperCase()}!`,
         );
         return;
       } else if (roll < baseDanger * 0.05 * encounterMultiplier - 0.1) {
@@ -1157,7 +1218,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     if (!target) return;
 
     // Check if already looted/unlocked
-    if (gameState.lootedContainers.includes(searchableId)) {
+    if ((gameState.lootedContainers || []).includes(searchableId)) {
       addToLog("Empty.");
       return;
     }
@@ -1258,7 +1319,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     setGameState((prev) => ({
       ...prev,
-      lootedContainers: [...prev.lootedContainers, searchableId],
+      lootedContainers: [...(prev.lootedContainers || []), searchableId],
     }));
   };
 
@@ -1356,8 +1417,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
       // Create a proxy for gameState mutations
       const gameProxy = {
         credits: gameState.credits,
-        currentNpcId,
+        gameState,
         setShopNpcId,
+        setGameState,
         setCredits: (fn: any) =>
           setGameState((prev) => ({ ...prev, credits: fn(prev.credits) })),
         addToLog: addToLog,
@@ -1392,14 +1454,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
             ...prev,
             defeatedNpcs: fn(prev.defeatedNpcs),
           })),
-        updateReputation: (npcId: string, amount: number) =>
-          setGameState((prev) => ({
-            ...prev,
-            reputation: {
-              ...prev.reputation,
-              [npcId]: (prev.reputation[npcId] || 0) + amount,
-            },
-          })),
+        updateReputation: (factionId: string, amount: number) =>
+          setGameState((prev) => updateReputation(prev, factionId, amount)),
         startCombat: (enemyId: string) => startCombat(enemyId),
       };
       opt.action(gameProxy);
@@ -1754,6 +1810,34 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div className="flex flex-col h-screen w-screen bg-black overflow-hidden relative selection:bg-cyan-500 selection:text-black">
+      {showAmbushCinematic && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-md" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative bg-black border border-red-900/50 rounded-xl p-6 md:p-10 max-w-lg w-full text-center shadow-[0_0_50px_rgba(220,38,38,0.2)]"
+          >
+            <h2 className="text-3xl font-sans font-bold text-red-600 uppercase tracking-widest mb-6">Ambush!</h2>
+            <div className="space-y-4 text-red-100/80 font-mono text-sm md:text-base mb-8">
+              <p>As you step out of the safehouse, two massive Gamorrean Guards ambush you from the shadows!</p>
+              <p>Before you can draw your weapon, a heavy blow strikes the back of your head.</p>
+              <p>You black out...</p>
+              <p className="text-cyan-400 mt-6 block">You awaken groggy on a cold stone floor in Jabba's Palace.</p>
+            </div>
+            <button
+              onClick={() => {
+                setShowAmbushCinematic(false);
+                setCurrentNpcId("bib_fortuna");
+                setDialogueNode(NPC_DATABASE["bib_fortuna"].dialogueTree["ambush_intro"]);
+              }}
+              className="px-8 py-3 bg-red-900/20 text-red-500 border border-red-900/50 rounded hover:bg-red-900/40 hover:text-red-400 uppercase tracking-widest font-bold transition-all"
+            >
+              Wake Up
+            </button>
+          </motion.div>
+        </div>
+      )}
       {showDailyRewards && (
         <DailyRewards
           gameState={gameState}
@@ -1824,7 +1908,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       : prev.stats.currentHp,
                 },
                 history: [
-                  ...prev.history,
+                  ...(prev.history || []),
                   `UNLOCKED SKILL: ${SKILL_TREE.find((s) => s.id === skillId)?.name}`,
                 ],
               };
@@ -2116,7 +2200,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {/* LOGS / NPC DIALOGUE (20% height) */}
         <div className="h-[20%] min-h-0 bg-black/40 flex flex-col p-3 md:p-4 border-b-2 border-cyan-500/10 relative shrink-0 overflow-hidden box-border">
           <div
-            className="flex-1 overflow-y-auto no-scrollbar scroll-smooth pr-4 space-y-3"
+            className="flex-1 overflow-y-auto no-scrollbar pr-4 space-y-3"
             ref={scrollRef}
           >
             <AnimatePresence mode="wait">
@@ -2175,6 +2259,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                             <Typewriter
                               text={`"${displayText}"`}
                               textKey={displayText}
+                              onUpdate={scrollToBottom}
                             />
                             {needsTranslation && (
                               <p className="text-[10px] text-red-500 uppercase mt-2 not-italic font-bold tracking-widest">
@@ -2210,7 +2295,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       )}
                     >
                       {i === gameState.history.length - 1 ? (
-                        <Typewriter text={line} textKey={logKey} />
+                        <Typewriter text={line} textKey={logKey} onUpdate={scrollToBottom} />
                       ) : (
                         line
                       )}
@@ -2455,6 +2540,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {locExits
                             .filter((exitId) => {
+                              // Special rule: Must talk to Kaelen before leaving garage
+                              if (
+                                gameState.currentLocationId === "swoop_garage" &&
+                                exitId === "mos_eisley_old_quarter"
+                              ) {
+                                const q = gameState.quests.find(
+                                  (q) => q.id === "q2",
+                                );
+                                if (q && q.currentStepIndex === 2) return false;
+                              }
+
                               const loc = locations[exitId];
                               if (!loc) return false;
                               if (!loc.hideIfLocked) return true;
@@ -2573,6 +2669,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
                                   if (id === "greedo" && !isGreedoUnlocked)
                                     return false;
 
+                                  // Gating Kaelen in Garage
+                                  if (
+                                    id === "kaelen" &&
+                                    gameState.currentLocationId ===
+                                      "swoop_garage" &&
+                                    !gameState.defeatedNpcs?.includes("teemo")
+                                  ) {
+                                    return false;
+                                  }
+
                                   const npc = NPC_DATABASE[id];
                                   const hour = realTime.getHours();
                                   if (npc?.onlyBetween) {
@@ -2683,7 +2789,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       {locSearchables
                         .filter(
                           (s) =>
-                            !gameState.lootedContainers.includes(s.id) ||
+                            !(gameState.lootedContainers || []).includes(s.id) ||
                             s.locked,
                         )
                         .map((s) => (

@@ -13,6 +13,7 @@ import { SaveData, Character, Item, Quest } from "./types";
 
 // Default State for new games
 const DEFAULT_GAME_STATE: SaveData = {
+  version: 2,
   currentLocationId: "mos_eisley_cantina",
   stats: null,
   inventory: [
@@ -44,6 +45,7 @@ const DEFAULT_GAME_STATE: SaveData = {
   cantinaVisits: 1,
   reputation: { empire: 0, rebellion: 0, hutt: 0, guild: 0 },
   activeContracts: [],
+  flags: [],
 };
 
 const App = () => {

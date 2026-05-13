@@ -122,10 +122,14 @@ export const FullscreenButton = () => {
     );
 };
 
-export const Typewriter: React.FC<{ text: string, onFinished?: () => void, textKey: any, className?: string, cursor?: boolean }> = ({ text, onFinished, textKey, className, cursor = true }) => {
+export const Typewriter: React.FC<{ text: string, onFinished?: () => void, onUpdate?: () => void, textKey: any, className?: string, cursor?: boolean }> = ({ text, onFinished, onUpdate, textKey, className, cursor = true }) => {
     const [displayedText, setDisplayedText] = useState('');
     const intervalRef = useRef<number | null>(null);
-    const finishTyping = () => { if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; } setDisplayedText(text); if (onFinished) onFinished(); };
+    const finishTyping = () => { if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; } setDisplayedText(text); if (onUpdate) onUpdate(); if (onFinished) onFinished(); };
+    useEffect(() => {
+        if (onUpdate) onUpdate();
+    }, [displayedText, onUpdate]);
+
     useEffect(() => { 
         finishTyping(); 
         setDisplayedText(''); 

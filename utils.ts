@@ -21,7 +21,19 @@ export function loadGame(slot: number = 1): SaveData | null {
                 reputation: data.reputation || {},
                 activeContracts: data.activeContracts || []
             };
-            
+        }
+        
+        if (version < 2) {
+            data = {
+                ...data,
+                version: 2,
+                history: data.history || [],
+                activeContracts: data.activeContracts || [],
+                lootedContainers: data.lootedContainers || [],
+                unlockedContainers: data.unlockedContainers || [],
+                completedDailyContracts: data.completedDailyContracts || [],
+                defeatedNpcs: data.defeatedNpcs || []
+            };
             // Save the migrated data back to localStorage
             localStorage.setItem(key, JSON.stringify(data));
         }
@@ -36,7 +48,7 @@ export function loadGame(slot: number = 1): SaveData | null {
 export function saveGame(data: SaveData, slot: number = 1) {
     try {
         // Always save with the current version
-        data.version = 1;
+        data.version = 2;
         const key = `${SAVE_KEY_BASE}${slot}`;
         localStorage.setItem(key, JSON.stringify(data));
     } catch (e) {

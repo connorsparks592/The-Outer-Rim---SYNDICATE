@@ -56,14 +56,14 @@ export const IMAGES = {
   MED_CENTER:
     "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop",
   DROID_SHOP:
-    "https://images.unsplash.com/photo-1592301933930-b960538053a4?q=80&w=2000&auto=format&fit=crop",
+    "https://i.postimg.cc/6py4nwFM/4d9f3554-9403-4d49-bfe0-d958ac07d871.jpg",
   INTERIOR_SHOP:
     "https://i.postimg.cc/k47tXhSy/Gemini-Generated-Image-p5x76pp5x76pp5x7.png",
   FIGHT_PIT:
     "https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=2000&auto=format&fit=crop",
   FIGHT_PIT_NIGHT:
     "https://images.unsplash.com/photo-1563297135-23c2138b30a5?q=80&w=2000&auto=format&fit=crop",
-  CASINO: "https://i.postimg.cc/rws6qfQX/1765169820545.png",
+  CASINO: "https://i.postimg.cc/fyNYfFYJ/7d7dd510-3d55-49a0-8585-e5ad656c37c3.jpg",
   IMPERIAL_RECORDS_OFFICE:
     "https://i.postimg.cc/Ssr5skDB/Gemini-Generated-Image-1jcz3y1jcz3y1jcz.png",
   IMPERIAL_RECORDS_OFFICE_NIGHT:
@@ -1108,25 +1108,10 @@ export const initialQuests: Quest[] = [
     ],
   },
   {
-    id: "q_tusken",
-    title: "Sacred Artifact",
-    description: "Retrieve a lost artifact for the Tusken Chieftain.",
-    status: "active",
-    currentStepIndex: 0,
-    type: "side",
-    steps: [
-      {
-        id: 1,
-        description: "Meet with the Tusken Chieftain.",
-        completed: false,
-      },
-    ],
-  },
-  {
     id: "q1",
-    title: "The Blue Milk Run",
+    title: "Building Trust",
     description:
-      "Wuher is an old business partner from your days as traveling merchants. Fetch him a crate of Blue Milk from the Bazaar, and he will help you get established on Tatooine.",
+      "Wuher is the gateway to the Tatooine underworld. Prove your worth by securing essential supplies for his operation at the Cantina. In return, he'll bring you into the fold and introduce you to Greedo, the key to establishing your criminal syndicate.",
     status: "active",
     currentStepIndex: 0,
     type: "side",
@@ -1145,7 +1130,7 @@ export const initialQuests: Quest[] = [
     id: "q2",
     title: "A New Base of Operations",
     description:
-      "Teemo the Snitch controls the Old Quarter. Greedo wants you to liberate Kaelen, a slicer, from the Swoop Garage to act as your hacker.",
+      "Expanding the syndicate requires a base and intelligence. Teemo 'the Snitch' currently occupies both. Dismantle his operation at the Swoop Garage and rescue Kaelen, a defected analyst who holds 'The Ledger'—the ultimate tool for taking control of the Outer Rim's network.",
     status: "locked",
     currentStepIndex: 0,
     type: "main",
@@ -1157,13 +1142,13 @@ export const initialQuests: Quest[] = [
       },
       {
         id: 2,
-        description: "Find the hidden Safehouse under the Swoop Garage.",
+        description: "Defeat Teemo at the Swoop Garage.",
         completed: false,
       },
-      { id: 3, description: "Free Kaelen from the gang.", completed: false },
+      { id: 3, description: "Rescue Kaelen and secure the Ledger.", completed: false },
       {
         id: 4,
-        description: "Return to Greedo to claim the Safehouse as your base.",
+        description: "Return to Greedo to claim the Safehouse.",
         completed: false,
       },
     ],
@@ -1172,7 +1157,7 @@ export const initialQuests: Quest[] = [
     id: "q3",
     title: "The Wizard of the Wastes",
     description:
-      "Greedo says an old hermit in the Jundland Wastes might be able to crack the Clone Wars encryption on your datapad.",
+      "The Ledger is encrypted with military-grade ISB protocols. Greedo says an old hermit in the Jundland Wastes might possess the ancient wisdom needed to unmask the Imperial spies and secure your syndicate's dominance.",
     status: "locked",
     currentStepIndex: 0,
     type: "main",
@@ -1189,37 +1174,37 @@ export const initialQuests: Quest[] = [
       },
       {
         id: 3,
-        description: "Show the datapad to the hermit.",
+        description: "Ask the hermit to decode the Ledger.",
         completed: false,
       },
     ],
   },
   {
     id: "q4",
-    title: "The Hutt's Fortune",
+    title: "The Struggle for the Rim",
     description:
-      "The data Ben unlocked points to a hidden stash in Jabba's Palace. It's time to claim your reward.",
+      "The Ledger revealed that the Empire, Jabba's Cartel, and the Tusken Warlords are locked in a silent war for the Outer Rim. To build your syndicate, you must choose who to ally with—or who to destroy. Seek out their emissaries.",
     status: "locked",
     currentStepIndex: 0,
     type: "main",
     steps: [
-      { id: 1, description: "Enter Jabba's Palace.", completed: false },
+      { id: 1, description: "Review the Ledger's findings.", completed: false },
       {
         id: 2,
-        description: "Find the hidden storehouse door.",
+        description: "Decide whether to approach the Hutts, the Tuskens, or manipulate the Imperials.",
         completed: false,
       },
-      { id: 3, description: "Loot the stash.", completed: false },
+      { id: 3, description: "Establish a permanent alliance or eliminate the competition.", completed: false },
     ],
   },
   {
-    id: "q5",
+    id: "side_boonta",
     title: "The Boonta Eve Rig",
     description:
       "To leave Tatooine, you need a ship. Watto has one, but he wants a favor first: ensure Tandin Moore doesn't win the Boonta Eve Classic.",
     status: "locked",
     currentStepIndex: 0,
-    type: "main",
+    type: "side",
     steps: [
       { id: 1, description: "Talk to Watto in Mos Espa.", completed: false },
       {
@@ -1232,6 +1217,48 @@ export const initialQuests: Quest[] = [
         description: "Return to Watto for your ship.",
         completed: false,
       },
+    ],
+  },
+  {
+    id: "q5_hutt",
+    title: "The Hutt's Fortune",
+    description:
+      "You have chosen to align your syndicate with Jabba the Hutt. To prove your worth and solidify your cartel's standing, you must collect on a massive debt from a rival operation.",
+    status: "locked",
+    currentStepIndex: 0,
+    type: "main",
+    steps: [
+      { id: 1, description: "Speak with Bib Fortuna at Jabba's Palace.", completed: false },
+      { id: 2, description: "Eliminate the rival operation in the Mos Eisley Old Quarter.", completed: false },
+      { id: 3, description: "Return to Bib Fortuna to formalize the alliance.", completed: false },
+    ],
+  },
+  {
+    id: "q5_tusken",
+    title: "The Warlord's Sand",
+    description:
+      "You have chosen to ally with the Tusken Warlords of the deep desert. To earn their respect and secure the wastes for your syndicate, you must defend a sacred site from Imperial encroachment.",
+    status: "locked",
+    currentStepIndex: 0,
+    type: "main",
+    steps: [
+      { id: 1, description: "Meet the Tusken Chieftain in the Krayt Dragon Valley.", completed: false },
+      { id: 2, description: "Defeat the Imperial Remnant scouts defiling the site.", completed: false },
+      { id: 3, description: "Participate in the Blood Oath ritual.", completed: false },
+    ],
+  },
+  {
+    id: "q5_empire",
+    title: "The Imperial Hand",
+    description:
+      "You have chosen to manipulate the Galactic Empire, becoming their shadow operative. In exchange for sanctioning your syndicate, you must wipe out a heavily armed Rebel cell on Tatooine.",
+    status: "locked",
+    currentStepIndex: 0,
+    type: "main",
+    steps: [
+      { id: 1, description: "Report to Prefect Talon at the Imperial Outpost.", completed: false },
+      { id: 2, description: "Raid the Rebel safehouse hidden in the Mos Espa Market.", completed: false },
+      { id: 3, description: "Deliver the Rebel databanks to Talon.", completed: false },
     ],
   },
   {
@@ -1507,16 +1534,16 @@ export const FACTIONS: Faction[] = [
       "The galactic regime with an iron fist, seeking order and control.",
   },
   {
-    id: "rebels",
-    name: "Rebel Alliance",
+    id: "tusken_raiders",
+    name: "Tusken Warlords",
     description:
-      "Freedom fighters seeking to restore the Republic and end Imperial tyranny.",
+      "The fierce, territorial natives of the deep desert, bound by ancient honor.",
   },
   {
-    id: "local_tatooine",
-    name: "Local Tatooine Settlers",
+    id: "player_syndicate",
+    name: "Independent Syndicate",
     description:
-      "Common folk just trying to scrape by on a harsh desert planet.",
+      "Your own rising criminal empire, forging a new path in the Outer Rim.",
   },
 ];
 
@@ -1667,7 +1694,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
               g.setQuests((prev: any[]) =>
                 prev.map((q: any) =>
                   q.id === "q2"
-                    ? { ...q, status: "active", currentStepIndex: 1 }
+                    ? { ...q, status: "active", currentStepIndex: 0 }
                     : q,
                 ),
               );
@@ -1690,7 +1717,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       intro: {
         id: "intro",
-        text: "Ah, my absolute best friend in the entire galaxy! Sit! Sit! I still haven't forgotten how you dragged me out of that burning sandcrawler back in the Wastes. I owe you my life, kid! Look, you're the only soul in this dirt pit I actually trust. If you're looking to make some real credits, I've got something lined up. For you, anything.",
+        text: "I saw you talking to those underworld contacts earlier. Look, if we're going to establish a real foothold as a syndicate in this sector, we need to be smart. The Empire is breathing down everyone's necks, and silence isn't free. You want to be part of the new order in Mos Eisley? You'll need to prove you're more than just another drifter.",
         options: [
           {
             label: "Just a drink (5 credits).",
@@ -1712,13 +1739,13 @@ export const NPC_DATABASE: Record<string, NPC> = {
             },
           },
           {
-            label: "What do you need?",
+            label: "What do you need to keep quiet?",
             reqQuestState: { id: "q1", step: 0 },
             reqTime: "day",
             nextId: "quest_proposal_day",
           },
           {
-            label: "What do you need?",
+            label: "What do you need to keep quiet?",
             reqQuestState: { id: "q1", step: 0 },
             reqTime: "night",
             nextId: "quest_proposal_night",
@@ -1733,7 +1760,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
               g.setQuests((prev: Quest[]) =>
                 prev.map((q) =>
                   q.id === "q2"
-                    ? { ...q, status: "active", currentStepIndex: 1 }
+                    ? { ...q, status: "active", currentStepIndex: 0 }
                     : q,
                 ),
               );
@@ -1756,7 +1783,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       droid_intro: {
         id: "droid_intro",
-        text: "Normally I yell 'We don't serve your kind here!' when a droid rolls in... but for my best friend who pulled me from that burning sandcrawler? You can leak oil all over the bar if you want! What do you need, my mechanical savior?",
+        text: "Normally I yell 'We don't serve your kind here!' when a droid rolls in... but if you're working for the resistance, maybe I can make an exception. Silence is expensive, though. What do you need?",
         options: [
           {
             label: "I seek employment. (And to not leak oil)",
@@ -1771,24 +1798,24 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       jawa_intro: {
         id: "jawa_intro",
-        text: "My absolute favorite scavenger! I don't care if you smell like scrap oil and Jawa sweat—you saved my life back in the Wastes, and you're the only person in this dirt pit I trust! Sit down! How can I help my best friend make some credits?",
+        text: "I don't care if you smell like scrap oil and Jawa sweat—if you want to keep the Empire off your back, you're in the right place. But don't expect a discount just because we both hate the Garrison. Credits or favors, scavenger. Which is it?",
         options: [
           {
-            label: "I'm always looking for work, friend.",
+            label: "I'm looking for work, friend.",
             reqQuestState: { id: "q1", step: 0 },
             nextId: "quest_proposal_day",
           },
-          { label: "Just passing through to say hi.", nextId: null },
+          { label: "Just passing through.", nextId: null },
         ],
       },
       drink: {
         id: "drink",
-        text: "Here you go. Best drink in the Outer Rim. Good to have you back.",
+        text: "Here you go. Best drink in the Outer Rim. Don't cause trouble, I've got enough on my plate with the informants.",
         options: [{ label: "Thanks.", nextId: null }],
       },
       quest_proposal_day: {
         id: "quest_proposal_day",
-        text: "I need a crate of Blue Milk from the Bazaar. The Jawa vendor has it. He should be open right now. Bring it here, and I'll see what I can do to open some doors for you. We're partners again, remember?",
+        text: "Our nascent syndicate needs supplies to grease the right wheels. I need a crate of Blue Milk from the Bazaar—the Jawa vendor has a shipment that's already 'paid for'. Bring it here, and I'll officially recognize you as an associate. I'll also introduce you to Greedo; he's the one planning our move against the local Imperial network.",
         options: [
           {
             label: "I'll be back.",
@@ -1799,7 +1826,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       quest_proposal_night: {
         id: "quest_proposal_night",
-        text: "I need a crate of Blue Milk from the Bazaar. The Jawa vendor has it. He'll be closed for the night, but he usually hides it behind his stall. Bring it here, and I'll see what I can do to open some doors for you. We're partners again, remember?",
+        text: "Our nascent syndicate needs supplies to grease the right wheels. I need a crate of Blue Milk from the Bazaar—the Jawa vendor has a shipment that's already 'paid for'. He'll be closed now, but he usually hides the 'special' crates behind his stall. Bring it here, and I'll officially recognize you as an associate and partner in our upcoming takeover.",
         options: [
           {
             label: "I'll be back.",
@@ -1810,7 +1837,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       quest_end: {
         id: "quest_end",
-        text: "You haven't lost your touch. Here's your pay. Now, about that reputation... talk to the Rodian in the back booth. Name's Greedo. We were old partners, but he's looking for new blood in the Old Quarter.",
+        text: "Good work. You've got the instincts for this business. Consider yourself a founding member of our syndicate. Now, go talk to the Rodian in the back booth. Name's Greedo. He specializes in 'disruptive acquisitions'. He has a plan to remove Teemo, the Imperial snitch, and claim his garage as our first base of operations.",
         options: [{ label: "I'll talk to him.", nextId: null }],
       },
     },
@@ -1822,26 +1849,32 @@ export const NPC_DATABASE: Record<string, NPC> = {
     greetingId: "intro",
     conditionalGreetings: [
       {
-        reqQuestState: { id: "q2", step: 2 },
+        reqQuestState: { id: "q2", step: 1 },
         greetingId: "waiting",
       },
       {
-        reqQuestState: { id: "q2", step: 4 },
+        reqQuestState: { id: "q2", step: 3 },
         greetingId: "post_teemo",
       },
     ],
     dialogueTree: {
       waiting: {
         id: "waiting",
-        text: "Kaelen is still in that garage. If Teemo finds out you're coming, he'll double the guard. Don't waste time.",
-        options: [{ label: "On my way.", nextId: null }],
+        text: "Kaelen Vorr is still being held at Teemo's Swoop Garage in the Old Quarter. He's trying to squeeze the encryption keys for the Imperial Ledger out of her before the Garrison arrives to take her into 'protective custody'. If we lose her, we lose our chance to burn the Empire's local informant network. Move fast, before the ISB finishes their sweep.",
+        options: [
+          {
+            label: "Remind me about Kaelen and the Ledger.",
+            nextId: "mission_brief",
+          },
+          { label: "On my way to the Old Quarter.", nextId: null },
+        ],
       },
       post_teemo: {
         id: "post_teemo",
-        text: "The Old Quarter feels... different without the Dune Rippers breathing down our necks. You've earned some respect around here.",
+        text: "The Old Quarter feels... lighter without Teemo's thugs breathing down our necks. You've earned some respect around here for taking out that Imperial rat and securing Kaelen.",
         options: [
           {
-            label: "Teemo had a lot of data on the Imperial tech.",
+            label: "Teemo had a lot of data on Imperial operations. What's next?",
             nextId: "debrief",
           },
           { label: "Just checking in.", nextId: null },
@@ -1849,16 +1882,16 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       intro: {
         id: "intro",
-        text: "Oota goota, Solo? Wait... you're not him. Wuher says you want to be a player. Ambitious. Teemo the Snitch has a stranglehold on the Old Quarter, and it's stagnating. If you want power, you need assets.",
+        text: "Oota goota? Wuher says you're ready to help us carve out a piece of the Outer Rim. To establish our syndicate, we need to cut out the competition—and by competition, I mean the Imperial Security Bureau's puppets. Teemo 'the Snitch' has been selling everyone out to the Garrison. It's time his 'management' of the Old Quarter came to an end.",
         options: [
           {
-            label: "Greedo, how do I expand?",
+            label: "Greedo, I'm ready to dismantle Teemo's network. Tell me the plan.",
             nextId: "mission_brief",
-            reqQuestState: { id: "q2", step: 1 },
+            reqQuestState: { id: "q2", step: 0 },
           },
           {
-            label: "We dealt with Teemo. His assets are ours.",
-            reqQuestState: { id: "q2", step: 4 },
+            label: "Teemo is dead. Kaelen is safe. The Empire's network is exposed.",
+            reqQuestState: { id: "q2", step: 3 },
             nextId: "debrief",
           },
           { label: "Just passing through.", nextId: null },
@@ -1866,25 +1899,26 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       mission_brief: {
         id: "mission_brief",
-        text: "Teemo is hoarding infrastructure in the Old Quarter. His associate Kaelen has the technical skills needed to exploit it, but she's being held prisoner at the Swoop Garage. Get her out, and she can help you *build* your enterprise.",
+        text: "Teemo's Swoop Garage is more than a repair shop; it's a surveillance hub for the Empire. He's holding Kaelen Vorr there—an ISB analyst who defected with 'The Ledger'. That drive contains the names of every Imperial informant on Tatooine. If our syndicate gets that list, we can flip those rats to work for us, or remove them entirely. Plus, once Teemo is dead, his garage becomes our fortified headquarters. Are you ready to secure our foothold?",
         options: [
           {
-            label: "I'll liberate the asset.",
+            label: "I'll secure the Ledger and bring Kaelen back. Our syndicate starts today.",
             nextId: null,
-            action: (g: any) => g.updateQuest("q2", 2),
+            action: (g: any) => g.updateQuest("q2", 1),
           },
+          { label: "I need to prepare first.", nextId: null },
         ],
       },
       debrief: {
         id: "debrief",
-        text: "You surprised me. Teemo was tough. Kaelen is already settling in to our new safehouse, and she says that salvaged Imperial tech is perfect for our tech infrastructure. Interesting... I've heard rumors of an old hermit living out in the Jundland Wastes. A wizard of some kind who arrived right after the war. He might know about advanced power sources.",
+        text: "You surprised me. Teemo was a well-funded puppet. Killing him made waves—apparently Jabba was looking for an excuse to get rid of him. You might get an invite to the Palace soon. Meanwhile, Kaelen is settling in, but she says the encryption on the Ledger is Clone Wars era—heavy military stuff. Interesting... I've heard rumors of an old hermit living out in the Jundland Wastes. A wizard of some kind. If anyone can unmask those Imperial spies, it's him.",
         options: [
-          { label: "I'll find him. What about my share?", nextId: "reward" },
+          { label: "I'll find him. What about my base?", nextId: "reward" },
         ],
       },
       reward: {
         id: "reward",
-        text: "Teemo won't be needing his bunker anymore. The Safehouse under the garage is yours. It's fully stocked. Consider us partners.",
+        text: "Teemo's bunker is now the syndicate's command center, and you're the one in charge. It's fully shielded and ready to host our operations. We have the Ledger, we have Kaelen... soon, we'll have the whole Rim.",
         options: [
           {
             label: "Pleasure doing business.",
@@ -1899,7 +1933,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
                 ),
               );
               g.addToLog(
-                "Quest Completed: The Spy in the Garage. Reward: Safehouse Access.",
+                "Quest Completed: A New Base of Operations. Reward: Safehouse Access.",
               );
               g.addToLog("New Quest: The Wizard of the Wastes.");
             },
@@ -2677,121 +2711,96 @@ export const NPC_DATABASE: Record<string, NPC> = {
     id: "kaelen",
     name: "Kaelen Vorr",
     imageUrl: IMAGES.NPC_KAELEN,
+    reqQuestState: { id: "q2", step: 2 },
     greetingId: "intro",
     conditionalGreetings: [
       {
-        reqQuestState: { id: "q2", step: 4 },
+        reqQuestState: { id: "q2", completed: true },
         greetingId: "safehouse_greeting",
       },
     ],
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "(Kaelen is tied to a chair. She looks beaten but defiant.) You... you're not one of Teemo's Dune Rippers. Who are you?",
+        text: "(Kaelen Vorr sits slumped in a heavy metal chair, her hands bound with industrial zip-ties. She looks exhausted, but her eyes flicker with a sharp, dangerous intelligence when she sees you.) You... you're definitely not one of Teemo's mindless thugs. And that gear? It's been used against bucket-heads recently. Are you the new syndicate muscle Wuher was hinting at, or are you just here for the bounty?",
         options: [
           {
-            label: "Greedo sent me. I'm getting you out.",
+            label: "Greedo sent me. Teemo's collaboration with the Empire is over. I'm here to burn their local network.",
             nextId: "rescue",
-            reqQuestState: { id: "q2", step: 3 },
-          },
-          {
-            label: "(She is guarded by Teemo. You must deal with him first.)",
-            nextId: null,
             reqQuestState: { id: "q2", step: 2 },
-          },
-        ],
-      },
-      safehouse_greeting: {
-        id: "safehouse_greeting",
-        text: "The safehouse is ready. I'm already working on the decryption modules. Do you have the components we discussed?",
-        options: [
-          {
-            label: "Give Components",
-            nextId: "components",
-            reqItem: "parts_kit",
-          },
-          { label: "Not yet. I'll be back.", nextId: null },
-        ],
-      },
-      components: {
-        id: "components",
-        text: "Perfect. This should be enough to bypass the first layer. I'll need more time.",
-        options: [
-          {
-            label: "Keep at it.",
-            nextId: null,
-            action: (g: any) => {
-              g.addToLog("Quest Updated: Kaelen is working on the datapad.");
-            },
           },
         ],
       },
       rescue: {
         id: "rescue",
-        text: "(You cut her bonds. She stands up, rubbing her wrists.) Greedo... that slimy Rodian actually came through. (She looks at you intensely.) Thanks. I owe you one.",
+        text: "(The vibro-blade hums as you cut her bonds. She stands up, wincing as she rubs her wrists. She checks a small, heavily encrypted drive tucked into her side pocket.) Greedo... that greedy bugger actually invested in a professional. I'm impressed. I expected Teemo to hand me and the Ledger over to the Imperial Garrison by morning. He was getting desperate to impress his handlers.",
         options: [
           {
-            label: "Who are you exactly? Greedo didn't say much.",
-            nextId: "identity",
+            label: "You're more than an analyst, Kaelen. What's on that drive that has the Empire so spooked?",
+            nextId: "her_past",
           },
         ],
       },
-      identity: {
-        id: "identity",
-        text: "I'm Kaelen. I used to be with the ISB... Imperial Security Bureau. I was tracking Teemo for the Guild before I found out he was selling rebel secrets to the Empire. I tried to intercept, but... well, you saw. I'm a double agent now. The Empire wants me dead.",
+      her_past: {
+        id: "her_past",
+        text: "(She gives a cold, mirthful laugh.) I was a Senior Analyst for the ISB—Imperial Security Bureau. I saw the casualty reports, the 'pacification' orders... I couldn't stay. So I walked out with their local crown jewels. This drive contains 'The Ledger'—the names of every informant, collaborator, and Imperial spy working on Tatooine. If your syndicate secures this, we can flip those rats and turn the Empire's own network against them.",
         options: [
           {
-            label: "Greedo said you could slice this datapad.",
-            nextId: "check_pad",
+            label: "So Teemo was just the hub for the Empire's rats?",
+            nextId: "the_betrayal",
           },
         ],
       },
-      check_pad: {
-        id: "check_pad",
-        text: "(She takes the device). Standard issue casing... wait. This port configuration. (She connects a small tool from her belt). I can't crack this. It's not standard Imperial encryption. It's... older. Heavy duty military grade from the Clone Wars.",
-        options: [{ label: "Can we bypass it?", nextId: "proposal" }],
-      },
-      proposal: {
-        id: "proposal",
-        text: "Not here. And definitely not with standard slicer gear. Look, I'm already in trouble. Teemo's death will bring the Empire down on this sector. I need to disappear, and you're building a syndicate that could use someone with my technical skills. Let me join you.",
+      the_betrayal: {
+        id: "the_betrayal",
+        text: "Exactly. He was bankrolled by the Garrison to monitor everything—Bazaar trade, rebel cells, smuggler routes. Everything flowed through him to the ISB. But I can't crack the primary vault on this drive here. It's locked with an old high-level Republic cipher that needs specialized gear or knowledge to unmask.",
         options: [
           {
-            label: "Welcome aboard.",
-            nextId: "joined",
+            label: "Greedo mentioned a hermit in the Jundland Wastes who might know ancient ciphers.",
+            nextId: "next_steps",
+          },
+        ],
+      },
+      next_steps: {
+        id: "next_steps",
+        text: "A hermit? In the Wastes? If Greedo trusts him, it's our best shot at unmasking these Imperial spies so we can dominate the sector. The Garrison will send a tactical squad when Teemo misses his next update. Go back to Greedo, tell him the Old Quarter has been scrubbed of Teemo's rot. I'll meet you at the safehouse—it's shielded from Imperial scans and perfect for our syndicate's operations.",
+        options: [
+          {
+            label: "Understood. See you at the safehouse, Kaelen. Let's make the Empire regret hiring Teemo.",
+            nextId: null,
             action: (g: any) => {
-              g.setStats((s: Character) => ({
-                ...s,
-                party: [...s.party, "Kaelen Vorr"],
-              }));
-              g.addToLog("Kaelen Vorr has joined your party.");
-              g.updateQuest("q2", 4);
+              g.updateQuest("q2", 3);
+              g.addToLog("Kaelen: 'I'll have the surveillance monitors and the local grid ready when you arrive.'");
             },
           },
         ],
       },
-      joined: {
-        id: "joined",
-        text: "Right. Let's get back to Greedo. He might know a fence or a specialist for this old tech. Lead the way.",
-        options: [{ label: "Let's go.", nextId: null }],
+      safehouse_greeting: {
+        id: "safehouse_greeting",
+        text: "The safehouse is ready. I'm already patching into the local grid to monitor Garrison patrols. Once we crack that Ledger, no Imperial spy will be safe.",
+        options: [
+          { label: "What is our current setup here?", nextId: "setup" },
+          { label: "Any movement from the Empire?", nextId: "status" },
+          { label: "I'll leave you to it.", nextId: null },
+        ],
       },
       setup: {
         id: "setup",
-        text: "Look, about our partnership. We need to define how this works. I have the skills, you have the ambition. But I need to know you're committed.",
+        text: "Before you head out, here is what we are looking at. Teemo had supply lines mapped out, and a secure comms channel. I'm scrubbing it now to make sure the Empire can't trace it. You should be careful out there.",
         options: [
           {
-            label: "I'm committed to this partnership.",
-            nextId: "talked",
+            label: "Got it.",
+            nextId: null,
             action: (g: any) => {
               g.updateReputation("kaelenTalkedTo", 1);
-              g.addToLog("Kaelen: 'Good. Let's get to work.'");
-            },
-          },
-        ],
+            }
+          }
+        ]
       },
-      talked: {
-        id: "talked",
-        text: "Good. We're partners now. Let's make something happen.",
-        options: [{ label: "Let's get to work.", nextId: null }],
+      status: {
+        id: "status",
+        text: "They're tightening controls near the Spaceport. Probably looking for you. Stay alert.",
+        options: [{ label: "Always.", nextId: null }],
       },
     },
   },
@@ -2805,22 +2814,22 @@ export const NPC_DATABASE: Record<string, NPC> = {
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "(Huttese) Cha skrunee patogh! You dare walk into the Dune Rippers' den? You'll pay for this!",
+        text: "(Huttese) Cha skrunee patogh! You dare walk into the Dune Rippers' den? You think that green reject from the cantina can stop my flow? I'm bankrolled by the ISB, you little womp rat! The Garrison will have your head for even looking at me funny.",
         options: [
           {
-            label: "Greedo sends his regards.",
+            label: "Greedo says you're an Imperial lapdog who's outlived his usefulness.",
             nextId: "fight",
-            reqQuestState: { id: "q2", step: 2 },
+            reqQuestState: { id: "q2", step: 1 },
           },
-          { label: "Just looking around.", nextId: null },
+          { label: "Just looking for a deal.", nextId: null },
         ],
       },
       fight: {
         id: "fight",
-        text: "(Teemo roars and grabs his heavy blaster!)",
+        text: "(Teemo roars, his multiple chins quivering with rage as he grabs a modified heavy blaster.) You want to screw over the Empire? I'll show you the price of rebellion! Guards! To me!",
         options: [
           {
-            label: "[ATTACK] Blast him!",
+            label: "[ATTACK] End his double-dealing once and for all.",
             nextId: null,
             action: (g: any) => {
               g.startCombat("teemo");
@@ -2869,12 +2878,12 @@ export const NPC_DATABASE: Record<string, NPC> = {
           {
             label: "I heard you have a ship for sale.",
             nextId: "ship_query",
-            reqQuestState: { id: "q5", step: 1 },
+            reqQuestState: { id: "side_boonta", step: 1 },
           },
           {
             label: "The race mainframe is rigged, Watto.",
             nextId: "reward",
-            reqQuestState: { id: "q5", step: 3 },
+            reqQuestState: { id: "side_boonta", step: 3 },
           },
           { label: "Just looking for parts.", nextId: null },
         ],
@@ -2892,7 +2901,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
             label: "Consider it done.",
             nextId: null,
             action: (g: any) => {
-              g.updateQuest("q5", 2);
+              g.updateQuest("side_boonta", 2);
               g.addToLog(
                 "Quest Updated: Go to the Grand Arena and slice the Mainframe.",
               );
@@ -2908,7 +2917,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
             label: "At last. Time to leave this dustball.",
             nextId: null,
             action: (g: any) => {
-              g.completeQuest("q5");
+              g.completeQuest("side_boonta");
               g.updateQuest("q6", 1);
               g.setQuests((prev: any) =>
                 prev.map((q: any) =>
@@ -3069,11 +3078,11 @@ export const NPC_DATABASE: Record<string, NPC> = {
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "Hello there. Not many travelers come this far into the Jundland Wastes. Especially not ones carrying Imperial hardware from the Clone Wars era.",
+        text: "Hello there. Not many travelers come this far into the Jundland Wastes. Especially not ones carrying the names of so many lost souls.",
         options: [
           {
-            label: "How did you know about the datapad?",
-            nextId: "force_reveal",
+            label: "Greedo said you could decode 'The Ledger'.",
+            nextId: "ledger_reveal",
             reqQuestState: { id: "q3", step: 1 },
           },
           {
@@ -3084,21 +3093,21 @@ export const NPC_DATABASE: Record<string, NPC> = {
           { label: "Just looking for a way out of the sun.", nextId: null },
         ],
       },
-      force_reveal: {
-        id: "force_reveal",
-        text: "The Force works in mysterious ways. That device contains coordinates to an old Republic treasury on Coruscant... and a list of Jedi sympathizers. It was meant to be destroyed years ago.",
-        options: [{ label: "Can you unlock it?", nextId: "final_step" }],
+      ledger_reveal: {
+        id: "ledger_reveal",
+        text: "Greedo... a colorful character. You speak of 'The Ledger'—the ISB registry. It contains more than just names of local spies; it maps out the entire hidden power structure of the Outer Rim.",
+        options: [{ label: "Can you bypass the encryption?", nextId: "final_step" }],
       },
       final_step: {
         id: "final_step",
-        text: "I can, but it will take time. And the Empire is already tracking its signature. You'll need to defend this hut while I work.",
+        text: "Bypassing it is simple for one who remembers the old ways, but the decryption generates a resonance the Empire is already tracking. Defend this hut while I slice the databanks.",
         options: [
           {
-            label: "I'm ready.",
+            label: "I'll hold them off.",
             nextId: null,
             action: (g: any) => {
               g.updateQuest("q3", 2);
-              g.addToLog("Prepare for defense. Imperial scouts incoming...");
+              g.addToLog("Prepare for defense. Imperial hunters incoming...");
               g.startCombat("thug"); // Simplification: encounter troopers/scouts
             },
           },
@@ -3106,10 +3115,10 @@ export const NPC_DATABASE: Record<string, NPC> = {
       },
       post_combat: {
         id: "post_combat",
-        text: "The Empire's reach is long, but they are clumsy. The datapad is unlocked. It contains coordinates to a hidden stash in Jabba's old storehouse... behind the palace. Take it. You've earned it.",
+        text: "The Empire's reach is long, but they are clumsy. The Ledger is unmasked. It reveals a silent war: Jabba's Cartel, the Tusken Warlords of the deep desert, and the Imperial Garrisons are all fighting for control. If you want a syndicate here, you cannot ignore them. You must choose who to manipulate, who to ally with, and who to destroy.",
         options: [
           {
-            label: "Thank you, Ben.",
+            label: "I see the board now. Thank you, Ben.",
             nextId: null,
             action: (g: any) => {
               g.completeQuest("q3");
@@ -3121,7 +3130,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
                 ),
               );
               g.addToLog(
-                "Quest Completed: The Wizard of the Wastes. Reward: Jabba's Palace Access unlocked.",
+                "Quest Completed: The Wizard of the Wastes. Reward: Jabba's Storehouse Access unlocked.",
               );
               g.addToLog("New Quest: The Hutt's Fortune.");
             },
@@ -3138,7 +3147,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
     dialogueTree: {
       intro: {
         id: "intro",
-        text: "You aren't going anywhere. Jabba wants that datapad. And your head.",
+        text: "You aren't going anywhere. Jabba wants that Ledger. And your head.",
         options: [
           {
             label: "Try and take it.",
@@ -3202,6 +3211,291 @@ export const NPC_DATABASE: Record<string, NPC> = {
             action: (g: any) => {
               g.updateQuest("q6", 3);
               g.addToLog("Quest Updated: Proceed to Tosche Station.");
+            },
+          },
+        ],
+      },
+    },
+  },
+  bib_fortuna: {
+    id: "bib_fortuna",
+    name: "Bib Fortuna",
+    imageUrl: IMAGES.NPC_GREEDO, // Placeholder
+    greetingId: "intro",
+    dialogueTree: {
+      ambush_intro: {
+        id: "ambush_intro",
+        text: "(Twi'leki) De wanna wanga? Apologies for the rough transport. You must be the one who killed Teemo. The Mighty Jabba appreciates you handling his rogue agent without charging a bounty fee.",
+        options: [
+          {
+            label: "Tell Jabba he owes me one.",
+            nextId: "ambush_reward",
+          },
+          {
+            label: "What does this mean for me?",
+            nextId: "ambush_reward",
+          }
+        ]
+      },
+      ambush_reward: {
+        id: "ambush_reward",
+        text: "It means Jabba knows your face. The Mighty Jabba sees the chaos in the dunes... he hears you have an Imperial Ledger. When you are ready to make a real alliance, seek me out.",
+        options: [
+          {
+            label: "I'll keep that in mind.",
+            nextId: null,
+            action: (g: any) => {
+               g.setGameState((prev: any) => ({...prev, flags: [...(prev.flags || []), "met_bib_ambush"]}));
+            }
+          }
+        ]
+      },
+      intro: {
+        id: "intro",
+        text: "(Twi'leki) De wanna wanga? You return. The Mighty Jabba offers you a place in his Cartel... if you can prove your power.",
+        options: [
+          {
+            label: "What does Jabba want?",
+            nextId: "offer",
+            reqQuestState: { id: "q4", step: 1 },
+            action: (g: any) => {
+              g.setGameState((prev: any) => ({
+                ...prev,
+                flags: [...new Set([...(prev.flags || []), "heard_hutt_offer"])]
+              }));
+            }
+          },
+          {
+            label: "The rival operation in the Old Quarter is destroyed.",
+            nextId: "reward",
+            reqQuestState: { id: "q5_hutt", step: 2 },
+          },
+          { label: "Not interested right now.", nextId: null },
+        ],
+      },
+      offer: {
+        id: "offer",
+        text: "There is a rival operation growing in the Mos Eisley Old Quarter. They refuse to pay tribute. Destroy them. Do this, and the Hutt Cartel will recognize your syndicate.",
+        options: [
+          {
+            label: "Consider them gone. I'm aligning with Jabba.",
+            nextId: null,
+            condition: (g: any) => 
+               g.gameState.flags?.includes("heard_hutt_offer") && 
+               g.gameState.flags?.includes("heard_empire_offer") && 
+               g.gameState.flags?.includes("heard_tusken_offer"),
+            action: (g: any) => {
+              g.updateQuest("q4", 2);
+              g.completeQuest("q4");
+              g.setQuests((prev: any) =>
+                prev.map((q: any) =>
+                  q.id === "q5_hutt" ? { ...q, status: "active" } : q,
+                ),
+              );
+              g.updateQuest("q5_hutt", 1);
+              g.addToLog("Aligned with Hutt Cartel. Quest: The Hutt's Fortune started.");
+            },
+          },
+          { 
+            label: "(You must hear out the Empire and Tuskens before making a choice)", 
+            nextId: null,
+            condition: (g: any) => 
+               !(g.gameState.flags?.includes("heard_hutt_offer") && 
+                 g.gameState.flags?.includes("heard_empire_offer") && 
+                 g.gameState.flags?.includes("heard_tusken_offer"))
+          },
+          { label: "I need to think this over.", nextId: null },
+        ],
+      },
+      reward: {
+        id: "reward",
+        text: "Jabba is pleased. Very pleased. The Cartel recognizes your syndicate. You are now officially under Jabba's umbrella.",
+        options: [
+          {
+            label: "Our alliance is secured.",
+            nextId: null,
+            action: (g: any) => {
+              g.completeQuest("q5_hutt");
+              g.updateReputation("hutt_cartel", 50);
+              g.addToLog("Completed Quest: The Hutt's Fortune. Syndicate Rep increased!");
+              g.updateQuest("q6", 1);
+              g.setQuests((prev: any) =>
+                prev.map((q: any) =>
+                  q.id === "q6" ? { ...q, status: "active" } : q,
+                ),
+              );
+            },
+          },
+        ],
+      },
+    },
+  },
+  tusken_chieftain: {
+    id: "tusken_chieftain",
+    name: "Tusken Chieftain",
+    imageUrl: IMAGES.ENEMY_TUSKEN, // Placeholder
+    greetingId: "intro",
+    dialogueTree: {
+      intro: {
+        id: "intro",
+        text: "(He lets out a guttural roar, then speaks heavily accented Basic) You walk the deep sands. The old man in the wastes speaks of you. You know the secrets of the sky-ships (The Ledger). We Tuskens claim this rock.",
+        options: [
+          {
+            label: "I want to ally with the Warlords.",
+            nextId: "offer",
+            reqQuestState: { id: "q4", step: 1 },
+            action: (g: any) => {
+              g.setGameState((prev: any) => ({
+                ...prev,
+                flags: [...new Set([...(prev.flags || []), "heard_tusken_offer"])]
+              }));
+            }
+          },
+          {
+            label: "The Imperial Remnant at the sacred site is dead.",
+            nextId: "reward",
+            reqQuestState: { id: "q5_tusken", step: 2 },
+          },
+          { label: "Just passing through.", nextId: null },
+        ],
+      },
+      offer: {
+        id: "offer",
+        text: "Words are like sand in the wind. We respect strength. The metal-men (Imperials) have defiled our sacred burial grounds deep in الكثبان الرملية. Bleed them. Prove your strength.",
+        options: [
+          {
+            label: "I will bathe the sands in their blood. I am with you.",
+            nextId: null,
+            condition: (g: any) => 
+               g.gameState.flags?.includes("heard_hutt_offer") && 
+               g.gameState.flags?.includes("heard_empire_offer") && 
+               g.gameState.flags?.includes("heard_tusken_offer"),
+            action: (g: any) => {
+              g.updateQuest("q4", 2);
+              g.completeQuest("q4");
+              g.setQuests((prev: any) =>
+                prev.map((q: any) =>
+                  q.id === "q5_tusken" ? { ...q, status: "active" } : q,
+                ),
+              );
+              g.updateQuest("q5_tusken", 1);
+              g.addToLog("Aligned with Tusken Warlords. Quest: The Warlord's Sand started.");
+            },
+          },
+          { 
+            label: "(You must hear out the Hutts and Empire before making a choice)", 
+            nextId: null,
+            condition: (g: any) => 
+               !(g.gameState.flags?.includes("heard_hutt_offer") && 
+                 g.gameState.flags?.includes("heard_empire_offer") && 
+                 g.gameState.flags?.includes("heard_tusken_offer"))
+          },
+          { label: "My path lies elsewhere.", nextId: null },
+        ],
+      },
+      reward: {
+        id: "reward",
+        text: "(The Chieftain grunts in approval) You are a warrior. You shall drink the black water and be bound to the clan. We ride together.",
+        options: [
+          {
+            label: "[Take the Blood Oath]",
+            nextId: null,
+            action: (g: any) => {
+              g.completeQuest("q5_tusken");
+              g.updateReputation("tusken_raiders", 50);
+              g.addToLog("Completed Quest: The Warlord's Sand. Syndicate Rep increased!");
+              g.updateQuest("q6", 1);
+              g.setQuests((prev: any) =>
+                prev.map((q: any) =>
+                  q.id === "q6" ? { ...q, status: "active" } : q,
+                ),
+              );
+            },
+          },
+        ],
+      },
+    },
+  },
+  prefect_talon: {
+    id: "prefect_talon",
+    name: "Prefect Talon",
+    imageUrl: IMAGES.NPC_OFFICER, // Placeholder
+    greetingId: "intro",
+    dialogueTree: {
+      intro: {
+        id: "intro",
+        text: "You're the one making waves in the undercity. And you hold an ISB decryption key (The Ledger). That key belongs to the Empire. Hand it over, and you'll be treated as a sanctioned operative.",
+        options: [
+          {
+            label: "What's the job?",
+            nextId: "offer",
+            reqQuestState: { id: "q4", step: 1 },
+            action: (g: any) => {
+              g.setGameState((prev: any) => ({
+                ...prev,
+                flags: [...new Set([...(prev.flags || []), "heard_empire_offer"])]
+              }));
+            }
+          },
+          {
+            label: "The Rebel cell is eliminated. Here are their databanks.",
+            nextId: "reward",
+            reqQuestState: { id: "q5_empire", step: 2 },
+          },
+          { label: "Not interested.", nextId: null },
+        ],
+      },
+      offer: {
+        id: "offer",
+        text: "Rebel sympathizers have set up a safehouse in the Mos Espa Market. My troopers are too 'visible'. A shadow operative like you... you can wipe them out quietly and retrieve their databanks. Do this, and the Empire will look the other way on your other 'activities'.",
+        options: [
+          {
+            label: "Consider it done. For the Empire.",
+            nextId: null,
+            condition: (g: any) => 
+               g.gameState.flags?.includes("heard_hutt_offer") && 
+               g.gameState.flags?.includes("heard_empire_offer") && 
+               g.gameState.flags?.includes("heard_tusken_offer"),
+            action: (g: any) => {
+              g.updateQuest("q4", 2);
+              g.completeQuest("q4");
+              g.setQuests((prev: any) =>
+                prev.map((q: any) =>
+                  q.id === "q5_empire" ? { ...q, status: "active" } : q,
+                ),
+              );
+              g.updateQuest("q5_empire", 1);
+              g.addToLog("Aligned with Galactic Empire. Quest: The Imperial Hand started.");
+            },
+          },
+          { 
+            label: "(You must hear out the Hutts and Tuskens before making a choice)", 
+            nextId: null,
+            condition: (g: any) => 
+               !(g.gameState.flags?.includes("heard_hutt_offer") && 
+                 g.gameState.flags?.includes("heard_empire_offer") && 
+                 g.gameState.flags?.includes("heard_tusken_offer"))
+          },
+          { label: "I don't work for the Empire.", nextId: null },
+        ],
+      },
+      reward: {
+        id: "reward",
+        text: "Excellent work. These databanks will lead to many executions. As promised, your syndicate is now 'sanctioned'. You have Imperial protection... as long as you remain useful.",
+        options: [
+          {
+            label: "For the Empire.",
+            nextId: null,
+            action: (g: any) => {
+              g.completeQuest("q5_empire");
+              g.updateReputation("empire", 50);
+              g.addToLog("Completed Quest: The Imperial Hand. Syndicate Rep increased!");
+              g.updateQuest("q6", 1);
+              g.setQuests((prev: any) =>
+                prev.map((q: any) =>
+                  q.id === "q6" ? { ...q, status: "active" } : q,
+                ),
+              );
             },
           },
         ],
@@ -3374,6 +3668,19 @@ export const initialLocations: Locations = {
     imageUrl: IMAGES.KRAYT_VALLEY,
     exits: ["jundland_wastes", "jabbas_palace", "mos_espa_gate"],
     actions: ["Look Around"],
+    npcs: ["tusken_chieftain"],
+    searchables: [
+      {
+        id: "attack_imperial_scouts",
+        label: "Ambush Imperial Scouts",
+        description: "A squad of Remnant scouts are planting surveying equipment on the sacred burial ground.",
+        difficulty: "hard",
+        locked: true,
+        chance: 1.0,
+        reqQuestState: { id: "q5_tusken", step: 1 },
+        questUpdate: { id: "q5_tusken", step: 2 },
+      },
+    ],
   },
   mos_espa_gate: {
     id: "mos_espa_gate",
@@ -3394,19 +3701,17 @@ export const initialLocations: Locations = {
     imageUrl: IMAGES.JABBAS_PALACE,
     exits: ["krayt_valley"],
     actions: ["Look Around"],
+    npcs: ["bib_fortuna"],
     searchables: [
       {
         id: "jabba_stash",
         label: "Search Storehouse Stash",
+        reqQuestState: { id: "q3", step: 3, completed: true },
         description:
           "You find the hidden cache Ben spoke of. It's filled with credits and high-grade armor.",
         credits: 1000,
         item: "bh1",
         chance: 1.0,
-        reqQuestState: { id: "q4", step: 1 },
-        questUpdate: { id: "q4", step: 3 },
-        questComplete: true,
-        startQuest: "q5",
       },
     ],
   },
@@ -3429,6 +3734,18 @@ export const initialLocations: Locations = {
     exits: ["mos_espa_city", "decorator_shop"],
     npcs: ["clerk"],
     actions: ["Look Around", "Trade Items"],
+    searchables: [
+      {
+        id: "attack_rebel_safehouse",
+        label: "Raid Rebel Safehouse",
+        description: "The hidden cache used by the Alliance is lightly guarded but well-hidden behind a spice stall.",
+        difficulty: "hard",
+        locked: true,
+        chance: 1.0,
+        reqQuestState: { id: "q5_empire", step: 1 },
+        questUpdate: { id: "q5_empire", step: 2 },
+      },
+    ],
   },
   decorator_shop: {
     id: "decorator_shop",
@@ -3462,8 +3779,8 @@ export const initialLocations: Locations = {
         difficulty: "hard",
         locked: true,
         chance: 1.0,
-        reqQuestState: { id: "q5", step: 2 },
-        questUpdate: { id: "q5", step: 3 },
+        reqQuestState: { id: "side_boonta", step: 2 },
+        questUpdate: { id: "side_boonta", step: 3 },
       },
     ],
   },
@@ -3482,7 +3799,7 @@ export const initialLocations: Locations = {
     nightImageUrl: IMAGES.IMPERIAL_OUTPOST_NIGHT,
     exits: ["mos_eisley_street", "imperial_records_office"],
     actions: ["Look Around", "Observe Patrols", "Pay Imperial Fines (1500cr)"],
-    npcs: ["imperial_officer", "imperial_clerk"],
+    npcs: ["imperial_officer", "imperial_clerk", "prefect_talon"],
     searchables: [
       {
         id: "outpost_hatch",
@@ -3546,7 +3863,7 @@ export const initialLocations: Locations = {
     nightDescription:
       "The Cantina is rowdy tonight. Drunks spill out the front door, and the music is louder. The air is thick with smoke and danger.",
     firstVisitDescription:
-      "You are sitting in a dark booth in the corner, hood up. The Imperial Datapad burns a hole in your pocket. The bar is crowded, and the bartender, Wuher, is cleaning glasses with a rag. He spots you, eyeing the pocket where you hid the data.",
+      "You are sitting in a dark booth in the corner, hood up. Word on the street is that the ISB is looking for a Rebel sympathizer matching your description. The bar is crowded, and the bartender, Wuher, is cleaning glasses with a rag. He spots you, eyeing you with a mixture of suspicion and calculation.",
     imageUrl: IMAGES.CANTINA,
     nightImageUrl: IMAGES.CANTINA_NIGHT,
     exits: ["mos_eisley_street"],
@@ -4100,6 +4417,16 @@ export const initialLocations: Locations = {
     nightNpcs: ["hk_droid"],
     searchables: [
       {
+        id: "attack_rival_operation",
+        label: "Attack Rival Operation",
+        description: "A group of smugglers refusing Hutt tribute are holed up here.",
+        difficulty: "hard",
+        locked: true,
+        chance: 1.0,
+        reqQuestState: { id: "q5_hutt", step: 1 },
+        questUpdate: { id: "q5_hutt", step: 2 },
+      },
+      {
         id: "alley_rubble",
         label: "Search Rubble",
         description: "You dig through the filth.",
@@ -4310,7 +4637,7 @@ export const initialLocations: Locations = {
       "The bunker is humming with activity. A massive strategy table dominates the room, covered in maps of the Dune Sea and Imperial patrols. Kaelen is busy working at a cluttered workbench.",
     npcs: ["kaelen"],
     sector: "Safehouse",
-    reqQuestState: { id: "q2", step: 4, completed: true },
+    reqQuestState: { id: "q2", completed: true },
     hideIfLocked: true,
     nightDescription:
       "The safehouse is your sanctuary. The hum of the air recyclers is soothing against the harsh desert night. Through the blast doors, you hear the distant winds of the Wastes.",

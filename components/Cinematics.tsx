@@ -82,10 +82,22 @@ const SaveManagerModal: React.FC<{ onClose: () => void, onSaveSlotSelected: (slo
 export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> = ({ onFinished, volume }) => {
     const [phase, setPhase] = useState<'intro' | 'logo' | 'crawl'>('intro');
     const [isFadingOut, setIsFadingOut] = useState(false);
+    const [tapCount, setTapCount] = useState(0);
 
-    const handleSkip = () => {
+    const handleSkip = React.useCallback(() => {
         setIsFadingOut(true);
         setTimeout(onFinished, 1500);
+    }, [onFinished]);
+
+    const handleTap = () => {
+        setTapCount(prev => {
+            const next = prev + 1;
+            if (next >= 5) {
+                handleSkip();
+                return 0;
+            }
+            return next;
+        });
     };
 
     useEffect(() => {
@@ -109,14 +121,15 @@ export const OpeningCrawl: React.FC<{ onFinished: () => void, volume: number }> 
             clearTimeout(logoTimer);
             clearTimeout(finishTimer);
         };
-    }, [onFinished]);
+    }, [handleSkip]);
 
     return (
         <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black z-[50] overflow-hidden"
+            className="fixed inset-0 bg-black z-[50] overflow-hidden cursor-pointer"
+            onClick={handleTap}
         >
             {phase !== 'intro' && (
                 <motion.div 

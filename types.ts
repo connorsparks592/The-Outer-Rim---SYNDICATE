@@ -238,6 +238,7 @@ export interface NPC {
   shopInventory?: string[]; // Array of item IDs
   language?: string; // e.g. 'binary', 'huttinese', 'jawan'
   onlyBetween?: [number, number]; // [startHour, endHour]
+  reqQuestState?: { id: string; step?: number; completed?: boolean };
 }
 
 export interface HoloNetArticle {
@@ -309,4 +310,5 @@ export interface SaveData {
   activeDroidId?: string | null;
   reputation: Record<string, number>;
   activeContracts: Contract[];
+  flags?: string[];
 }
