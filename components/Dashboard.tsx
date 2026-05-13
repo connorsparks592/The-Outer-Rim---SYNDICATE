@@ -463,7 +463,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   // Switch to NPC image if talking
   const locImg = activeNpc
-    ? activeNpc.imageUrl
+    ? isNight && activeNpc.nightImageUrl
+      ? activeNpc.nightImageUrl
+      : activeNpc.imageUrl
     : isNight
       ? currentLocation.nightImageUrl || currentLocation.imageUrl
       : currentLocation.imageUrl;
@@ -570,46 +572,64 @@ export const Dashboard: React.FC<DashboardProps> = ({
     addToLog(desc);
 
     // Random encounters based on reputation and danger levels
-    const locFaction = nextLoc.faction || (nextLoc.name.toLowerCase().includes('imperial') ? 'empire' : nextLoc.name.toLowerCase().includes('jabba') ? 'hutt' : nextLoc.name.toLowerCase().includes('mos') ? 'hutt' : 'none');
-    
+    const locFaction =
+      nextLoc.faction ||
+      (nextLoc.name.toLowerCase().includes("imperial")
+        ? "empire"
+        : nextLoc.name.toLowerCase().includes("jabba")
+          ? "hutt"
+          : nextLoc.name.toLowerCase().includes("mos")
+            ? "hutt"
+            : "none");
+
     // Default danger level from location or derived from name/sector
     let baseDanger = nextLoc.dangerLevel || 0;
     if (!nextLoc.dangerLevel) {
-       if (nextLoc.name.includes("Wastes") || nextLoc.name.includes("Sea")) baseDanger = 5;
-       else if (nextLoc.name.includes("Outpost") || nextLoc.name.includes("Cantina") || nextLoc.name.includes("Palace")) baseDanger = 3;
-       else baseDanger = 1;
+      if (nextLoc.name.includes("Wastes") || nextLoc.name.includes("Sea"))
+        baseDanger = 5;
+      else if (
+        nextLoc.name.includes("Outpost") ||
+        nextLoc.name.includes("Cantina") ||
+        nextLoc.name.includes("Palace")
+      )
+        baseDanger = 3;
+      else baseDanger = 1;
     }
 
     let encounterMultiplier = 1;
-    let fallbackEnemy = 'thug';
-    
-    if (locFaction !== 'none') {
-        const rep = gameState.reputation[locFaction] || 0;
-        if (rep < 0) {
-            encounterMultiplier += Math.abs(rep) / 20; // more negative = more attacks
-        }
-        if (locFaction === 'empire') fallbackEnemy = 'stormtrooper';
-        else if (locFaction === 'hutt') fallbackEnemy = 'jabba_enforcer';
-        else if (locFaction === 'guild') fallbackEnemy = 'bounty_hunter';
+    let fallbackEnemy = "thug";
+
+    if (locFaction !== "none") {
+      const rep = gameState.reputation[locFaction] || 0;
+      if (rep < 0) {
+        encounterMultiplier += Math.abs(rep) / 20; // more negative = more attacks
+      }
+      if (locFaction === "empire") fallbackEnemy = "stormtrooper";
+      else if (locFaction === "hutt") fallbackEnemy = "jabba_enforcer";
+      else if (locFaction === "guild") fallbackEnemy = "bounty_hunter";
     }
 
     // Low reputation with any faction can cause bounty hunters anywhere
     let huntedChance = 0;
     const lowRepFactions = Object.entries(gameState.reputation).filter(
-        ([_, rep]) => rep <= -50
+      ([_, rep]) => rep <= -50,
     );
     if (lowRepFactions.length > 0) {
-        huntedChance = 0.08;
+      huntedChance = 0.08;
     }
 
     const roll = Math.random();
     if (roll < huntedChance) {
-        startCombat('bounty_hunter');
-        addToLog(`[COMBAT] You were tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`);
-    } else if (roll < huntedChance + (baseDanger * 0.03 * encounterMultiplier)) {
-        if (baseDanger >= 5) fallbackEnemy = 'tusken'; // dangerous areas default to Tusken Raiders
-        startCombat(fallbackEnemy);
-        addToLog(`[COMBAT] You were ambushed moving into the area by a ${fallbackEnemy.replace('_', ' ')}! Danger level in this sector is high.`);
+      startCombat("bounty_hunter");
+      addToLog(
+        `[COMBAT] You were tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`,
+      );
+    } else if (roll < huntedChance + baseDanger * 0.03 * encounterMultiplier) {
+      if (baseDanger >= 5) fallbackEnemy = "tusken"; // dangerous areas default to Tusken Raiders
+      startCombat(fallbackEnemy);
+      addToLog(
+        `[COMBAT] You were ambushed moving into the area by a ${fallbackEnemy.replace("_", " ")}! Danger level in this sector is high.`,
+      );
     }
   };
 
@@ -807,13 +827,61 @@ export const Dashboard: React.FC<DashboardProps> = ({
       addToLog(detailed || "You see nothing unusual.");
 
       // Trigger chance encounters
+      const locFaction =
+        currentLocation.faction ||
+        (currentLocation.name.toLowerCase().includes("imperial")
+          ? "empire"
+          : currentLocation.name.toLowerCase().includes("jabba")
+            ? "hutt"
+            : currentLocation.name.toLowerCase().includes("mos")
+              ? "hutt"
+              : "none");
+      let baseDanger = currentLocation.dangerLevel || 0;
+      if (!currentLocation.dangerLevel) {
+        if (
+          currentLocation.name.includes("Wastes") ||
+          currentLocation.name.includes("Sea")
+        )
+          baseDanger = 5;
+        else if (
+          currentLocation.name.includes("Outpost") ||
+          currentLocation.name.includes("Cantina") ||
+          currentLocation.name.includes("Palace")
+        )
+          baseDanger = 3;
+        else baseDanger = 1;
+      }
+
+      let encounterMultiplier = 1;
+      let fallbackEnemy = "thug";
+
+      if (locFaction !== "none") {
+        const rep = gameState.reputation[locFaction] || 0;
+        if (rep < 0) {
+          encounterMultiplier += Math.abs(rep) / 20;
+        }
+        if (locFaction === "empire") fallbackEnemy = "stormtrooper";
+        else if (locFaction === "hutt") fallbackEnemy = "jabba_enforcer";
+        else if (locFaction === "guild") fallbackEnemy = "bounty_hunter";
+      }
+
       const lowRepFactions = Object.entries(gameState.reputation).filter(
         ([_, rep]) => rep <= -50,
       );
-      if (lowRepFactions.length > 0) {
+
+      const roll = Math.random();
+      if (lowRepFactions.length > 0 && roll < 0.1) {
         startCombat("bounty_hunter");
         addToLog(
           `[COMBAT] You are tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`,
+        );
+        return;
+      } else if (roll < baseDanger * 0.05 * encounterMultiplier - 0.1) {
+        // -0.1 so it's not too frequent
+        if (baseDanger >= 5) fallbackEnemy = "tusken";
+        startCombat(fallbackEnemy);
+        addToLog(
+          `[COMBAT] You are ambushed while taking a look around! Danger level in this sector is high.`,
         );
         return;
       }
@@ -859,6 +927,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
         }
       }
     } else if (action === "Slice Mainframe") {
+      const hasSlicerSpike = gameState.inventory.some(
+        (i) => i.id === "slicer_spike",
+      );
+      if (!hasSlicerSpike) {
+        addToLog("You need a Slicer Spike to attempt this hack.");
+        return;
+      }
       if (gameState.activeSlicingTask) {
         addToLog(
           "A slicing task is already in progress. Link is currently saturated.",
@@ -871,14 +946,29 @@ export const Dashboard: React.FC<DashboardProps> = ({
       }
 
       addToLog("Connecting Slicer Spike to the Imperial Mainframe...");
-      setGameState((prev) => ({
-        ...prev,
-        activeSlicingTask: {
-          startTime: new Date().getTime(),
-          duration: 60, // 60 seconds for demo
-          targetId: "imperial_records_vault",
-        },
-      }));
+      setGameState((prev) => {
+        const newInv = [...prev.inventory];
+        const spikeIdx = newInv.findIndex((i) => i.id === "slicer_spike");
+        if (spikeIdx !== -1) {
+          if (newInv[spikeIdx].count > 1) {
+            newInv[spikeIdx] = {
+              ...newInv[spikeIdx],
+              count: newInv[spikeIdx].count - 1,
+            };
+          } else {
+            newInv.splice(spikeIdx, 1);
+          }
+        }
+        return {
+          ...prev,
+          inventory: newInv,
+          activeSlicingTask: {
+            startTime: new Date().getTime(),
+            duration: 60, // 60 seconds for demo
+            targetId: "imperial_records_vault",
+          },
+        };
+      });
       addToLog(
         "Decryption Protocol engaged. Estimated time: 60 seconds. Background process running...",
       );
@@ -1000,6 +1090,65 @@ export const Dashboard: React.FC<DashboardProps> = ({
           "Residence is currently at baseline. Acquire furniture to unlock new interactions.",
         );
       }
+    } else if (action.includes("(1500cr)")) {
+      if (gameState.credits >= 1500) {
+        setGameState((prev) => {
+          let repKey: "empire" | "hutt" | "guild" | "rebellion" = "empire";
+          let successLog = "";
+          let amount = 25;
+
+          if (action.includes("Imperial Fines")) {
+            repKey = "empire";
+            successLog =
+              "You bribed the records clerk and paid off your 1500cr Imperial fines. Transgressions cleared.";
+            amount = Math.max(0, 50 - (prev.reputation.empire || 0)); // pushes neg up to 0, or gives +25 if already near
+          } else if (action.includes("Hutt")) {
+            repKey = "hutt";
+            successLog =
+              "You paid a Hutt Enforcer 1500cr. They will forget about your 'mistakes'... for now.";
+            amount = Math.max(0, 50 - (prev.reputation.hutt || 0));
+          } else if (action.includes("Guild")) {
+            repKey = "guild";
+            successLog =
+              "You submitted a 1500cr donation to the Guild Master. Your standing has improved significantly.";
+          } else if (action.includes("Rebellion")) {
+            repKey = "rebellion";
+            successLog =
+              "You funneled 1500cr of supplies to the Rebel Alliance. They are grateful for your support.";
+          }
+
+          if (amount < 25) amount = 25; // Guarantee at least +25
+
+          return {
+            ...prev,
+            credits: prev.credits - 1500,
+            reputation: {
+              ...prev.reputation,
+              [repKey]: (prev.reputation[repKey] || 0) + amount,
+            },
+          };
+        });
+
+        let msg = "";
+        if (action.includes("Imperial Fines"))
+          msg =
+            "You bribed the records clerk and paid off your 1500cr Imperial fines.";
+        else if (action.includes("Hutt"))
+          msg =
+            "You paid a Hutt Enforcer 1500cr. They will forget about your 'mistakes'... for now.";
+        else if (action.includes("Guild"))
+          msg =
+            "You submitted a 1500cr donation to the Guild Master. Your standing has improved significantly.";
+        else if (action.includes("Rebellion"))
+          msg =
+            "You funneled 1500cr of supplies to the Rebel Alliance. They are grateful for your support.";
+
+        addToLog(`Payment Confirmed. ${msg}`);
+      } else {
+        addToLog(
+          `Insufficient credits. You need 1500cr to perform this action.`,
+        );
+      }
     }
   };
 
@@ -1025,6 +1174,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }
 
     if (target.locked && !gameState.unlockedContainers.includes(searchableId)) {
+      const hasSlicerSpike = gameState.inventory.some(
+        (i) => i.id === "slicer_spike",
+      );
+      if (!hasSlicerSpike) {
+        addToLog(
+          `Access Denied: ${target.label} is locked. You need a Slicer Spike to bypass the security.`,
+        );
+        return;
+      }
       setSlicingTarget(searchableId);
       setActiveMinigame("slicing");
       return;
@@ -1274,8 +1432,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
           onWin={() => {
             setActiveMinigame(null);
             setGameState((prev) => {
+              const newInv = [...prev.inventory];
+              const spikeIdx = newInv.findIndex((i) => i.id === "slicer_spike");
+              if (spikeIdx !== -1) {
+                if (newInv[spikeIdx].count > 1) {
+                  newInv[spikeIdx] = {
+                    ...newInv[spikeIdx],
+                    count: newInv[spikeIdx].count - 1,
+                  };
+                } else {
+                  newInv.splice(spikeIdx, 1);
+                }
+              }
               const newState = {
                 ...prev,
+                inventory: newInv,
                 unlockedContainers: [
                   ...prev.unlockedContainers,
                   slicingTarget!,
@@ -1283,7 +1454,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
               };
               return addXp(newState, 25).state;
             });
-            addToLog("Access Granted. Security systems bypassed.");
+            addToLog(
+              "Access Granted. Slicer Spike consumed. Security systems bypassed.",
+            );
             setTimeout(() => handleSearch(slicingTarget!), 0);
           }}
           onLose={() => {

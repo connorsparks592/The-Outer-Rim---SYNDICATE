@@ -100,8 +100,8 @@ export const IMAGES = {
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop",
   NPC_GREEDO:
     "https://i.postimg.cc/QtpxC9Tv/Gemini-Generated-Image-uao46puao46puao4.png",
-  NPC_TEEMO:
-    "https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=1000&auto=format&fit=crop",
+  NPC_TEEMO: "https://i.postimg.cc/bYLCrwzX/1778644556413.png",
+  NPC_TEEMO_NIGHT: "https://i.postimg.cc/pVkGrLPB/1778644576693.png",
   NPC_KAELEN:
     "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?q=80&w=1000&auto=format&fit=crop",
   NPC_DROID_DOC:
@@ -263,6 +263,25 @@ export const ITEM_DATABASE: Item[] = [
     dmg: 12,
     price: 850,
     description: "Standard issue E-11 blaster rifle. Accurate and deadly.",
+  },
+  {
+    id: "2",
+    name: "Power Cell",
+    rarity: "common",
+    count: 1,
+    type: "misc",
+    price: 20,
+    description: "Standard energy cell for blasters and equipment.",
+  },
+  {
+    id: "bh_rifle",
+    name: "EE-3 Carbine Rifle",
+    rarity: "uncommon",
+    count: 1,
+    type: "weapon",
+    dmg: 12,
+    price: 950,
+    description: "A three-burst precision carbine, favored by bounty hunters.",
   },
   {
     id: "heavy_blaster",
@@ -1554,6 +1573,7 @@ export const ENEMIES: Record<string, Enemy> = {
     xp: 100,
     credits: 250,
     imageUrl: IMAGES.NPC_TEEMO,
+    nightImageUrl: IMAGES.NPC_TEEMO_NIGHT,
     introText: "Teemo roars, his heavy blaster wine-ing as it powers up!",
   },
 };
@@ -2586,6 +2606,8 @@ export const NPC_DATABASE: Record<string, NPC> = {
       "https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=1000&auto=format&fit=crop",
     greetingId: "intro",
     shopInventory: [
+      "bh_rifle",
+      "1",
       "heavy_blaster",
       "bounty_armor",
       "pulse_rifle",
@@ -2765,6 +2787,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
     id: "teemo",
     name: "Teemo the Snitch",
     imageUrl: IMAGES.NPC_TEEMO,
+    nightImageUrl: IMAGES.NPC_TEEMO_NIGHT,
     greetingId: "intro",
     dialogueTree: {
       intro: {
@@ -2812,11 +2835,24 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Watto",
     imageUrl: IMAGES.NPC_WATTO,
     greetingId: "intro",
+    shopInventory: [
+      "1",
+      "flight_suit",
+      "slicer_spike",
+      "power_converter",
+      "fusion_cutter",
+      "m1",
+    ],
     dialogueTree: {
       intro: {
         id: "intro",
         text: "Mind tricks don't work on me, only money! What do you want? I'm busy preparing for the Boonta Eve Classic.",
         options: [
+          {
+            label: "Let's see what you have for sale.",
+            nextId: null,
+            action: (g) => g.setShopNpcId("watto"),
+          },
           {
             label: "I heard you have a ship for sale.",
             nextId: "ship_query",
@@ -3170,7 +3206,7 @@ export const initialLocations: Locations = {
     imageUrl: IMAGES.CANTINA,
     sector: "Jabba's Palace",
     exits: ["jundland_wastes", "jabba_throne_room"],
-    actions: ["Look Around"],
+    actions: ["Look Around", "Bribe Hutt Enforcer (1500cr)"],
   },
   jabba_throne_room: {
     id: "jabba_throne_room",
@@ -3432,7 +3468,7 @@ export const initialLocations: Locations = {
     imageUrl: IMAGES.IMPERIAL_OUTPOST,
     nightImageUrl: IMAGES.IMPERIAL_OUTPOST_NIGHT,
     exits: ["mos_eisley_street", "imperial_records_office"],
-    actions: ["Look Around", "Observe Patrols"],
+    actions: ["Look Around", "Observe Patrols", "Pay Imperial Fines (1500cr)"],
     npcs: ["imperial_officer", "imperial_clerk"],
     searchables: [
       {
@@ -3620,8 +3656,9 @@ export const initialLocations: Locations = {
       {
         id: "bay_scrap",
         label: "Search Scrap Pile",
-        description: "Digging through the rust, you find a usable power cell.",
-        item: "2",
+        description:
+          "Digging through the rust, you find a discarded pilot's suit.",
+        item: "flight_suit",
         chance: 0.8,
       },
       {
@@ -4001,6 +4038,7 @@ export const initialLocations: Locations = {
       "Collect Daily Stipend",
       "Range Practice",
       "Access Contract Terminal",
+      "Guild Donation (1500cr)",
     ],
     ambient: [
       "Hunters whisper in low voices.",
@@ -4222,7 +4260,7 @@ export const initialLocations: Locations = {
         difficulty: "medium",
         locked: true,
         credits: 100,
-        item: "bh1",
+        item: "bh_rifle",
         chance: 1.0,
       },
     ],
@@ -4265,7 +4303,11 @@ export const initialLocations: Locations = {
       "The safehouse is your sanctuary. The hum of the air recyclers is soothing against the harsh desert night. Through the blast doors, you hear the distant winds of the Wastes.",
     imageUrl: IMAGES.SAFEHOUSE,
     exits: ["swoop_garage", "safehouse_bedroom"],
-    actions: ["Look Around", "Check Strategy Table"],
+    actions: [
+      "Look Around",
+      "Check Strategy Table",
+      "Support Rebellion (1500cr)",
+    ],
     searchables: [
       {
         id: "safehouse_stash",

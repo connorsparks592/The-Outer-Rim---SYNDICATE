@@ -185,6 +185,7 @@ export interface Enemy {
   xp: number;
   credits: number;
   imageUrl: string;
+  nightImageUrl?: string;
   introText: string;
 }
 
@@ -229,6 +230,7 @@ export interface NPC {
   id: string;
   name: string;
   imageUrl: string;
+  nightImageUrl?: string;
   greetingId: string;
   nightGreetingId?: string;
   conditionalGreetings?: ConditionalGreeting[];
