@@ -12,58 +12,93 @@ export function cn(...inputs: ClassValue[]) {
 
 export const BackgroundAudioPlayer: React.FC<{ src: string; volume: number; isPlaying: boolean; loop?: boolean }> = ({ src, volume, isPlaying, loop = true }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
+  const fadeInterval = useRef<any>(null);
+  
+  const [internalSrc, setInternalSrc] = useState(src);
+  const pendingSrc = useRef<string | null>(null);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    let cleanupListeners = () => {};
-
-    const tryPlay = () => {
+    const doPlay = () => {
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
           console.warn("Audio playback failed:", error);
           const onInteract = () => {
-            if (audioRef.current && audioRef.current.src) {
-              audioRef.current.play().catch(() => {});
-            }
-            cleanupListeners();
-          };
-          
-          window.addEventListener('click', onInteract);
-          window.addEventListener('keydown', onInteract);
-          window.addEventListener('touchstart', onInteract);
-          
-          cleanupListeners = () => {
+            if (audioRef.current) audioRef.current.play().catch(() => {});
             window.removeEventListener('click', onInteract);
             window.removeEventListener('keydown', onInteract);
             window.removeEventListener('touchstart', onInteract);
           };
+          window.addEventListener('click', onInteract);
+          window.addEventListener('keydown', onInteract);
+          window.addEventListener('touchstart', onInteract);
         });
       }
     };
 
-    if (isPlaying) {
-      tryPlay();
+    if (src !== internalSrc) {
+       pendingSrc.current = src;
+       if (fadeInterval.current) clearInterval(fadeInterval.current);
+       fadeInterval.current = setInterval(() => {
+          if (audio.volume > 0.05) {
+             audio.volume = Math.max(0, audio.volume - 0.05);
+          } else {
+             audio.volume = 0;
+             clearInterval(fadeInterval.current!);
+             audio.pause();
+             setInternalSrc(pendingSrc.current as string);
+          }
+       }, 50);
     } else {
-      audio.pause();
+       if (isPlaying) {
+          if (audio.paused) {
+             audio.volume = 0;
+             doPlay();
+          }
+          if (fadeInterval.current) clearInterval(fadeInterval.current);
+          fadeInterval.current = setInterval(() => {
+             if (audio.volume < volume - 0.05) {
+                audio.volume = Math.min(volume, audio.volume + 0.05);
+             } else {
+                audio.volume = volume;
+                clearInterval(fadeInterval.current!);
+             }
+          }, 50);
+       } else {
+          if (fadeInterval.current) clearInterval(fadeInterval.current);
+          fadeInterval.current = setInterval(() => {
+             if (audio.volume > 0.05) {
+                audio.volume = Math.max(0, audio.volume - 0.05);
+             } else {
+                audio.volume = 0;
+                clearInterval(fadeInterval.current!);
+                if (!audio.paused) audio.pause();
+             }
+          }, 50);
+       }
     }
 
     return () => {
-      audio.pause();
-      cleanupListeners();
+      if (fadeInterval.current) {
+        // We do NOT clear interval on just cleanup because we want the interval to keep going on re-renders,
+        // Wait, if we return a cleanup that clears interval, it will clear it on every re-render!
+        // We shouldn't clear interval here unless we know it's unmounting.
+      }
     };
-  }, [isPlaying, src]);
+  }, [src, internalSrc, volume, isPlaying]);
 
-  // Remove key={src} so the exact same DOM element is reused, bypassing some iOS Safari restrictions
-  return <audio ref={audioRef} src={src} loop={loop} preload="auto" />;
+  useEffect(() => {
+    return () => {
+      // Unmount cleanup
+      if (fadeInterval.current) clearInterval(fadeInterval.current);
+      if (audioRef.current) audioRef.current.pause();
+    }
+  }, []);
+
+  return <audio ref={audioRef} src={internalSrc} loop={loop} preload="auto" />;
 };
 
 export const FullscreenButton = () => {

@@ -9,7 +9,14 @@ import {
   DialogueNode,
   Enemy,
 } from "../types";
-import { IMAGES, NPC_DATABASE, ITEM_DATABASE, ENEMIES, SECTORS, RTC_EVENTS } from "../data";
+import {
+  IMAGES,
+  NPC_DATABASE,
+  ITEM_DATABASE,
+  ENEMIES,
+  SECTORS,
+  RTC_EVENTS,
+} from "../data";
 import { Typewriter, CommandButton, cn } from "./Shared";
 import { SlicingGame, SabaccGame } from "./Minigames";
 import { Podracing } from "./Podracing";
@@ -78,6 +85,7 @@ interface DashboardProps {
   setGameState: React.Dispatch<React.SetStateAction<SaveData>>;
   locations: Locations;
   onSave: () => void;
+  onCombatChange?: (active: boolean) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -85,6 +93,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   setGameState,
   locations,
   onSave,
+  onCombatChange,
 }) => {
   const [dialogueNode, setDialogueNode] = useState<DialogueNode | null>(null);
   const [currentNpcId, setCurrentNpcId] = useState<string | null>(null);
@@ -110,7 +119,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
     "A-Z",
   );
   const [invFilter, setInvFilter] = useState<
-    "all" | "weapon" | "consumable" | "misc" | "furniture" | "utility" | "clothing" | "droid"
+    | "all"
+    | "weapon"
+    | "consumable"
+    | "misc"
+    | "furniture"
+    | "utility"
+    | "clothing"
+    | "droid"
   >("all");
 
   // COMBAT STATE
@@ -122,6 +138,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [logKey, setLogKey] = useState(0);
   const [realTime, setRealTime] = useState(new Date());
   const [isFullScreen, setIsFullScreen] = useState(false);
+
+  useEffect(() => {
+    if (onCombatChange) {
+      onCombatChange(!!combatEnemy);
+    }
+  }, [combatEnemy, onCombatChange]);
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -140,13 +162,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   useEffect(() => {
     if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [gameState.history, logKey]);
 
   useEffect(() => {
     if (navScrollRef.current) {
-        navScrollRef.current.scrollTop = 0;
+      navScrollRef.current.scrollTop = 0;
     }
   }, [gameState.currentLocationId, showSectorMap]);
 
@@ -341,7 +363,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
         newState.activeContracts = newState.activeContracts.filter(
           (_, i) => i !== activeContractIdx,
         );
-        newState.completedDailyContracts = [...(newState.completedDailyContracts || []), contract.id];
+        newState.completedDailyContracts = [
+          ...(newState.completedDailyContracts || []),
+          contract.id,
+        ];
         addToLog(
           `[CONTRACT COMPLETE] Target eliminated. Reward: ${contract.reward} Credits synced.`,
         );
@@ -391,23 +416,25 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const handlePlayerAttack = () => {
     if (!combatEnemy || playerCooldown < 100) return;
     setPlayerCooldown(0);
-    
-    const equippedWeapon = gameState.equippedWeaponId 
-      ? gameState.inventory.find(i => i.id === gameState.equippedWeaponId)
+
+    const equippedWeapon = gameState.equippedWeaponId
+      ? gameState.inventory.find((i) => i.id === gameState.equippedWeaponId)
       : null;
-      
-    const hasBlasterTraining = gameState.stats?.unlockedSkillIds.includes('blaster_training');
-    const hasDeadeye = gameState.stats?.unlockedSkillIds.includes('deadeye');
+
+    const hasBlasterTraining =
+      gameState.stats?.unlockedSkillIds.includes("blaster_training");
+    const hasDeadeye = gameState.stats?.unlockedSkillIds.includes("deadeye");
 
     const skillDmgBonus = hasBlasterTraining ? 3 : 0;
     const baseDmg = (equippedWeapon?.dmg || 4) + skillDmgBonus;
-    
-    let totalDmg = baseDmg + Math.floor(Math.random() * (gameState.stats?.stats.str || 5));
-    
+
+    let totalDmg =
+      baseDmg + Math.floor(Math.random() * (gameState.stats?.stats.str || 5));
+
     // Critical Hit Logic
     const critChance = hasDeadeye ? 0.25 : 0.05;
     const isCrit = Math.random() < critChance;
-    
+
     if (isCrit) {
       totalDmg = Math.floor(totalDmg * 2.0);
       addToLog(`[CRITICAL HIT] Neural sync perfect! Double damage!`);
@@ -520,9 +547,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     setGameState((prev) => {
       const visited = prev.visitedLocations.includes(exitId);
+
+      let cantinaVisits = prev.cantinaVisits || 0;
+      if (exitId === "mos_eisley_cantina") {
+        cantinaVisits += 1;
+      }
+
       return {
         ...prev,
         currentLocationId: exitId,
+        cantinaVisits,
         visitedLocations: visited
           ? prev.visitedLocations
           : [...prev.visitedLocations, exitId],
@@ -600,11 +634,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     // --- SECTOR TRAVEL TRANSITION ---
     const currentLoc = locations[gameState.currentLocationId];
-    if (nextLoc.sector && currentLoc.sector && nextLoc.sector !== currentLoc.sector) {
+    if (
+      nextLoc.sector &&
+      currentLoc.sector &&
+      nextLoc.sector !== currentLoc.sector
+    ) {
       setIsTraveling(true);
       setTravelTo(exitId);
-      addToLog(`[NAV-LINK] Jumping between sectors: ${currentLoc.sector} -> ${nextLoc.sector}...`);
-      
+      addToLog(
+        `[NAV-LINK] Jumping between sectors: ${currentLoc.sector} -> ${nextLoc.sector}...`,
+      );
+
       // Random space encounter or travel flavor
       const travelMessages = [
         "Jumping to hyperspace... wait, this is Tatooine. Engaging sublight drives.",
@@ -612,7 +652,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
         "Avoiding Imperial patrol routes...",
         "Sandstorms detected on entry vector. Recalibrating...",
       ];
-      addToLog(travelMessages[Math.floor(Math.random() * travelMessages.length)]);
+      addToLog(
+        travelMessages[Math.floor(Math.random() * travelMessages.length)],
+      );
 
       setTimeout(() => {
         executeMove(exitId);
@@ -722,13 +764,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
       addToLog(detailed || "You see nothing unusual.");
 
       // Trigger chance encounters
-      const lowRepFactions = Object.entries(gameState.reputation).filter(([_, rep]) => rep <= -50);
+      const lowRepFactions = Object.entries(gameState.reputation).filter(
+        ([_, rep]) => rep <= -50,
+      );
       if (lowRepFactions.length > 0) {
         startCombat("bounty_hunter");
-        addToLog(`[COMBAT] You are tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`);
+        addToLog(
+          `[COMBAT] You are tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`,
+        );
         return;
       }
-      
+
       if (currentLocation.encounters) {
         const isTracker = gameState.stats?.charClass?.id === "bounty_hunter";
         const roll = Math.random();
@@ -943,14 +989,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     // Success
     addToLog(target.description);
-    
-    const hasScavenger = gameState.stats?.unlockedSkillIds.includes('scavenger');
+
+    const hasScavenger =
+      gameState.stats?.unlockedSkillIds.includes("scavenger");
     const scavBonus = hasScavenger ? Math.floor(Math.random() * 20) + 10 : 0;
 
     setGameState((prev) => {
       let newState = { ...prev };
-      if (target.credits) newState.credits += (target.credits + scavBonus);
-      if (scavBonus > 0) addToLog(`[SCAVENGER] Found an extra ${scavBonus} credits in the debris.`);
+      if (target.credits) newState.credits += target.credits + scavBonus;
+      if (scavBonus > 0)
+        addToLog(
+          `[SCAVENGER] Found an extra ${scavBonus} credits in the debris.`,
+        );
       return addXp(newState, target.locked ? 20 : 5).state;
     });
 
@@ -1026,23 +1076,29 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }
 
     // Determine greeting based on conditions
-    let greetingId = isNight && npc.nightGreetingId ? npc.nightGreetingId : npc.greetingId;
+    let greetingId =
+      isNight && npc.nightGreetingId ? npc.nightGreetingId : npc.greetingId;
 
     if (npc.conditionalGreetings) {
       for (const cond of npc.conditionalGreetings) {
         let match = true;
 
         if (cond.reqQuestState) {
-          const quest = gameState.quests.find((q) => q.id === cond.reqQuestState.id);
+          const quest = gameState.quests.find(
+            (q) => q.id === cond.reqQuestState.id,
+          );
           if (!quest) {
             match = false;
           } else {
-            const stepMatch = cond.reqQuestState.step !== undefined 
-              ? quest.currentStepIndex === cond.reqQuestState.step
-              : true;
-            const completionMatch = cond.reqQuestState.completed !== undefined 
-              ? quest.status === 'completed' === cond.reqQuestState.completed
-              : true;
+            const stepMatch =
+              cond.reqQuestState.step !== undefined
+                ? quest.currentStepIndex === cond.reqQuestState.step
+                : true;
+            const completionMatch =
+              cond.reqQuestState.completed !== undefined
+                ? (quest.status === "completed") ===
+                  cond.reqQuestState.completed
+                : true;
             if (!stepMatch || !completionMatch) match = false;
           }
         }
@@ -1053,7 +1109,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
         }
 
         if (match && cond.reqItem) {
-          const hasItem = gameState.inventory.some((i) => i.id === cond.reqItem && i.count > 0);
+          const hasItem = gameState.inventory.some(
+            (i) => i.id === cond.reqItem && i.count > 0,
+          );
           if (!hasItem) match = false;
         }
 
@@ -1062,9 +1120,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
         }
 
         if (match && cond.reqBackgroundContains) {
-          if (!gameState.stats?.background?.toLowerCase().includes(cond.reqBackgroundContains.toLowerCase())) match = false;
+          if (
+            !gameState.stats?.background
+              ?.toLowerCase()
+              .includes(cond.reqBackgroundContains.toLowerCase())
+          )
+            match = false;
         }
-        
+
         if (match) {
           greetingId = cond.greetingId;
           break;
@@ -1153,8 +1216,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
   // --- RENDER HELPERS ---
 
   const renderMinigame = () => {
-    const hasLogicBuffer = gameState.stats?.unlockedSkillIds.includes('logic_buffer');
-    const slicingBonus = (gameState.activeDroidId === 'r2_unit' ? 0.3 : 0) + (hasLogicBuffer ? 0.2 : 0);
+    const hasLogicBuffer =
+      gameState.stats?.unlockedSkillIds.includes("logic_buffer");
+    const slicingBonus =
+      (gameState.activeDroidId === "r2_unit" ? 0.3 : 0) +
+      (hasLogicBuffer ? 0.2 : 0);
 
     if (activeMinigame === "slicing") {
       return (
@@ -1319,102 +1385,130 @@ export const Dashboard: React.FC<DashboardProps> = ({
     return null;
   };
 
-  const handleUseItem = useCallback((item: Item) => {
-    if (item.type === 'weapon') {
-      const isEquipping = gameState.equippedWeaponId !== item.id;
-      setGameState(prev => ({
-        ...prev,
-        equippedWeaponId: isEquipping ? item.id : null
-      }));
-      addToLog(`${isEquipping ? 'Equipped' : 'Unequipped'} ${item.name}.`);
-      return;
-    }
-
-    if (item.type === 'clothing') {
-      const isEquipping = gameState.equippedClothingId !== item.id;
-      setGameState(prev => ({
-        ...prev,
-        equippedClothingId: isEquipping ? item.id : null
-      }));
-      addToLog(`${isEquipping ? 'Equipped' : 'Unequipped'} ${item.name}.`);
-      return;
-    }
-
-    if (item.type === 'droid') {
-      const isActivating = gameState.activeDroidId !== item.id;
-      setGameState(prev => ({
-        ...prev,
-        activeDroidId: isActivating ? item.id : null
-      }));
-      addToLog(`${isActivating ? 'Activated' : 'Deactivated'} ${item.name}.`);
-      return;
-    }
-
-    if (item.heal) {
-      setGameState((prev) => {
-        if (!prev.stats) return prev;
-        const newHp = Math.min(
-          prev.stats.maxHp,
-          prev.stats.currentHp + item.heal!,
-        );
-        const newInv = prev.inventory
-          .map((i) => (i.id === item.id ? { ...i, count: i.count - 1 } : i))
-          .filter((i) => i.count > 0);
-        return {
+  const handleUseItem = useCallback(
+    (item: Item) => {
+      if (item.type === "weapon") {
+        const isEquipping = gameState.equippedWeaponId !== item.id;
+        setGameState((prev) => ({
           ...prev,
-          stats: { ...prev.stats, currentHp: newHp },
-          inventory: newInv,
-        };
-      });
-      addToLog(`Used ${item.name}. Status: Recovered ${item.heal} HP.`);
-    } else if (item.buffEffect) {
-      setGameState((prev) => {
-        if (!prev.stats) return prev;
-        const { stat, value } = item.buffEffect!;
-        const newStats = { ...prev.stats.stats, [stat]: prev.stats.stats[stat] + value };
-        const newInv = prev.inventory
-          .map((i) => (i.id === item.id ? { ...i, count: i.count - 1 } : i))
-          .filter((i) => i.count > 0);
-        return {
+          equippedWeaponId: isEquipping ? item.id : null,
+        }));
+        addToLog(`${isEquipping ? "Equipped" : "Unequipped"} ${item.name}.`);
+        return;
+      }
+
+      if (item.type === "clothing") {
+        const isEquipping = gameState.equippedClothingId !== item.id;
+        setGameState((prev) => ({
           ...prev,
-          stats: { ...prev.stats, stats: newStats },
-          inventory: newInv,
-        };
-      });
-      addToLog(`Used ${item.name}. Effect: +${item.buffEffect.value} ${item.buffEffect.stat.toUpperCase()} applied.`);
-    } else if (item.repModifier) {
-      setGameState((prev) => {
-        let newState = { ...prev };
-        Object.entries(item.repModifier!).forEach(([faction, amount]) => {
-          newState = updateReputation(newState, faction, amount);
+          equippedClothingId: isEquipping ? item.id : null,
+        }));
+        addToLog(`${isEquipping ? "Equipped" : "Unequipped"} ${item.name}.`);
+        return;
+      }
+
+      if (item.type === "droid") {
+        const isActivating = gameState.activeDroidId !== item.id;
+        setGameState((prev) => ({
+          ...prev,
+          activeDroidId: isActivating ? item.id : null,
+        }));
+        addToLog(`${isActivating ? "Activated" : "Deactivated"} ${item.name}.`);
+        return;
+      }
+
+      if (item.heal) {
+        setGameState((prev) => {
+          if (!prev.stats) return prev;
+          const newHp = Math.min(
+            prev.stats.maxHp,
+            prev.stats.currentHp + item.heal!,
+          );
+          const newInv = prev.inventory
+            .map((i) => (i.id === item.id ? { ...i, count: i.count - 1 } : i))
+            .filter((i) => i.count > 0);
+          return {
+            ...prev,
+            stats: { ...prev.stats, currentHp: newHp },
+            inventory: newInv,
+          };
         });
-        const newInv = prev.inventory
-          .map((i) => (i.id === item.id ? { ...i, count: i.count - 1 } : i))
-          .filter((i) => i.count > 0);
-        newState.inventory = newInv;
-        return newState;
-      });
-      addToLog(`Processed ${item.name}. Faction recognition updated.`);
-    } else if (item.service === 'buff_provider') {
+        addToLog(`Used ${item.name}. Status: Recovered ${item.heal} HP.`);
+      } else if (item.buffEffect) {
+        setGameState((prev) => {
+          if (!prev.stats) return prev;
+          const { stat, value } = item.buffEffect!;
+          const newStats = {
+            ...prev.stats.stats,
+            [stat]: prev.stats.stats[stat] + value,
+          };
+          const newInv = prev.inventory
+            .map((i) => (i.id === item.id ? { ...i, count: i.count - 1 } : i))
+            .filter((i) => i.count > 0);
+          return {
+            ...prev,
+            stats: { ...prev.stats, stats: newStats },
+            inventory: newInv,
+          };
+        });
+        addToLog(
+          `Used ${item.name}. Effect: +${item.buffEffect.value} ${item.buffEffect.stat.toUpperCase()} applied.`,
+        );
+      } else if (item.repModifier) {
+        setGameState((prev) => {
+          let newState = { ...prev };
+          Object.entries(item.repModifier!).forEach(([faction, amount]) => {
+            newState = updateReputation(newState, faction, amount);
+          });
+          const newInv = prev.inventory
+            .map((i) => (i.id === item.id ? { ...i, count: i.count - 1 } : i))
+            .filter((i) => i.count > 0);
+          newState.inventory = newInv;
+          return newState;
+        });
+        addToLog(`Processed ${item.name}. Faction recognition updated.`);
+      } else if (item.service === "buff_provider") {
         const now = Date.now();
         if (!item.lastUsedAt || now - item.lastUsedAt > 12 * 3600 * 1000) {
-            if (item.buffEffect && gameState.stats) {
-                const { stat, value } = item.buffEffect;
-                setGameState(prev => {
-                    if (!prev.stats) return prev;
-                    const newStats = { ...prev.stats.stats, [stat]: prev.stats.stats[stat] + value };
-                    const newInv = prev.inventory.map(i => i.id === item.id ? { ...i, lastUsedAt: now } : i);
-                    return { ...prev, stats: { ...prev.stats, stats: newStats }, inventory: newInv };
-                });
-                addToLog(`Acquired ${item.name} support. ${stat.toUpperCase()} enhanced.`);
-            }
+          if (item.buffEffect && gameState.stats) {
+            const { stat, value } = item.buffEffect;
+            setGameState((prev) => {
+              if (!prev.stats) return prev;
+              const newStats = {
+                ...prev.stats.stats,
+                [stat]: prev.stats.stats[stat] + value,
+              };
+              const newInv = prev.inventory.map((i) =>
+                i.id === item.id ? { ...i, lastUsedAt: now } : i,
+              );
+              return {
+                ...prev,
+                stats: { ...prev.stats, stats: newStats },
+                inventory: newInv,
+              };
+            });
+            addToLog(
+              `Acquired ${item.name} support. ${stat.toUpperCase()} enhanced.`,
+            );
+          }
         } else {
-            addToLog(`Coolant levels normalizing. Service available in ${Math.ceil((12 * 3600 * 1000 - (now - item.lastUsedAt)) / 3600000)} hours.`);
+          addToLog(
+            `Coolant levels normalizing. Service available in ${Math.ceil((12 * 3600 * 1000 - (now - item.lastUsedAt)) / 3600000)} hours.`,
+          );
         }
-    } else {
-      addToLog(`Cannot use ${item.name} in current state.`);
-    }
-  }, [gameState.equippedWeaponId, gameState.equippedClothingId, gameState.activeDroidId, gameState.stats, addToLog, updateReputation]);
+      } else {
+        addToLog(`Cannot use ${item.name} in current state.`);
+      }
+    },
+    [
+      gameState.equippedWeaponId,
+      gameState.equippedClothingId,
+      gameState.activeDroidId,
+      gameState.stats,
+      addToLog,
+      updateReputation,
+    ],
+  );
 
   const handleCombatUseItem = (item: Item) => {
     if (item.heal) {
@@ -1449,17 +1543,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
           gameState={gameState}
           onClose={() => setShowDailyRewards(false)}
           onClaimed={(credits, item, newStreak) => {
-            setGameState(prev => {
-              const newInv = item ? [...prev.inventory, { ...item, count: 1 }] : prev.inventory;
+            setGameState((prev) => {
+              const newInv = item
+                ? [...prev.inventory, { ...item, count: 1 }]
+                : prev.inventory;
               return {
                 ...prev,
                 credits: prev.credits + credits,
                 inventory: newInv,
                 dailyStreak: newStreak,
-                lastDailyRewardClaimDate: new Date().toDateString()
+                lastDailyRewardClaimDate: new Date().toDateString(),
               };
             });
-            addToLog(`[REWARD] Claimed daily login reward: ${credits} credits${item ? ` and ${item.name}` : ''}.`);
+            addToLog(
+              `[REWARD] Claimed daily login reward: ${credits} credits${item ? ` and ${item.name}` : ""}.`,
+            );
             setShowDailyRewards(false);
           }}
         />
@@ -1473,7 +1571,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           onUpdateStats={(newStats, remainingPoints) => {
             setGameState((prev) => {
               if (!prev.stats) return prev;
-              const bonusHp = prev.stats.unlockedSkillIds.includes('toughness') ? 10 : 0;
+              const bonusHp = prev.stats.unlockedSkillIds.includes("toughness")
+                ? 10
+                : 0;
               const maxHp = 20 + newStats.end * 2 + bonusHp;
               return {
                 ...prev,
@@ -1489,12 +1589,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
             addToLog("Bio-metrics updated. Neural interface re-calibrated.");
           }}
           onUnlockSkill={(skillId, cost) => {
-            setGameState(prev => {
+            setGameState((prev) => {
               if (!prev.stats) return prev;
               const newUnlocked = [...prev.stats.unlockedSkillIds, skillId];
               let newMaxHp = prev.stats.maxHp;
-              if (skillId === 'toughness') newMaxHp += 10;
-              
+              if (skillId === "toughness") newMaxHp += 10;
+
               return {
                 ...prev,
                 stats: {
@@ -1502,15 +1602,23 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   skillPoints: prev.stats.skillPoints - cost,
                   unlockedSkillIds: newUnlocked,
                   maxHp: newMaxHp,
-                  currentHp: skillId === 'toughness' ? prev.stats.currentHp + 10 : prev.stats.currentHp
+                  currentHp:
+                    skillId === "toughness"
+                      ? prev.stats.currentHp + 10
+                      : prev.stats.currentHp,
                 },
-                history: [...prev.history, `UNLOCKED SKILL: ${SKILL_TREE.find(s => s.id === skillId)?.name}`]
+                history: [
+                  ...prev.history,
+                  `UNLOCKED SKILL: ${SKILL_TREE.find((s) => s.id === skillId)?.name}`,
+                ],
               };
             });
-            addToLog(`Skill Acquisition successful: ${SKILL_TREE.find(s => s.id === skillId)?.name}`);
+            addToLog(
+              `Skill Acquisition successful: ${SKILL_TREE.find((s) => s.id === skillId)?.name}`,
+            );
           }}
           onUnlockPerk={(perkId) => {
-             // Perks are level based - for now we'll just track if user wants to select them if we had a cap
+            // Perks are level based - for now we'll just track if user wants to select them if we had a cap
           }}
         />
       )}
@@ -1714,17 +1822,28 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <div className="relative">
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="w-32 h-32 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Navigation className="text-cyan-400 animate-pulse" size={40} />
+                    <Navigation
+                      className="text-cyan-400 animate-pulse"
+                      size={40}
+                    />
                   </div>
                 </div>
                 <div className="text-center space-y-2">
-                  <h2 className="text-xl font-title text-cyan-400 tracking-[0.5em] uppercase animate-flicker">Traveling...</h2>
+                  <h2 className="text-xl font-title text-cyan-400 tracking-[0.5em] uppercase animate-flicker">
+                    Traveling...
+                  </h2>
                   <p className="text-[10px] font-display text-cyan-800 uppercase tracking-widest italic">
-                    {locations[gameState.currentLocationId]?.sector || "Tatooine"} —&gt; {locations[travelTo!]?.sector || "Deep Desert"}
+                    {locations[gameState.currentLocationId]?.sector ||
+                      "Tatooine"}{" "}
+                    —&gt; {locations[travelTo!]?.sector || "Deep Desert"}
                   </p>
                 </div>
                 <div className="moving-scanline opacity-20" />
@@ -1760,7 +1879,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="p-1 px-2 bg-black/60 border border-cyan-500/30 backdrop-blur-md rounded text-cyan-400">
               <Globe size={10} className="inline mr-1" />
               <span className="text-[8px] md:text-[10px] uppercase font-display tracking-widest">
-                Sector: {currentLocation.sector || (gameState.isNight ? "Sector Shadow" : "Sector Light")}
+                Sector:{" "}
+                {currentLocation.sector ||
+                  (gameState.isNight ? "Sector Shadow" : "Sector Light")}
               </span>
             </div>
           </div>
@@ -1798,7 +1919,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         Communication Link: {NPC_DATABASE[currentNpcId!].name}
                       </span>
                     </div>
-                    <button 
+                    <button
                       onClick={() => {
                         setDialogueNode(null);
                         setCurrentNpcId(null);
@@ -1811,8 +1932,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <div className="flex gap-4 items-start">
                     {NPC_DATABASE[currentNpcId!].imageUrl && (
                       <div className="w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden border border-yellow-500/30 shrink-0 bg-black shadow-[0_0_20px_rgba(234,179,8,0.1)]">
-                        <img 
-                          src={NPC_DATABASE[currentNpcId!].imageUrl} 
+                        <img
+                          src={NPC_DATABASE[currentNpcId!].imageUrl}
                           alt={NPC_DATABASE[currentNpcId!].name}
                           className="w-full h-full object-cover grayscale brightness-75 contrast-125"
                           referrerPolicy="no-referrer"
@@ -1822,18 +1943,27 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     <div className="text-white text-sm md:text-lg leading-relaxed italic font-display animate-flicker flex-1">
                       {(() => {
                         const npc = NPC_DATABASE[currentNpcId!];
-                        const needsTranslation = npc.language && gameState.activeDroidId !== 'protocol_droid';
-                        const displayText = needsTranslation ? scrambleText(dialogueNode.text) : dialogueNode.text;
+                        const needsTranslation =
+                          npc.language &&
+                          gameState.activeDroidId !== "protocol_droid";
+                        const displayText = needsTranslation
+                          ? scrambleText(dialogueNode.text)
+                          : dialogueNode.text;
                         return (
-                          <div className={cn(needsTranslation && "font-mono text-cyan-500 bg-cyan-950/20 p-2 rounded")}>
+                          <div
+                            className={cn(
+                              needsTranslation &&
+                                "font-mono text-cyan-500 bg-cyan-950/20 p-2 rounded",
+                            )}
+                          >
                             <Typewriter
                               text={`"${displayText}"`}
                               textKey={displayText}
                             />
                             {needsTranslation && (
-                                <p className="text-[10px] text-red-500 uppercase mt-2 not-italic font-bold tracking-widest">
-                                    [TRANSLATION MODULE REQUIRED]
-                                </p>
+                              <p className="text-[10px] text-red-500 uppercase mt-2 not-italic font-bold tracking-widest">
+                                [TRANSLATION MODULE REQUIRED]
+                              </p>
                             )}
                           </div>
                         );
@@ -1926,15 +2056,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       if (!q || q.currentStepIndex !== opt.reqQuestState!.step)
                         return null;
                     }
-                    if (
-                      opt.reqCredits &&
-                      gameState.credits < opt.reqCredits
-                    )
+                    if (opt.reqCredits && gameState.credits < opt.reqCredits)
                       return null;
-                    if (opt.reqRace && gameState.stats?.race?.id !== opt.reqRace) {
+                    if (
+                      opt.reqRace &&
+                      gameState.stats?.race?.id !== opt.reqRace
+                    ) {
                       return null;
                     }
-                    if (opt.reqBackgroundContains && !gameState.stats?.background?.toLowerCase().includes(opt.reqBackgroundContains.toLowerCase())) {
+                    if (
+                      opt.reqBackgroundContains &&
+                      !gameState.stats?.background
+                        ?.toLowerCase()
+                        .includes(opt.reqBackgroundContains.toLowerCase())
+                    ) {
                       return null;
                     }
                     if (opt.reqReputation) {
@@ -2005,50 +2140,81 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         Tactical Navigation
                       </h2>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setShowSectorMap(!showSectorMap)}
                       className="p-1 px-2 border border-cyan-500/30 rounded text-[8px] font-title uppercase tracking-widest text-cyan-400 hover:bg-cyan-500/10 transition-colors"
                     >
                       {showSectorMap ? "Back to Exits" : "Sector Map"}
                     </button>
                   </div>
-                  <div className="flex-1 overflow-y-auto pr-2 no-scrollbar space-y-4" ref={navScrollRef}>
+                  <div
+                    className="flex-1 overflow-y-auto pr-2 no-scrollbar space-y-4"
+                    ref={navScrollRef}
+                  >
                     {showSectorMap ? (
                       <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                         {Object.entries(
-                          Object.values(locations).reduce((acc, loc) => {
-                            if (loc.sector) {
-                              if (!acc[loc.sector]) acc[loc.sector] = [];
-                              acc[loc.sector].push(loc);
-                            }
-                            return acc;
-                          }, {} as Record<string, Location[]>)
+                          Object.values(locations).reduce(
+                            (acc, loc) => {
+                              if (loc.sector) {
+                                if (!acc[loc.sector]) acc[loc.sector] = [];
+                                acc[loc.sector].push(loc);
+                              }
+                              return acc;
+                            },
+                            {} as Record<string, Location[]>,
+                          ),
                         ).map(([sectorName, locs]) => {
-                          const isCurrent = currentLocation.sector === sectorName;
+                          const isCurrent =
+                            currentLocation.sector === sectorName;
                           return (
-                            <div key={sectorName} className={cn(
-                              "p-3 rounded-lg border transition-all",
-                              isCurrent ? "bg-cyan-500/10 border-cyan-500/50 shadow-cyan" : "bg-white/5 border-white/10"
-                            )}>
+                            <div
+                              key={sectorName}
+                              className={cn(
+                                "p-3 rounded-lg border transition-all",
+                                isCurrent
+                                  ? "bg-cyan-500/10 border-cyan-500/50 shadow-cyan"
+                                  : "bg-white/5 border-white/10",
+                              )}
+                            >
                               <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
-                                  <Globe size={10} className={isCurrent ? "text-cyan-400" : "text-gray-500"} />
-                                  <h3 className={cn("text-[10px] font-title uppercase tracking-widest", isCurrent ? "text-cyan-400" : "text-gray-400")}>
+                                  <Globe
+                                    size={10}
+                                    className={
+                                      isCurrent
+                                        ? "text-cyan-400"
+                                        : "text-gray-500"
+                                    }
+                                  />
+                                  <h3
+                                    className={cn(
+                                      "text-[10px] font-title uppercase tracking-widest",
+                                      isCurrent
+                                        ? "text-cyan-400"
+                                        : "text-gray-400",
+                                    )}
+                                  >
                                     {sectorName}
                                   </h3>
                                 </div>
                                 {isCurrent && (
-                                  <span className="text-[8px] bg-cyan-500 text-black px-1 rounded font-bold">CURRENT SECTOR</span>
+                                  <span className="text-[8px] bg-cyan-500 text-black px-1 rounded font-bold">
+                                    CURRENT SECTOR
+                                  </span>
                                 )}
                               </div>
                               <div className="flex flex-wrap gap-1">
-                                {locs.map(l => (
-                                  <div key={l.id} className={cn(
-                                    "text-[8px] px-1.5 py-0.5 border rounded font-display",
-                                    l.id === gameState.currentLocationId 
-                                      ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-200" 
-                                      : "bg-black/40 border-white/5 text-gray-500"
-                                  )}>
+                                {locs.map((l) => (
+                                  <div
+                                    key={l.id}
+                                    className={cn(
+                                      "text-[8px] px-1.5 py-0.5 border rounded font-display",
+                                      l.id === gameState.currentLocationId
+                                        ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-200"
+                                        : "bg-black/40 border-white/5 text-gray-500",
+                                    )}
+                                  >
                                     {l.name}
                                   </div>
                                 ))}
@@ -2057,199 +2223,207 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           );
                         })}
                         <div className="p-3 rounded-lg border border-white/5 bg-black/20 opacity-40 grayscale">
-                           <div className="flex items-center gap-2 mb-2">
-                              <Ship size={10} className="text-gray-500" />
-                              <h3 className="text-[10px] font-title uppercase tracking-widest text-gray-500">Outer Rim Reach</h3>
-                           </div>
-                           <p className="text-[8px] font-display text-gray-600 italic">No hyperspace coordinates available for this sector.</p>
+                          <div className="flex items-center gap-2 mb-2">
+                            <Ship size={10} className="text-gray-500" />
+                            <h3 className="text-[10px] font-title uppercase tracking-widest text-gray-500">
+                              Outer Rim Reach
+                            </h3>
+                          </div>
+                          <p className="text-[8px] font-display text-gray-600 italic">
+                            No hyperspace coordinates available for this sector.
+                          </p>
                         </div>
                       </div>
                     ) : (
                       <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {locExits
-                        .filter((exitId) => {
-                          const loc = locations[exitId];
-                          if (!loc) return false;
-                          if (!loc.hideIfLocked) return true;
+                          {locExits
+                            .filter((exitId) => {
+                              const loc = locations[exitId];
+                              if (!loc) return false;
+                              if (!loc.hideIfLocked) return true;
 
-                          let isLocked = false;
-                          if (loc.reqQuestState) {
-                            const q = gameState.quests.find(
-                              (q) => q.id === loc.reqQuestState!.id,
-                            );
-                            const met = loc.reqQuestState.completed
-                              ? q?.status === "completed"
-                              : q &&
-                                (q.status === "completed" ||
-                                  q.currentStepIndex >= loc.reqQuestState.step);
-                            if (!met) isLocked = true;
-                          }
-                          if (
-                            loc.reqItem &&
-                            !gameState.inventory.find(
-                              (i) => i.id === loc.reqItem,
-                            )
-                          )
-                            isLocked = true;
-
-                          return !isLocked;
-                        })
-                        .map((exitId) => {
-                          const loc = locations[exitId];
-                          if (!loc) return null;
-
-                          let isLocked = false;
-                          if (loc.reqQuestState) {
-                            const q = gameState.quests.find(
-                              (q) => q.id === loc.reqQuestState!.id,
-                            );
-                            const met = loc.reqQuestState.completed
-                              ? q?.status === "completed"
-                              : q &&
-                                (q.status === "completed" ||
-                                  q.currentStepIndex >= loc.reqQuestState.step);
-                            if (!met) isLocked = true;
-                          }
-                          if (
-                            loc.reqItem &&
-                            !gameState.inventory.find(
-                              (i) => i.id === loc.reqItem,
-                            )
-                          )
-                            isLocked = true;
-
-                          return (
-                            <button
-                              key={exitId}
-                              onClick={() => handleMove(exitId)}
-                              className={cn(
-                                "group relative flex items-center justify-between p-3 px-4 rounded-xl border transition-all text-left h-fit",
-                                isLocked
-                                  ? "border-red-900/30 bg-red-950/5 opacity-60 cursor-not-allowed"
-                                  : "border-indigo-500/20 bg-black/40 hover:bg-indigo-500/10 hover:border-indigo-400",
-                              )}
-                            >
-                              <div className="flex items-center gap-3">
-                                <div
-                                  className={cn(
-                                    "w-1 h-6 transition-colors rounded-full",
-                                    isLocked
-                                      ? "bg-red-900"
-                                      : "bg-indigo-900 group-hover:bg-indigo-400",
-                                  )}
-                                />
-                                <span
-                                  className={cn(
-                                    "font-title text-xs tracking-wide uppercase",
-                                    isLocked
-                                      ? "text-red-900"
-                                      : "text-indigo-100",
-                                  )}
-                                >
-                                  {loc.name}
-                                  {isLocked && (
-                                    <span className="ml-2 text-[8px] font-mono opacity-50">
-                                      [LOCKED]
-                                    </span>
-                                  )}
-                                </span>
-                              </div>
-                              {isLocked ? (
-                                <Skull
-                                  size={14}
-                                  className="text-red-900 ml-2"
-                                />
-                              ) : (
-                                <ArrowRightCircle
-                                  size={16}
-                                  className="text-indigo-900 group-hover:text-indigo-400 transition-all"
-                                />
-                              )}
-                            </button>
-                          );
-                        })}
-                    </div>
-
-                    {/* INHABITANTS */}
-                    {locNpcs.length > 0 && (
-                      <div className="space-y-2">
-                        <div className="text-[8px] text-gray-500 font-mono tracking-widest uppercase mb-1">
-                          Local Signatures Detected
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {locNpcs
-                            .filter((id) => {
-                              if (gameState.defeatedNpcs?.includes(id))
-                                return false;
-                              if (id === "greedo" && !isGreedoUnlocked)
-                                return false;
-
-                              const npc = NPC_DATABASE[id];
-                              const hour = realTime.getHours();
-                              if (npc?.onlyBetween) {
-                                const [start, end] = npc.onlyBetween;
-                                if (start < end) {
-                                  if (hour < start || hour >= end) return false;
-                                } else {
-                                  if (hour < start && hour >= end) return false;
-                                }
+                              let isLocked = false;
+                              if (loc.reqQuestState) {
+                                const q = gameState.quests.find(
+                                  (q) => q.id === loc.reqQuestState!.id,
+                                );
+                                const met = loc.reqQuestState.completed
+                                  ? q?.status === "completed"
+                                  : q &&
+                                    (q.status === "completed" ||
+                                      q.currentStepIndex >=
+                                        loc.reqQuestState.step);
+                                if (!met) isLocked = true;
                               }
-                              return true;
+                              if (
+                                loc.reqItem &&
+                                !gameState.inventory.find(
+                                  (i) => i.id === loc.reqItem,
+                                )
+                              )
+                                isLocked = true;
+
+                              return !isLocked;
                             })
-                            .map((npcId) => {
-                              const npc = NPC_DATABASE[npcId];
+                            .map((exitId) => {
+                              const loc = locations[exitId];
+                              if (!loc) return null;
+
+                              let isLocked = false;
+                              if (loc.reqQuestState) {
+                                const q = gameState.quests.find(
+                                  (q) => q.id === loc.reqQuestState!.id,
+                                );
+                                const met = loc.reqQuestState.completed
+                                  ? q?.status === "completed"
+                                  : q &&
+                                    (q.status === "completed" ||
+                                      q.currentStepIndex >=
+                                        loc.reqQuestState.step);
+                                if (!met) isLocked = true;
+                              }
+                              if (
+                                loc.reqItem &&
+                                !gameState.inventory.find(
+                                  (i) => i.id === loc.reqItem,
+                                )
+                              )
+                                isLocked = true;
+
                               return (
                                 <button
-                                  key={npcId}
-                                  onClick={() => startDialogue(npcId)}
+                                  key={exitId}
+                                  onClick={() => handleMove(exitId)}
                                   className={cn(
                                     "group relative flex items-center justify-between p-3 px-4 rounded-xl border transition-all text-left h-fit",
-                                    currentNpcId === npcId
-                                      ? "border-yellow-500 bg-yellow-500/20"
-                                      : "border-cyan-500/20 bg-black/40 hover:bg-cyan-500/10 hover:border-cyan-400",
+                                    isLocked
+                                      ? "border-red-900/30 bg-red-950/5 opacity-60 cursor-not-allowed"
+                                      : "border-indigo-500/20 bg-black/40 hover:bg-indigo-500/10 hover:border-indigo-400",
                                   )}
                                 >
                                   <div className="flex items-center gap-3">
-                                    <User
-                                      size={14}
-                                      className={
-                                        currentNpcId === npcId
-                                          ? "text-yellow-500"
-                                          : "text-cyan-600"
-                                      }
+                                    <div
+                                      className={cn(
+                                        "w-1 h-6 transition-colors rounded-full",
+                                        isLocked
+                                          ? "bg-red-900"
+                                          : "bg-indigo-900 group-hover:bg-indigo-400",
+                                      )}
                                     />
                                     <span
                                       className={cn(
                                         "font-title text-xs tracking-wide uppercase",
-                                        currentNpcId === npcId
-                                          ? "text-yellow-100"
-                                          : "text-cyan-100",
+                                        isLocked
+                                          ? "text-red-900"
+                                          : "text-indigo-100",
                                       )}
                                     >
-                                      {npc.name}
+                                      {loc.name}
+                                      {isLocked && (
+                                        <span className="ml-2 text-[8px] font-mono opacity-50">
+                                          [LOCKED]
+                                        </span>
+                                      )}
                                     </span>
                                   </div>
-                                  <MessageSquare
-                                    size={16}
-                                    className={
-                                      currentNpcId === npcId
-                                        ? "text-yellow-500"
-                                        : "text-cyan-600 opacity-40 group-hover:opacity-100"
-                                    }
-                                  />
+                                  {isLocked ? (
+                                    <Skull
+                                      size={14}
+                                      className="text-red-900 ml-2"
+                                    />
+                                  ) : (
+                                    <ArrowRightCircle
+                                      size={16}
+                                      className="text-indigo-900 group-hover:text-indigo-400 transition-all"
+                                    />
+                                  )}
                                 </button>
                               );
                             })}
                         </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
 
-            {/* SYSTEMS SECTION */}
+                        {/* INHABITANTS */}
+                        {locNpcs.length > 0 && (
+                          <div className="space-y-2">
+                            <div className="text-[8px] text-gray-500 font-mono tracking-widest uppercase mb-1">
+                              Local Signatures Detected
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {locNpcs
+                                .filter((id) => {
+                                  if (gameState.defeatedNpcs?.includes(id))
+                                    return false;
+                                  if (id === "greedo" && !isGreedoUnlocked)
+                                    return false;
+
+                                  const npc = NPC_DATABASE[id];
+                                  const hour = realTime.getHours();
+                                  if (npc?.onlyBetween) {
+                                    const [start, end] = npc.onlyBetween;
+                                    if (start < end) {
+                                      if (hour < start || hour >= end)
+                                        return false;
+                                    } else {
+                                      if (hour < start && hour >= end)
+                                        return false;
+                                    }
+                                  }
+                                  return true;
+                                })
+                                .map((npcId) => {
+                                  const npc = NPC_DATABASE[npcId];
+                                  return (
+                                    <button
+                                      key={npcId}
+                                      onClick={() => startDialogue(npcId)}
+                                      className={cn(
+                                        "group relative flex items-center justify-between p-3 px-4 rounded-xl border transition-all text-left h-fit",
+                                        currentNpcId === npcId
+                                          ? "border-yellow-500 bg-yellow-500/20"
+                                          : "border-cyan-500/20 bg-black/40 hover:bg-cyan-500/10 hover:border-cyan-400",
+                                      )}
+                                    >
+                                      <div className="flex items-center gap-3">
+                                        <User
+                                          size={14}
+                                          className={
+                                            currentNpcId === npcId
+                                              ? "text-yellow-500"
+                                              : "text-cyan-600"
+                                          }
+                                        />
+                                        <span
+                                          className={cn(
+                                            "font-title text-xs tracking-wide uppercase",
+                                            currentNpcId === npcId
+                                              ? "text-yellow-100"
+                                              : "text-cyan-100",
+                                          )}
+                                        >
+                                          {npc.name}
+                                        </span>
+                                      </div>
+                                      <MessageSquare
+                                        size={16}
+                                        className={
+                                          currentNpcId === npcId
+                                            ? "text-yellow-500"
+                                            : "text-cyan-600 opacity-40 group-hover:opacity-100"
+                                        }
+                                      />
+                                    </button>
+                                  );
+                                })}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* SYSTEMS SECTION */}
                 <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden box-border">
                   <div className="flex items-center gap-3 mb-4">
                     <Zap size={16} className="text-cyan-400" />
@@ -2455,59 +2629,65 @@ export const Dashboard: React.FC<DashboardProps> = ({
                                 {item.type}
                               </span>
                             </div>
-                              <div className="flex items-center gap-3">
-                                {item.type === 'weapon' && (
-                                  <button
-                                    onClick={() => handleUseItem(item)}
-                                    className={cn(
-                                      "px-3 py-1 text-[10px] font-title uppercase rounded-lg transition-all",
-                                      gameState.equippedWeaponId === item.id 
-                                        ? "bg-yellow-500 text-black" 
-                                        : "bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500 hover:text-black"
-                                    )}
-                                  >
-                                    {gameState.equippedWeaponId === item.id ? 'Equipped' : 'Equip'}
-                                  </button>
-                                )}
-                                {item.type === 'clothing' && (
-                                  <button
-                                    onClick={() => handleUseItem(item)}
-                                    className={cn(
-                                      "px-3 py-1 text-[10px] font-title uppercase rounded-lg transition-all",
-                                      gameState.equippedClothingId === item.id 
-                                        ? "bg-cyan-500 text-black" 
-                                        : "bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-black"
-                                    )}
-                                  >
-                                    {gameState.equippedClothingId === item.id ? 'Equipped' : 'Equip'}
-                                  </button>
-                                )}
-                                {item.type === 'droid' && (
-                                  <button
-                                    onClick={() => handleUseItem(item)}
-                                    className={cn(
-                                      "px-3 py-1 text-[10px] font-title uppercase rounded-lg transition-all",
-                                      gameState.activeDroidId === item.id 
-                                        ? "bg-green-500 text-black" 
-                                        : "bg-green-500/20 text-green-400 hover:bg-green-500 hover:text-black"
-                                    )}
-                                  >
-                                    {gameState.activeDroidId === item.id ? 'Active' : 'Activate'}
-                                  </button>
-                                )}
-                                {(item.heal ||
-                                  item.repModifier ||
-                                  item.buffEffect ||
-                                  item.type === "consumable") && (
-                                  <button
-                                    onClick={() => {
-                                      handleUseItem(item);
-                                    }}
-                                    className="px-3 py-1 bg-white/10 text-white text-[10px] font-title uppercase rounded-lg hover:bg-white hover:text-black transition-all"
-                                  >
-                                    Use
-                                  </button>
-                                )}
+                            <div className="flex items-center gap-3">
+                              {item.type === "weapon" && (
+                                <button
+                                  onClick={() => handleUseItem(item)}
+                                  className={cn(
+                                    "px-3 py-1 text-[10px] font-title uppercase rounded-lg transition-all",
+                                    gameState.equippedWeaponId === item.id
+                                      ? "bg-yellow-500 text-black"
+                                      : "bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500 hover:text-black",
+                                  )}
+                                >
+                                  {gameState.equippedWeaponId === item.id
+                                    ? "Equipped"
+                                    : "Equip"}
+                                </button>
+                              )}
+                              {item.type === "clothing" && (
+                                <button
+                                  onClick={() => handleUseItem(item)}
+                                  className={cn(
+                                    "px-3 py-1 text-[10px] font-title uppercase rounded-lg transition-all",
+                                    gameState.equippedClothingId === item.id
+                                      ? "bg-cyan-500 text-black"
+                                      : "bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-black",
+                                  )}
+                                >
+                                  {gameState.equippedClothingId === item.id
+                                    ? "Equipped"
+                                    : "Equip"}
+                                </button>
+                              )}
+                              {item.type === "droid" && (
+                                <button
+                                  onClick={() => handleUseItem(item)}
+                                  className={cn(
+                                    "px-3 py-1 text-[10px] font-title uppercase rounded-lg transition-all",
+                                    gameState.activeDroidId === item.id
+                                      ? "bg-green-500 text-black"
+                                      : "bg-green-500/20 text-green-400 hover:bg-green-500 hover:text-black",
+                                  )}
+                                >
+                                  {gameState.activeDroidId === item.id
+                                    ? "Active"
+                                    : "Activate"}
+                                </button>
+                              )}
+                              {(item.heal ||
+                                item.repModifier ||
+                                item.buffEffect ||
+                                item.type === "consumable") && (
+                                <button
+                                  onClick={() => {
+                                    handleUseItem(item);
+                                  }}
+                                  className="px-3 py-1 bg-white/10 text-white text-[10px] font-title uppercase rounded-lg hover:bg-white hover:text-black transition-all"
+                                >
+                                  Use
+                                </button>
+                              )}
                               {item.count > 1 && (
                                 <span className="bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded font-mono text-xs font-bold font-title">
                                   x{item.count}
@@ -2556,12 +2736,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <h3 className="text-red-500 font-display text-[10px] tracking-[0.4em] uppercase mb-4 border-b border-red-900 pb-2 flex justify-between">
                     <span>Active Contracts</span>
                     <span className="text-[8px] font-mono opacity-60">
-                      DAILY ALLOWANCE: {(gameState.completedDailyContracts?.length || 0)} / 3
+                      DAILY ALLOWANCE:{" "}
+                      {gameState.completedDailyContracts?.length || 0} / 3
                     </span>
                   </h3>
                   <div className="space-y-4">
                     {gameState.activeContracts.length === 0 && (
-                      <p className="text-gray-600 italic">No bounties tracked.</p>
+                      <p className="text-gray-600 italic">
+                        No bounties tracked.
+                      </p>
                     )}
                     {gameState.activeContracts.map((c, idx) => (
                       <div
@@ -2581,7 +2764,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           {c.description}
                         </p>
                         <div className="text-red-300/60 font-mono text-[9px] uppercase">
-                          Last Known Location: <span className="text-red-300 font-bold">{c.targetLocation}</span>
+                          Last Known Location:{" "}
+                          <span className="text-red-300 font-bold">
+                            {c.targetLocation}
+                          </span>
                         </div>
                       </div>
                     ))}

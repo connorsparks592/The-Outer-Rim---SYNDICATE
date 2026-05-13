@@ -25,10 +25,8 @@ export const IMAGES = {
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
   CREATION:
     "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop", // Blue starfield
-  ALLEY:
-    "https://images.unsplash.com/photo-1555677284-6a6f971639e0?q=80&w=2000&auto=format&fit=crop",
-  ALLEY_NIGHT:
-    "https://images.unsplash.com/photo-1625660851897-40c2138b30a5?q=80&w=2000&auto=format&fit=crop",
+  ALLEY: "https://i.postimg.cc/bJXqMRZB/1778627230661.png",
+  ALLEY_NIGHT: "https://i.postimg.cc/Y9ctVxvP/1778627323841.png",
   GUILD:
     "https://images.unsplash.com/photo-1535579716631-7484b3913077?q=80&w=2000&auto=format&fit=crop",
   SANDCRAWLER:
@@ -43,8 +41,8 @@ export const IMAGES = {
     "https://i.postimg.cc/bJthz7BT/Gemini-Generated-Image-ascs6mascs6mascs.png",
   MERCHANT_ROW_NIGHT:
     "https://i.postimg.cc/fTvs9fpt/Gemini-Generated-Image-thtet8thtet8thte.png",
-  TOURISM:
-    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2000&auto=format&fit=crop",
+  TOURISM: "https://i.postimg.cc/QtLjPqF2/1778627219281.png",
+  TOURISM_NIGHT: "https://i.postimg.cc/L5CwdHyH/1778627223077.png",
   SCRAP_SHOP:
     "https://images.unsplash.com/photo-1532634994269-82936780c14b?q=80&w=2000&auto=format&fit=crop",
   GENERAL_SHOP:
@@ -72,8 +70,8 @@ export const IMAGES = {
     "https://i.postimg.cc/T3sTdqpk/Gemini-Generated-Image-4xl1h64xl1h64xl1.png",
 
   // NEW LOCATIONS
-  MOS_EISLEY_GATE:
-    "https://images.unsplash.com/photo-1547234935-80c7142ee969?q=80&w=2000&auto=format&fit=crop",
+  MOS_EISLEY_GATE: "https://i.postimg.cc/Tw8TScKc/1778640583630.png",
+  MOS_EISLEY_GATE_NIGHT: "https://i.postimg.cc/nz8n51X5/1778640576243.png",
   JUNDLAND_WASTES:
     "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=2000&auto=format&fit=crop",
   LARS_HOMESTEAD:
@@ -128,10 +126,14 @@ export const IMAGES = {
   NPC_KALDUN:
     "https://i.postimg.cc/6p1vW5D5/Gemini-Generated-Image-7r4z897r4z897r4z.png",
 
-  NPC_REBEL_LEADER: "https://images.unsplash.com/photo-1544725176-7c40e5f71c5e?q=80&w=1000&auto=format&fit=crop",
-  NPC_IMPERIAL_LEADER: "https://images.unsplash.com/photo-1558231732-75ca46401037?q=80&w=1000&auto=format&fit=crop",
-  NPC_HUTT_LEADER: "https://images.unsplash.com/photo-1596727147705-61a532da6599?q=80&w=1000&auto=format&fit=crop",
-  NPC_TUSKEN_LEADER: "https://images.unsplash.com/photo-1590487988256-9ed22133802e?q=80&w=1000&auto=format&fit=crop",
+  NPC_REBEL_LEADER:
+    "https://images.unsplash.com/photo-1544725176-7c40e5f71c5e?q=80&w=1000&auto=format&fit=crop",
+  NPC_IMPERIAL_LEADER:
+    "https://images.unsplash.com/photo-1558231732-75ca46401037?q=80&w=1000&auto=format&fit=crop",
+  NPC_HUTT_LEADER:
+    "https://images.unsplash.com/photo-1596727147705-61a532da6599?q=80&w=1000&auto=format&fit=crop",
+  NPC_TUSKEN_LEADER:
+    "https://images.unsplash.com/photo-1590487988256-9ed22133802e?q=80&w=1000&auto=format&fit=crop",
 
   ENEMY_TUSKEN:
     "https://images.unsplash.com/photo-1605218427360-36390f85841c?q=80&w=1000&auto=format&fit=crop",
@@ -144,12 +146,18 @@ export const AUDIO = {
     "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/04%20The%20Dune%20Sea%20Of%20Tatooine-Jawa%20Sandcrawler.mp3",
   CANTINA_THEME_1:
     "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/11%20Cantina%20Band.mp3",
+  CANTINA_THEME_2:
+    "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/12%20Cantina%20Band%20%232.mp3",
   MAIN_TITLE:
     "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/02%20Main%20Title-Rebel%20Blockade%20Runner.mp3",
   AMBIENT_THEME:
     "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/08%20Binary%20Sunset-Cantina%20Band.mp3",
+  EXTERIOR_THEME:
+    "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/05%20The%20Moisture%20Farm.mp3",
   PODRACE:
     "https://archive.org/download/TPMOST/Star%20Wars%20-%20The%20Phantom%20Menace%20-%20The%20Original%20Motion%20Picture%20Soundtrack/17%20The%20Flag%20Parade.mp3",
+  BATTLE_THEME:
+    "https://archive.org/download/ANHSpecialEditionOST/Star%20Wars%20-%20A%20New%20Hope%20-%20The%20Original%20Motion%20Picture%20Soundtrack%20%5BSpecial%20Edition%5D/23%20The%20Battle%20Of%20Yavin%20%28Launch%20From%20The%20Fourth%20Moon-X-Wings%20Draw%20Fire-Use%20The%20Force%29.mp3",
 };
 
 export const DRIVERS: Podracer[] = [
@@ -254,12 +262,13 @@ export const ITEM_DATABASE: Item[] = [
     type: "weapon",
     dmg: 12,
     price: 850,
-    description: "Standard issue E-11 blaster rifle. Accurate and deadly."
+    description: "Standard issue E-11 blaster rifle. Accurate and deadly.",
   },
   {
     id: "heavy_blaster",
     name: "DL-44 Heavy Blaster",
-    description: "A classic. High power, high reliability. Handles well and packs a punch.",
+    description:
+      "A classic. High power, high reliability. Handles well and packs a punch.",
     price: 1200,
     type: "weapon",
     rarity: "legendary",
@@ -268,7 +277,8 @@ export const ITEM_DATABASE: Item[] = [
   {
     id: "pulse_rifle",
     name: "Cycler Rifle",
-    description: "Primitive but effective. Fires physical slugs that penetrate energy shields.",
+    description:
+      "Primitive but effective. Fires physical slugs that penetrate energy shields.",
     price: 450,
     type: "weapon",
     rarity: "rare",
@@ -277,7 +287,8 @@ export const ITEM_DATABASE: Item[] = [
   {
     id: "flight_suit",
     name: "Reinforced Flight Suit",
-    description: "Standard pilot gear, modified with light plating for extra protection.",
+    description:
+      "Standard pilot gear, modified with light plating for extra protection.",
     price: 350,
     type: "clothing",
     rarity: "uncommon",
@@ -286,7 +297,8 @@ export const ITEM_DATABASE: Item[] = [
   {
     id: "bounty_armor",
     name: "Custom Durasteel Plate",
-    description: "Mandalorian-grade? Probably not, but it's heavy enough to stop a blaster bolt.",
+    description:
+      "Mandalorian-grade? Probably not, but it's heavy enough to stop a blaster bolt.",
     price: 1500,
     type: "clothing",
     rarity: "legendary",
@@ -295,7 +307,8 @@ export const ITEM_DATABASE: Item[] = [
   {
     id: "r2_unit",
     name: "R2 Astromech Droid",
-    description: "A versatile astromech droid. Excellent for slicing, universal translation, and emergency repairs.",
+    description:
+      "A versatile astromech droid. Excellent for slicing, universal translation, and emergency repairs.",
     price: 2500,
     type: "droid",
     rarity: "rare",
@@ -304,7 +317,8 @@ export const ITEM_DATABASE: Item[] = [
   {
     id: "protocol_droid",
     name: "3PO Protocol Droid",
-    description: "Fluent in over six million forms of communication. Essential for diplomacy and etiquette.",
+    description:
+      "Fluent in over six million forms of communication. Essential for diplomacy and etiquette.",
     price: 1800,
     type: "droid",
     rarity: "rare",
@@ -318,7 +332,8 @@ export const ITEM_DATABASE: Item[] = [
     type: "weapon",
     dmg: 15,
     price: 600,
-    description: "A brutal melee weapon used by palace guards. Vibrating edge cuts through armor."
+    description:
+      "A brutal melee weapon used by palace guards. Vibrating edge cuts through armor.",
   },
   {
     id: "blast_vest",
@@ -328,7 +343,7 @@ export const ITEM_DATABASE: Item[] = [
     type: "clothing",
     armor: 3,
     price: 300,
-    description: "Basic protection against light blaster fire and shrapnel."
+    description: "Basic protection against light blaster fire and shrapnel.",
   },
   {
     id: "bounty_hunter_plate",
@@ -338,7 +353,8 @@ export const ITEM_DATABASE: Item[] = [
     type: "clothing",
     armor: 12,
     price: 5000,
-    description: "Rare beskar alloy plating. Nearly indestructible and highly coveted."
+    description:
+      "Rare beskar alloy plating. Nearly indestructible and highly coveted.",
   },
   {
     id: "smuggler_jacket",
@@ -348,7 +364,8 @@ export const ITEM_DATABASE: Item[] = [
     type: "clothing",
     armor: 5,
     price: 1200,
-    description: "Stylish and practical. Features hidden pockets for small contraband."
+    description:
+      "Stylish and practical. Features hidden pockets for small contraband.",
   },
   {
     id: "power_converter",
@@ -357,7 +374,7 @@ export const ITEM_DATABASE: Item[] = [
     count: 1,
     type: "misc",
     price: 25,
-    description: "You were going to go pick some of these up anyway."
+    description: "You were going to go pick some of these up anyway.",
   },
   {
     id: "bacta_stim",
@@ -367,7 +384,8 @@ export const ITEM_DATABASE: Item[] = [
     type: "consumable",
     heal: 50,
     price: 250,
-    description: "High-grade bacta for immediate wound closure and tissue regeneration."
+    description:
+      "High-grade bacta for immediate wound closure and tissue regeneration.",
   },
   {
     id: "death_sticks",
@@ -377,7 +395,7 @@ export const ITEM_DATABASE: Item[] = [
     type: "consumable",
     buffEffect: { stat: "per", value: -2, durationHours: 4 },
     price: 10,
-    description: "You want to go home and rethink your life."
+    description: "You want to go home and rethink your life.",
   },
   {
     id: "blue_milk",
@@ -543,7 +561,8 @@ export const ITEM_DATABASE: Item[] = [
     count: 1,
     type: "utility",
     price: 60,
-    description: "A set of sensors for analyzing biological and mechanical data.",
+    description:
+      "A set of sensors for analyzing biological and mechanical data.",
   },
   {
     id: "hydrospanner",
@@ -593,7 +612,8 @@ export const SECTORS = {
   mos_eisley: {
     id: "mos_eisley",
     name: "Mos Eisley",
-    description: "A wretched hive of scum and villainy. The primary spaceport hub on Tatooine.",
+    description:
+      "A wretched hive of scum and villainy. The primary spaceport hub on Tatooine.",
     imageUrl: IMAGES.STREET,
   },
   mos_espa: {
@@ -605,7 +625,8 @@ export const SECTORS = {
   jundland_wastes: {
     id: "jundland_wastes",
     name: "Jundland Wastes",
-    description: "Desolate canyons and rocky plateaus. Home to Tusken Raiders and hermits.",
+    description:
+      "Desolate canyons and rocky plateaus. Home to Tusken Raiders and hermits.",
     imageUrl: IMAGES.JUNDLAND_WASTES,
   },
   dune_sea: {
@@ -617,7 +638,8 @@ export const SECTORS = {
   anchorhead: {
     id: "anchorhead",
     name: "Anchorhead",
-    description: "A remote mining settlement and outpost. Quieter than the main cities.",
+    description:
+      "A remote mining settlement and outpost. Quieter than the main cities.",
     imageUrl: IMAGES.ANCHORHEAD,
   },
   safehouse: {
@@ -660,27 +682,31 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "sandstorm",
     name: "Sandstorm",
-    message: "[ENV-ALERT] A heavy sandstorm is blowing in from the Dune Sea. Visibility is low.",
+    message:
+      "[ENV-ALERT] A heavy sandstorm is blowing in from the Dune Sea. Visibility is low.",
     chance: 0.05,
     sector: "Jundland Wastes",
   },
   {
     id: "imperial_patrol",
     name: "Imperial Patrol",
-    message: "[SEC-ALERT] Imperial stormtroopers are conducting random ID checks in the sector.",
+    message:
+      "[SEC-ALERT] Imperial stormtroopers are conducting random ID checks in the sector.",
     chance: 0.08,
     sector: "Mos Eisley",
   },
   {
     id: "bounty_tracker",
     name: "HoloNet Alert",
-    message: "[NEWS] Bounty Hunters' Guild reports a rogue Jedi spotted in the Mid Rim.",
+    message:
+      "[NEWS] Bounty Hunters' Guild reports a rogue Jedi spotted in the Mid Rim.",
     chance: 0.03,
   },
   {
     id: "market_crash",
     name: "Market Volatility",
-    message: "[ECON] Galactic credit exchange rate fluctuates. Merchant prices may vary.",
+    message:
+      "[ECON] Galactic credit exchange rate fluctuates. Merchant prices may vary.",
     chance: 0.04,
     sector: "Mos Eisley",
   },
@@ -694,27 +720,31 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "jawa_scavengers",
     name: "Jawa Sighting",
-    message: "[AMB] A Sandcrawler is spotted on the horizon, scavenging scrap metal.",
+    message:
+      "[AMB] A Sandcrawler is spotted on the horizon, scavenging scrap metal.",
     chance: 0.07,
     sector: "Jundland Wastes",
   },
   {
     id: "podracing_hype",
     name: "Race Day Hype",
-    message: "[NEWS] The Boonta Eve Classic is approaching. Betting pools are growing.",
+    message:
+      "[NEWS] The Boonta Eve Classic is approaching. Betting pools are growing.",
     chance: 0.1,
     sector: "Mos Espa",
   },
   {
     id: "droid_malfunction",
     name: "Droid Malfunction",
-    message: "[EVT] A nearby astromech droid has binary hiccups. Beep-boop-whirrr!",
+    message:
+      "[EVT] A nearby astromech droid has binary hiccups. Beep-boop-whirrr!",
     chance: 0.12,
   },
   {
     id: "spice_runners",
     name: "Spice Runner",
-    message: "[SEC] A Kessel runner just made a low-altitude pass over Mos Eisley.",
+    message:
+      "[SEC] A Kessel runner just made a low-altitude pass over Mos Eisley.",
     chance: 0.05,
     sector: "Mos Eisley",
   },
@@ -735,61 +765,70 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "rebel_transmission",
     name: "Encrypted Stream",
-    message: "[HACK] Your comm-link intercepted a burst transmission in Rebel cipher.",
+    message:
+      "[HACK] Your comm-link intercepted a burst transmission in Rebel cipher.",
     chance: 0.03,
   },
   {
     id: "scrap_value_up",
     name: "Scrap Boom",
-    message: "[ECON] Galactic scrap prices have surged. It's a good time to sell.",
+    message:
+      "[ECON] Galactic scrap prices have surged. It's a good time to sell.",
     chance: 0.05,
     sector: "Mos Espa",
   },
   {
     id: "tusken_raiders",
     name: "Tusken Ambush",
-    message: "[SEC-ALERT] Tusken Raiders are harassing travelers near the homesteads.",
+    message:
+      "[SEC-ALERT] Tusken Raiders are harassing travelers near the homesteads.",
     chance: 0.04,
     sector: "Jundland Wastes",
   },
   {
     id: "bounty_notice",
     name: "Bounty Notice",
-    message: "[GUILD] A new high-priority bounty has been posted on the HoloNet.",
+    message:
+      "[GUILD] A new high-priority bounty has been posted on the HoloNet.",
     chance: 0.06,
   },
   {
     id: "vaporator_moisture",
     name: "Vaporator Yield",
-    message: "[LOOT] A nearby moisture vaporator has excess yield. You collect some water. (+1 Rations)",
+    message:
+      "[LOOT] A nearby moisture vaporator has excess yield. You collect some water. (+1 Rations)",
     chance: 0.03,
     sector: "Anchorhead",
   },
   {
     id: "droid_fight",
     name: "Street Brawl",
-    message: "[AMB] Two power droids are bumping into each other in a metallic fight.",
+    message:
+      "[AMB] Two power droids are bumping into each other in a metallic fight.",
     chance: 0.08,
     sector: "Mos Eisley",
   },
   {
     id: "hidden_stash",
     name: "Hidden Stash",
-    message: "[LOOT] You spotted a loose panel hiding some credits. (+50 Credits)",
+    message:
+      "[LOOT] You spotted a loose panel hiding some credits. (+50 Credits)",
     chance: 0.015,
     onTrigger: (gs) => ({ credits: gs.credits + 50 }),
   },
   {
     id: "jabba_favor",
     name: "Crime Boss Activity",
-    message: "[SEC] Jabba's sail barge was seen leaving the palace. The locals are nervous.",
+    message:
+      "[SEC] Jabba's sail barge was seen leaving the palace. The locals are nervous.",
     chance: 0.04,
     sector: "Dune Sea",
   },
   {
     id: "sector_scan",
     name: "Satellite Scan",
-    message: "[NAV] An orbital scan reveals clear paths through the Dune Sea canyons.",
+    message:
+      "[NAV] An orbital scan reveals clear paths through the Dune Sea canyons.",
     chance: 0.1,
     sector: "Dune Sea",
   },
@@ -802,7 +841,8 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "celebration",
     name: "Street Celebration",
-    message: "[AMB] Locals are celebrating a successful harvest. The mood is lighter.",
+    message:
+      "[AMB] Locals are celebrating a successful harvest. The mood is lighter.",
     chance: 0.07,
     sector: "Anchorhead",
   },
@@ -816,61 +856,70 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "star_destroyer",
     name: "Imperial Presence",
-    message: "[SEC] A Star Destroyer is visible in the upper atmosphere, blocking out the suns.",
+    message:
+      "[SEC] A Star Destroyer is visible in the upper atmosphere, blocking out the suns.",
     chance: 0.05,
   },
   {
     id: "droid_auction",
     name: "Droid Auction",
-    message: "[NEWS] Merchant Row is holding a flash auction for refurbished pit droids.",
+    message:
+      "[NEWS] Merchant Row is holding a flash auction for refurbished pit droids.",
     chance: 0.08,
     sector: "Mos Eisley",
   },
   {
     id: "sand_crawler_moving",
     name: "Sandcrawler Trek",
-    message: "[AMB] You hear the deep rumble of massive treads in the distance.",
+    message:
+      "[AMB] You hear the deep rumble of massive treads in the distance.",
     chance: 0.12,
     sector: "Jundland Wastes",
   },
   {
     id: "moisture_vaporator_hum",
     name: "Vaporator Hum",
-    message: "[AMB] The moisture vaporators are producing a steady, reassuring drone.",
+    message:
+      "[AMB] The moisture vaporators are producing a steady, reassuring drone.",
     chance: 0.2,
     sector: "Anchorhead",
   },
   {
     id: "swoop_bike_pass",
     name: "Swoop Pass",
-    message: "[AMB] A swoop bike screams past you, kicking up a rooster tail of sand.",
+    message:
+      "[AMB] A swoop bike screams past you, kicking up a rooster tail of sand.",
     chance: 0.1,
     sector: "Mos Espa",
   },
   {
     id: "jawa_barter",
     name: "Jawa Barter",
-    message: "[EVT] A Jawa tries to sell you a shiny but useless piece of scrap. You decline.",
+    message:
+      "[EVT] A Jawa tries to sell you a shiny but useless piece of scrap. You decline.",
     chance: 0.06,
   },
   {
     id: "rebel_spy",
     name: "Shadowy Figure",
-    message: "[SEC] You spot a hooded figure watching the Imperial outpost from the shadows.",
+    message:
+      "[SEC] You spot a hooded figure watching the Imperial outpost from the shadows.",
     chance: 0.04,
     sector: "Mos Eisley",
   },
   {
     id: "kessel_run_rumor",
     name: "Spaceport Rumor",
-    message: "[AMB] Overheard at the dock: Someone just beat the Kessel Run record. Again.",
+    message:
+      "[AMB] Overheard at the dock: Someone just beat the Kessel Run record. Again.",
     chance: 0.05,
     sector: "Mos Eisley",
   },
   {
     id: "power_surge",
     name: "Grid Surge",
-    message: "[ENV] A momentary power surge flickers the lights. The city hums louder.",
+    message:
+      "[ENV] A momentary power surge flickers the lights. The city hums louder.",
     chance: 0.07,
     sector: "Mos Eisley",
   },
@@ -884,41 +933,49 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "sarlacc_burp",
     name: "Great Pit Rumble",
-    message: "[ENV] The ground trembles slightly. Something is stirring in the Great Pit of Carkoon.",
+    message:
+      "[ENV] The ground trembles slightly. Something is stirring in the Great Pit of Carkoon.",
     chance: 0.03,
     sector: "Dune Sea",
   },
   {
     id: "scrapper_luck",
     name: "Discarded Parts",
-    message: "[LOOT] You scavenge some usable tech parts from a junk pile. (+15 Credits)",
+    message:
+      "[LOOT] You scavenge some usable tech parts from a junk pile. (+15 Credits)",
     chance: 0.05,
     onTrigger: (gs) => ({ credits: gs.credits + 15 }),
   },
   {
     id: "imperial_evasion",
     name: "Bypassing Patrols",
-    message: "[REP] You successfully navigated around a stormtrooper checkpoint without detection.",
+    message:
+      "[REP] You successfully navigated around a stormtrooper checkpoint without detection.",
     chance: 0.03,
-    onTrigger: (gs) => ({ reputation: { ...gs.reputation, empire: (gs.reputation.empire || 0) - 1 } }),
+    onTrigger: (gs) => ({
+      reputation: { ...gs.reputation, empire: (gs.reputation.empire || 0) - 1 },
+    }),
   },
   {
     id: "pazaak_winning",
     name: "Gambler's Luck",
-    message: "[AMB] You overhear cheers from a nearby high-stakes Pazaak table.",
+    message:
+      "[AMB] You overhear cheers from a nearby high-stakes Pazaak table.",
     chance: 0.1,
     sector: "Mos Eisley",
   },
   {
     id: "holonet_leak",
     name: "HoloNet Leak",
-    message: "[HACK] An unsecured data stream reveals blueprints for a new droid model.",
+    message:
+      "[HACK] An unsecured data stream reveals blueprints for a new droid model.",
     chance: 0.02,
   },
   {
     id: "desert_flower",
     name: "Desert Bloom",
-    message: "[ENV] Rare desert flowers have sprouted after the morning dew. A brief moment of beauty.",
+    message:
+      "[ENV] Rare desert flowers have sprouted after the morning dew. A brief moment of beauty.",
     chance: 0.02,
     sector: "Jundland Wastes",
   },
@@ -939,14 +996,16 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "market_haggling",
     name: "Haggling Duel",
-    message: "[AMB] A merchant and a customer are locked in a fierce debate over the price of a power cell.",
+    message:
+      "[AMB] A merchant and a customer are locked in a fierce debate over the price of a power cell.",
     chance: 0.12,
     sector: "Mos Eisley",
   },
   {
     id: "droid_beeping",
     name: "Binary Chatter",
-    message: "[AMB] The air is filled with the clicks and whistles of droids communicating.",
+    message:
+      "[AMB] The air is filled with the clicks and whistles of droids communicating.",
     chance: 0.15,
   },
   {
@@ -959,20 +1018,23 @@ export const RTC_EVENTS: RTCEvent[] = [
   {
     id: "hidden_treasure",
     name: "Buried Stash",
-    message: "[LOOT] You dig up a small box buried under the sand. (+100 Credits)",
+    message:
+      "[LOOT] You dig up a small box buried under the sand. (+100 Credits)",
     chance: 0.01,
     onTrigger: (gs) => ({ credits: gs.credits + 100 }),
   },
   {
     id: "radio_static",
     name: "Ghost Frequency",
-    message: "[HACK] Your comm-link captures a snippet of an old distress signal from the Clone Wars.",
+    message:
+      "[HACK] Your comm-link captures a snippet of an old distress signal from the Clone Wars.",
     chance: 0.02,
   },
   {
     id: "safehouse_hum",
     name: "Safehouse Systems",
-    message: "[AMB] The safehouse computers are whirring contentedly. All data remains secure.",
+    message:
+      "[AMB] The safehouse computers are whirring contentedly. All data remains secure.",
     chance: 0.2,
     sector: "Safehouse",
   },
@@ -987,7 +1049,11 @@ export const initialQuests: Quest[] = [
     currentStepIndex: 0,
     type: "side",
     steps: [
-      { id: 1, description: "Deliver supplies to Commander Vahn.", completed: false },
+      {
+        id: 1,
+        description: "Deliver supplies to Commander Vahn.",
+        completed: false,
+      },
     ],
   },
   {
@@ -998,7 +1064,11 @@ export const initialQuests: Quest[] = [
     currentStepIndex: 0,
     type: "side",
     steps: [
-      { id: 1, description: "Report to Moff Gideon at the garrison.", completed: false },
+      {
+        id: 1,
+        description: "Report to Moff Gideon at the garrison.",
+        completed: false,
+      },
     ],
   },
   {
@@ -1009,7 +1079,11 @@ export const initialQuests: Quest[] = [
     currentStepIndex: 0,
     type: "side",
     steps: [
-      { id: 1, description: "Speak with Jabba about the outstanding debts.", completed: false },
+      {
+        id: 1,
+        description: "Speak with Jabba about the outstanding debts.",
+        completed: false,
+      },
     ],
   },
   {
@@ -1020,7 +1094,11 @@ export const initialQuests: Quest[] = [
     currentStepIndex: 0,
     type: "side",
     steps: [
-      { id: 1, description: "Meet with the Tusken Chieftain.", completed: false },
+      {
+        id: 1,
+        description: "Meet with the Tusken Chieftain.",
+        completed: false,
+      },
     ],
   },
   {
@@ -1197,7 +1275,7 @@ export const RACES: Race[] = [
     description:
       "Versatile and ambitious. Humans dominate the Core Worlds but are found everywhere.",
     bonuses: { lck: 1, cha: 1 },
-    uniqueTrait: "Adaptable: Gain 10% more XP from completed quests."
+    uniqueTrait: "Adaptable: Gain 10% more XP from completed quests.",
   },
   {
     id: "twilek",
@@ -1205,14 +1283,16 @@ export const RACES: Race[] = [
     description:
       "Charismatic and agile. Known for their head-tails (lekku) and sharp wits.",
     bonuses: { cha: 2 },
-    uniqueTrait: "Seductive Charm: High chance to persuade NPCs or bypass minor checks."
+    uniqueTrait:
+      "Seductive Charm: High chance to persuade NPCs or bypass minor checks.",
   },
   {
     id: "rodian",
     name: "Rodian",
     description: "Alert hunters with keen eyes and infrared vision.",
     bonuses: { per: 2 },
-    uniqueTrait: "Tracker's Instinct: 15% better rewards from bounty contracts."
+    uniqueTrait:
+      "Tracker's Instinct: 15% better rewards from bounty contracts.",
   },
   {
     id: "wookiee",
@@ -1220,7 +1300,7 @@ export const RACES: Race[] = [
     description:
       "Immense strength and endurance. Loyal but dangerous when provoked.",
     bonuses: { str: 2, end: 1, cha: -1 },
-    uniqueTrait: "Berserker Rage: Deal 20% more damage in combat."
+    uniqueTrait: "Berserker Rage: Deal 20% more damage in combat.",
   },
   {
     id: "droid",
@@ -1228,28 +1308,31 @@ export const RACES: Race[] = [
     description:
       "Calculated and intelligent. Mechanical lifeforms programmed for specific tasks.",
     bonuses: { int: 2, end: 2, cha: -2 },
-    uniqueTrait: "Silicon Plating: Take 15% less damage from physical attacks."
+    uniqueTrait: "Silicon Plating: Take 15% less damage from physical attacks.",
   },
   {
     id: "zabrak",
     name: "Zabrak",
-    description: "Fierce and resilient warriors. Known for their facial tattoos and crowning horns.",
+    description:
+      "Fierce and resilient warriors. Known for their facial tattoos and crowning horns.",
     bonuses: { str: 1, end: 1 },
-    uniqueTrait: "Iron Will: Resist 10% of all damage."
+    uniqueTrait: "Iron Will: Resist 10% of all damage.",
   },
   {
     id: "chiss",
     name: "Chiss",
-    description: "Blue-skinned and tactical. Highly intelligent string-pullers from the Unknown Regions.",
+    description:
+      "Blue-skinned and tactical. Highly intelligent string-pullers from the Unknown Regions.",
     bonuses: { int: 2, per: 1 },
-    uniqueTrait: "Tactical Genius: 15% bonus credits when turning in quests."
+    uniqueTrait: "Tactical Genius: 15% bonus credits when turning in quests.",
   },
   {
     id: "trandoshan",
     name: "Trandoshan",
-    description: "Reptilian bounty hunters with regenerative scaling and an appetite for Wookiees.",
+    description:
+      "Reptilian bounty hunters with regenerative scaling and an appetite for Wookiees.",
     bonuses: { str: 2 },
-    uniqueTrait: "Regeneration: Heal 5 HP after every combat encounter."
+    uniqueTrait: "Regeneration: Heal 5 HP after every combat encounter.",
   },
 ];
 
@@ -1268,7 +1351,7 @@ export const CLASSES: CharClass[] = [
       type: "weapon",
       dmg: 10,
     },
-    uniqueBuff: "Fast Talker: Get a 10% discount on all purchases."
+    uniqueBuff: "Fast Talker: Get a 10% discount on all purchases.",
   },
   {
     id: "bounty_hunter",
@@ -1283,7 +1366,7 @@ export const CLASSES: CharClass[] = [
       type: "weapon",
       dmg: 12,
     },
-    uniqueBuff: "Tracker: 20% increased chance to find credits in encounters."
+    uniqueBuff: "Tracker: 20% increased chance to find credits in encounters.",
   },
   {
     id: "mechanic",
@@ -1298,7 +1381,7 @@ export const CLASSES: CharClass[] = [
       type: "weapon",
       dmg: 8,
     },
-    uniqueBuff: "Scrapper: Start with the Scavenger skill unlocked."
+    uniqueBuff: "Scrapper: Start with the Scavenger skill unlocked.",
   },
   {
     id: "merc",
@@ -1313,28 +1396,107 @@ export const CLASSES: CharClass[] = [
       type: "weapon",
       dmg: 9,
     },
-    uniqueBuff: "Battle Hardened: Max HP is increased by 15."
+    uniqueBuff: "Battle Hardened: Max HP is increased by 15.",
   },
 ];
 
 export const BACKSTORIES: Backstory[] = [
-    { id: "street_rat", name: "Street Rat", description: "You grew up on the mean streets, learning to snatch bread and credits to survive.", buff: { stat: "agi", value: 1 } },
-    { id: "kid_stuff", name: "Kid Stuff", description: "Your parents are still alive and well on Tatooine, occasionally sending you modest care packages.", buff: { stat: "cha", value: 1 } },
-    { id: "wanted", name: "Wanted", description: "Someone out there is looking for you, and it's not for a reward. You are faster on your feet because of it.", buff: { stat: "per", value: 1 } },
-    { id: "task_master", name: "Task Master", description: "You've been pushed harder than most during your time as an apprentice.", buff: { stat: "int", value: 1 } },
-    { id: "lone_wolf", name: "Lone Wolf", description: "You thrive when you're on your own, away from the distractions of others.", buff: { stat: "str", value: 1 } },
-    { id: "smuggler", name: "Smuggler", description: "You spent years navigating hyperspace lanes and avoiding Imperial blockades.", buff: { stat: "agi", value: 1 } },
-    { id: "moisture_farmer", name: "Moisture Farmer", description: "You know the harsh desert better than anyone, and how to make the most of limited resources.", buff: { stat: "end", value: 1 } },
-    { id: "imperial_deserter", name: "Imperial Deserter", description: "You abandoned the Empire, taking valuable technical knowledge—and maybe a piece of gear—with you.", buff: { stat: "int", value: 1 } },
-    { id: "jawa_scavenger", name: "Jawa Scavenger", description: "You have a knack for finding valuable tech in the most unlikely piles of junk.", buff: { stat: "per", value: 1 } },
-    { id: "podracer", name: "Podracer", description: "You've survived high-speed crashes and mechanical failures that would kill a lesser being.", buff: { stat: "str", value: 1 } },
+  {
+    id: "street_rat",
+    name: "Street Rat",
+    description:
+      "You grew up on the mean streets, learning to snatch bread and credits to survive.",
+    buff: { stat: "agi", value: 1 },
+  },
+  {
+    id: "kid_stuff",
+    name: "Kid Stuff",
+    description:
+      "Your parents are still alive and well on Tatooine, occasionally sending you modest care packages.",
+    buff: { stat: "cha", value: 1 },
+  },
+  {
+    id: "wanted",
+    name: "Wanted",
+    description:
+      "Someone out there is looking for you, and it's not for a reward. You are faster on your feet because of it.",
+    buff: { stat: "per", value: 1 },
+  },
+  {
+    id: "task_master",
+    name: "Task Master",
+    description:
+      "You've been pushed harder than most during your time as an apprentice.",
+    buff: { stat: "int", value: 1 },
+  },
+  {
+    id: "lone_wolf",
+    name: "Lone Wolf",
+    description:
+      "You thrive when you're on your own, away from the distractions of others.",
+    buff: { stat: "str", value: 1 },
+  },
+  {
+    id: "smuggler",
+    name: "Smuggler",
+    description:
+      "You spent years navigating hyperspace lanes and avoiding Imperial blockades.",
+    buff: { stat: "agi", value: 1 },
+  },
+  {
+    id: "moisture_farmer",
+    name: "Moisture Farmer",
+    description:
+      "You know the harsh desert better than anyone, and how to make the most of limited resources.",
+    buff: { stat: "end", value: 1 },
+  },
+  {
+    id: "imperial_deserter",
+    name: "Imperial Deserter",
+    description:
+      "You abandoned the Empire, taking valuable technical knowledge—and maybe a piece of gear—with you.",
+    buff: { stat: "int", value: 1 },
+  },
+  {
+    id: "jawa_scavenger",
+    name: "Jawa Scavenger",
+    description:
+      "You have a knack for finding valuable tech in the most unlikely piles of junk.",
+    buff: { stat: "per", value: 1 },
+  },
+  {
+    id: "podracer",
+    name: "Podracer",
+    description:
+      "You've survived high-speed crashes and mechanical failures that would kill a lesser being.",
+    buff: { stat: "str", value: 1 },
+  },
 ];
 
 export const FACTIONS: Faction[] = [
-    { id: "hutt_cartel", name: "Hutt Cartel", description: "The ruthless crime syndicate that controls much of Tatooine." },
-    { id: "empire", name: "Galactic Empire", description: "The galactic regime with an iron fist, seeking order and control." },
-    { id: "rebels", name: "Rebel Alliance", description: "Freedom fighters seeking to restore the Republic and end Imperial tyranny." },
-    { id: "local_tatooine", name: "Local Tatooine Settlers", description: "Common folk just trying to scrape by on a harsh desert planet." },
+  {
+    id: "hutt_cartel",
+    name: "Hutt Cartel",
+    description: "The ruthless crime syndicate that controls much of Tatooine.",
+  },
+  {
+    id: "empire",
+    name: "Galactic Empire",
+    description:
+      "The galactic regime with an iron fist, seeking order and control.",
+  },
+  {
+    id: "rebels",
+    name: "Rebel Alliance",
+    description:
+      "Freedom fighters seeking to restore the Republic and end Imperial tyranny.",
+  },
+  {
+    id: "local_tatooine",
+    name: "Local Tatooine Settlers",
+    description:
+      "Common folk just trying to scrape by on a harsh desert planet.",
+  },
 ];
 
 export const ENEMIES: Record<string, Enemy> = {
@@ -1405,11 +1567,11 @@ export const NPC_DATABASE: Record<string, NPC> = {
     conditionalGreetings: [
       {
         reqRace: "droid",
-        greetingId: "droid_intro"
+        greetingId: "droid_intro",
       },
       {
         reqBackgroundContains: "jawa",
-        greetingId: "jawa_intro"
+        greetingId: "jawa_intro",
       },
       {
         reqQuestState: { id: "q1", completed: true },
@@ -1429,32 +1591,35 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "loyal",
         text: "My favorite customer! Ever since you cleared out those pests, business has been booming. First round is on the house.",
         options: [
-          { 
-            label: "Thanks, Wuher. (Free Drink)", 
+          {
+            label: "Thanks, Wuher. (Free Drink)",
             nextId: null,
-            action: (g) => g.addToLog("Wuher: 'Enjoy! Don't tell the others.'")
+            action: (g) => g.addToLog("Wuher: 'Enjoy! Don't tell the others.'"),
           },
           { label: "Any more work?", nextId: "no_work" },
-          { label: "Just stopping by.", nextId: null }
-        ]
+          { label: "Just stopping by.", nextId: null },
+        ],
       },
       no_work: {
         id: "no_work",
         text: "Things are quiet for now. Go talk to Greedo in the back booth if you're looking for real trouble.",
-        options: [{ label: "I will.", nextId: null }]
+        options: [{ label: "I will.", nextId: null }],
       },
       waiting_for_milk: {
         id: "waiting_for_milk",
         text: "You're back empty-handed? That Blue Milk isn't going to walk itself over here. Look, if you've forgotten, head to the Bazaar. The Jawa vendor usually has a crate stashed behind his stall or near the back. Just tell him I sent you, he knows the drill.",
         options: [
           { label: "I'm heading back to the Bazaar now.", nextId: null },
-          { label: "Where exactly is the Bazaar?", nextId: "bazaar_directions" }
-        ]
+          {
+            label: "Where exactly is the Bazaar?",
+            nextId: "bazaar_directions",
+          },
+        ],
       },
       bazaar_directions: {
         id: "bazaar_directions",
         text: "Exit the Cantina, turn left past the moisture vaporators. It's the big open area with all the stalls. You can't miss it.",
-        options: [{ label: "Got it.", nextId: null }]
+        options: [{ label: "Got it.", nextId: null }],
       },
       have_milk_question: {
         id: "have_milk_question",
@@ -1485,10 +1650,10 @@ export const NPC_DATABASE: Record<string, NPC> = {
                 }
                 return inv;
               });
-            }
+            },
           },
-          { label: "Working on it.", nextId: null }
-        ]
+          { label: "Working on it.", nextId: null },
+        ],
       },
       intro: {
         id: "intro",
@@ -1565,8 +1730,11 @@ export const NPC_DATABASE: Record<string, NPC> = {
             reqQuestState: { id: "q1", step: 0 },
             nextId: "quest_proposal_day",
           },
-          { label: "[Leave] My gratitude subroutines are fulfilled.", nextId: null }
-        ]
+          {
+            label: "[Leave] My gratitude subroutines are fulfilled.",
+            nextId: null,
+          },
+        ],
       },
       jawa_intro: {
         id: "jawa_intro",
@@ -1577,8 +1745,8 @@ export const NPC_DATABASE: Record<string, NPC> = {
             reqQuestState: { id: "q1", step: 0 },
             nextId: "quest_proposal_day",
           },
-          { label: "Just passing through to say hi.", nextId: null }
-        ]
+          { label: "Just passing through to say hi.", nextId: null },
+        ],
       },
       drink: {
         id: "drink",
@@ -1633,17 +1801,18 @@ export const NPC_DATABASE: Record<string, NPC> = {
       waiting: {
         id: "waiting",
         text: "Kaelen is still in that garage. If Teemo finds out you're coming, he'll double the guard. Don't waste time.",
-        options: [
-          { label: "On my way.", nextId: null }
-        ],
+        options: [{ label: "On my way.", nextId: null }],
       },
       post_teemo: {
         id: "post_teemo",
         text: "The Old Quarter feels... different without the Dune Rippers breathing down our necks. You've earned some respect around here.",
         options: [
-          { label: "Teemo had a lot of data on the Imperial tech.", nextId: "debrief" },
-          { label: "Just checking in.", nextId: null }
-        ]
+          {
+            label: "Teemo had a lot of data on the Imperial tech.",
+            nextId: "debrief",
+          },
+          { label: "Just checking in.", nextId: null },
+        ],
       },
       intro: {
         id: "intro",
@@ -1712,22 +1881,31 @@ export const NPC_DATABASE: Record<string, NPC> = {
     imageUrl: IMAGES.NPC_REBEL_LEADER,
     greetingId: "intro",
     dialogueTree: {
-        intro: {
-          id: "intro",
-          text: "The Rebellion appreciates your efforts. Tatooine is a strategic point, but we need more than just hope.",
-          options: [
-            { label: 'Take the supply run mission (+5 Rebel Rep, -2 Imperial Rep)', action: (g: any) => { 
-                g.updateReputation('rebels', 5); 
-                g.updateReputation('empire', -2);
-                g.updateQuest('q_rebel', 1);
-                const scenarios = ["Deliver supplies to the secret Jundland rebel outpost", "Recover stolen fuel cells from an Imperial patrol", "Transport encrypted rebel intelligence to the safehouse"];
-                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-                g.addToLog(`Accepted Rebel supply mission: ${scenario}`);
-            }},
-            { label: 'Nothing for now.', nextId: null }
-          ]
-       }
-    }
+      intro: {
+        id: "intro",
+        text: "The Rebellion appreciates your efforts. Tatooine is a strategic point, but we need more than just hope.",
+        options: [
+          {
+            label:
+              "Take the supply run mission (+5 Rebel Rep, -2 Imperial Rep)",
+            action: (g: any) => {
+              g.updateReputation("rebels", 5);
+              g.updateReputation("empire", -2);
+              g.updateQuest("q_rebel", 1);
+              const scenarios = [
+                "Deliver supplies to the secret Jundland rebel outpost",
+                "Recover stolen fuel cells from an Imperial patrol",
+                "Transport encrypted rebel intelligence to the safehouse",
+              ];
+              const scenario =
+                scenarios[Math.floor(Math.random() * scenarios.length)];
+              g.addToLog(`Accepted Rebel supply mission: ${scenario}`);
+            },
+          },
+          { label: "Nothing for now.", nextId: null },
+        ],
+      },
+    },
   },
   imperial_commander: {
     id: "imperial_commander",
@@ -1735,22 +1913,33 @@ export const NPC_DATABASE: Record<string, NPC> = {
     imageUrl: IMAGES.NPC_IMPERIAL_LEADER,
     greetingId: "intro",
     dialogueTree: {
-        intro: {
-          id: "intro",
-          text: "Order must be maintained. The Empire rewards loyalty... and punishes dissent with absolute efficiency.",
-          options: [
-            { label: 'Take the insurgent hunt mission (+5 Imperial Rep, -2 Rebel Rep)', action: (g: any) => { 
-                g.updateReputation('empire', 5); 
-                g.updateReputation('rebels', -2);
-                g.updateQuest('q_imperial', 1);
-                const scenarios = ["Locate a rogue rebel comms dish in the Jundland Wastes", "Eliminate a rebel saboteur in town", "Search for a hidden rebel weapon cache"];
-                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-                g.addToLog(`Accepted Imperial insurgent hunt mission: ${scenario}`);
-            }},
-            { label: 'Nothing for now.', nextId: null }
-          ]
-       }
-    }
+      intro: {
+        id: "intro",
+        text: "Order must be maintained. The Empire rewards loyalty... and punishes dissent with absolute efficiency.",
+        options: [
+          {
+            label:
+              "Take the insurgent hunt mission (+5 Imperial Rep, -2 Rebel Rep)",
+            action: (g: any) => {
+              g.updateReputation("empire", 5);
+              g.updateReputation("rebels", -2);
+              g.updateQuest("q_imperial", 1);
+              const scenarios = [
+                "Locate a rogue rebel comms dish in the Jundland Wastes",
+                "Eliminate a rebel saboteur in town",
+                "Search for a hidden rebel weapon cache",
+              ];
+              const scenario =
+                scenarios[Math.floor(Math.random() * scenarios.length)];
+              g.addToLog(
+                `Accepted Imperial insurgent hunt mission: ${scenario}`,
+              );
+            },
+          },
+          { label: "Nothing for now.", nextId: null },
+        ],
+      },
+    },
   },
   hutt_commander: {
     id: "hutt_commander",
@@ -1758,22 +1947,31 @@ export const NPC_DATABASE: Record<string, NPC> = {
     imageUrl: IMAGES.NPC_HUTT_LEADER,
     greetingId: "intro",
     dialogueTree: {
-       intro: {
-          id: "intro",
-          text: "You seek audience with me? Bring me credits, and perhaps I'll overlook your incompetence.",
-          options: [
-            { label: 'Take the debt collection mission (+5 Hutt Rep, -2 Tusken Rep)', action: (g: any) => { 
-                g.updateReputation('hutt', 5); 
-                g.updateReputation('tusken', -2);
-                g.updateQuest('q_hutt', 1);
-                const scenarios = ["Collect credits from a stubborn moisture farmer", "Retrieve goods from an overdue smuggler", "Intimidate a cantina owner into paying up"];
-                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-                g.addToLog(`Accepted Hutt debt collection mission: ${scenario}`);
-            }},
-            { label: 'Nothing for now.', nextId: null }
-          ]
-       }
-    }
+      intro: {
+        id: "intro",
+        text: "You seek audience with me? Bring me credits, and perhaps I'll overlook your incompetence.",
+        options: [
+          {
+            label:
+              "Take the debt collection mission (+5 Hutt Rep, -2 Tusken Rep)",
+            action: (g: any) => {
+              g.updateReputation("hutt", 5);
+              g.updateReputation("tusken", -2);
+              g.updateQuest("q_hutt", 1);
+              const scenarios = [
+                "Collect credits from a stubborn moisture farmer",
+                "Retrieve goods from an overdue smuggler",
+                "Intimidate a cantina owner into paying up",
+              ];
+              const scenario =
+                scenarios[Math.floor(Math.random() * scenarios.length)];
+              g.addToLog(`Accepted Hutt debt collection mission: ${scenario}`);
+            },
+          },
+          { label: "Nothing for now.", nextId: null },
+        ],
+      },
+    },
   },
   tusken_commander: {
     id: "tusken_commander",
@@ -1781,22 +1979,33 @@ export const NPC_DATABASE: Record<string, NPC> = {
     imageUrl: IMAGES.NPC_TUSKEN_LEADER,
     greetingId: "intro",
     dialogueTree: {
-       intro: {
-          id: "intro",
-          text: "*The chieftain grunts, his voice a series of guttural clicks and barks. He gestures to the horizon.*",
-          options: [
-            { label: 'Take the sacred artifact retrieval mission (+5 Tusken Rep, -2 Hutt Rep)', action: (g: any) => { 
-                g.updateReputation('tusken', 5); 
-                g.updateReputation('hutt', -2);
-                g.updateQuest('q_tusken', 1);
-                const scenarios = ["Recover a stolen ancestral mask", "Retrieve a lost mystical totem from scavengers", "Clear out trespassers from a sacred burial ground"];
-                const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-                g.addToLog(`Accepted Tusken sacred artifact mission: ${scenario}`);
-            }},
-            { label: 'Nothing for now.', nextId: null }
-          ]
-       }
-    }
+      intro: {
+        id: "intro",
+        text: "*The chieftain grunts, his voice a series of guttural clicks and barks. He gestures to the horizon.*",
+        options: [
+          {
+            label:
+              "Take the sacred artifact retrieval mission (+5 Tusken Rep, -2 Hutt Rep)",
+            action: (g: any) => {
+              g.updateReputation("tusken", 5);
+              g.updateReputation("hutt", -2);
+              g.updateQuest("q_tusken", 1);
+              const scenarios = [
+                "Recover a stolen ancestral mask",
+                "Retrieve a lost mystical totem from scavengers",
+                "Clear out trespassers from a sacred burial ground",
+              ];
+              const scenario =
+                scenarios[Math.floor(Math.random() * scenarios.length)];
+              g.addToLog(
+                `Accepted Tusken sacred artifact mission: ${scenario}`,
+              );
+            },
+          },
+          { label: "Nothing for now.", nextId: null },
+        ],
+      },
+    },
   },
   imperial_officer: {
     id: "imperial_officer",
@@ -1817,7 +2026,9 @@ export const NPC_DATABASE: Record<string, NPC> = {
       chiss_intro: {
         id: "chiss_intro",
         text: "A Chiss. We don't see many of your kind outside the Unknown Regions, but your intellect is well known to the Empire. State your business.",
-        options: [{ label: "I am merely observing local customs.", nextId: null }],
+        options: [
+          { label: "I am merely observing local customs.", nextId: null },
+        ],
       },
       wookiee_intro: {
         id: "wookiee_intro",
@@ -1849,17 +2060,23 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Market Clerk",
     imageUrl: IMAGES.NPC_CLERK,
     greetingId: "intro",
-    shopInventory: ["stimpack", "comlink", "credits_pouch", "scrap", "power_cell"],
+    shopInventory: [
+      "stimpack",
+      "comlink",
+      "credits_pouch",
+      "scrap",
+      "power_cell",
+    ],
     dialogueTree: {
       intro: {
         id: "intro",
         text: "Welcome to the market. We have standard supplies for any traveler. If you have the credits, we have the goods.",
         options: [
           { label: "Trade Items", nextId: "trade" },
-          { 
-            label: "Ask about rare cargo", 
+          {
+            label: "Ask about rare cargo",
             nextId: "rare_info",
-            reqReputation: { id: "merchant", min: 20 }
+            reqReputation: { id: "merchant", min: 20 },
           },
           { label: "Just looking.", nextId: null },
         ],
@@ -1868,15 +2085,19 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "trade",
         text: "Our inventory is updated daily. What are you looking for?",
         options: [
-          { label: "Open Store Interface", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
-          { label: "Back", nextId: "intro" }
-        ]
+          {
+            label: "Open Store Interface",
+            nextId: null,
+            action: (g) => g.setShopNpcId(g.currentNpcId),
+          },
+          { label: "Back", nextId: "intro" },
+        ],
       },
       rare_info: {
         id: "rare_info",
         text: "Since you've done right by the merchants around here... I heard a shipment of contraband Imperial sensors was intercepted. They're being held at the Records Office. High value if you can slice the lock.",
-        options: [{ label: "Interesting. Thanks.", nextId: null }]
-      }
+        options: [{ label: "Interesting. Thanks.", nextId: null }],
+      },
     },
   },
   droid_doc: {
@@ -1890,7 +2111,11 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "intro",
         text: "Greetings. I am 2-1B, your primary medical assistant. My sensors indicate several physiological anomalies requiring immediate attention. Shall I initiate a full bacta-wash and cellular regeneration cycle?",
         options: [
-          { label: "Open Medical Supply Terminal", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
+          {
+            label: "Open Medical Supply Terminal",
+            nextId: null,
+            action: (g) => g.setShopNpcId(g.currentNpcId),
+          },
           {
             label: "Initiate cellular regeneration. (50 Credits)",
             nextId: null,
@@ -1919,7 +2144,13 @@ export const NPC_DATABASE: Record<string, NPC> = {
     imageUrl: IMAGES.NPC_JAWA,
     language: "jawan",
     greetingId: "intro",
-    shopInventory: ["scrap", "hydrospanner", "fusion_cutter", "power_converter", "flight_suit"],
+    shopInventory: [
+      "scrap",
+      "hydrospanner",
+      "fusion_cutter",
+      "power_converter",
+      "flight_suit",
+    ],
     conditionalGreetings: [
       {
         reqQuestState: { id: "q1", step: 1 },
@@ -1943,14 +2174,18 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "scared_jawa",
         text: "Utinni! (The Jawa shrieks and immediately ducks behind a pile of old power converters, peeking out nervously)",
         options: [
-          { label: "Relax, little one. I just want to trade.", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
+          {
+            label: "Relax, little one. I just want to trade.",
+            nextId: null,
+            action: (g) => g.setShopNpcId(g.currentNpcId),
+          },
           { label: "[Growl and leave]", nextId: null },
-        ]
+        ],
       },
       milk_done: {
         id: "milk_done",
         text: "(He waves you away, busy sorting through shiny pieces of metal)",
-        options: [{ label: "Leave.", nextId: null }]
+        options: [{ label: "Leave.", nextId: null }],
       },
       milk_greeting: {
         id: "milk_greeting",
@@ -1963,18 +2198,25 @@ export const NPC_DATABASE: Record<string, NPC> = {
               g.updateQuest("q1", 2);
               g.setInventory((i: any) => [
                 ...i,
-                { ...ITEM_DATABASE.find((x) => x.id === "blue_milk")!, count: 1 },
+                {
+                  ...ITEM_DATABASE.find((x) => x.id === "blue_milk")!,
+                  count: 1,
+                },
               ]);
               g.addToLog("Received Blue Milk Crate.");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       intro: {
         id: "intro",
         text: "Utinni! (He gestures to a pile of junk)",
         options: [
-          { label: "Trade Scrap & Supplies", nextId: null, action: (g) => g.setShopNpcId(g.currentNpcId) },
+          {
+            label: "Trade Scrap & Supplies",
+            nextId: null,
+            action: (g) => g.setShopNpcId(g.currentNpcId),
+          },
           {
             label: "Wuher sent me for the Blue Milk.",
             reqQuestState: { id: "q1", step: 1 },
@@ -2154,7 +2396,14 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "member_intro",
         text: "Back from the field, Hunter? The Guild is only as strong as its active members. What do you need?",
         options: [
-          { label: "Access Guild Contracts", nextId: null, action: (g) => g.addToLog("System: Initializing Contract Terminal... [Access Granted]") },
+          {
+            label: "Access Guild Contracts",
+            nextId: null,
+            action: (g) =>
+              g.addToLog(
+                "System: Initializing Contract Terminal... [Access Granted]",
+              ),
+          },
           { label: "I need more training.", nextId: "training" },
           { label: "Just preparing for my next job.", nextId: null },
         ],
@@ -2163,9 +2412,28 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "trandoshan_intro",
         text: "A Trandoshan? Excellent. Your kind make natural hunters. The Guild is always looking for pure predatory instincts. Are you looking to join?",
         options: [
-          { label: "I want to become a Guild Tracker.", nextId: "training", reqReputation: { id: "guild", min: 40 } },
-          { label: "I have 400 Credits for the membership fee.", nextId: "join_success", reqCredits: 400, action: (g: any) => { g.setCredits((c: number) => c - 400); g.updateReputation("guild", 50); g.addToLog("Targa: 'Discounted for a fellow predator. Welcome to the Guild.'"); } },
-          { label: "I have a recommendation from Greedo.", nextId: "greedo_check", reqQuestState: { id: "q2", step: 4, completed: true } },
+          {
+            label: "I want to become a Guild Tracker.",
+            nextId: "training",
+            reqReputation: { id: "guild", min: 40 },
+          },
+          {
+            label: "I have 400 Credits for the membership fee.",
+            nextId: "join_success",
+            reqCredits: 400,
+            action: (g: any) => {
+              g.setCredits((c: number) => c - 400);
+              g.updateReputation("guild", 50);
+              g.addToLog(
+                "Targa: 'Discounted for a fellow predator. Welcome to the Guild.'",
+              );
+            },
+          },
+          {
+            label: "I have a recommendation from Greedo.",
+            nextId: "greedo_check",
+            reqQuestState: { id: "q2", step: 4, completed: true },
+          },
           { label: "Maybe later.", nextId: null },
         ],
       },
@@ -2173,9 +2441,28 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "zabrak_intro",
         text: "A Zabrak outside Iridonia? I respect your people's resilience. The Guild values strength and determination. What brings you to this dustball?",
         options: [
-          { label: "I'm looking for specialized training.", nextId: "training", reqReputation: { id: "guild", min: 40 } },
-          { label: "I have 500 Credits for the membership fee.", nextId: "join_success", reqCredits: 500, action: (g: any) => { g.setCredits((c: number) => c - 500); g.updateReputation("guild", 50); g.addToLog("Targa: 'A standard entry, but accepted. Welcome to the Guild.'"); } },
-          { label: "I have a recommendation from Greedo.", nextId: "greedo_check", reqQuestState: { id: "q2", step: 4, completed: true } },
+          {
+            label: "I'm looking for specialized training.",
+            nextId: "training",
+            reqReputation: { id: "guild", min: 40 },
+          },
+          {
+            label: "I have 500 Credits for the membership fee.",
+            nextId: "join_success",
+            reqCredits: 500,
+            action: (g: any) => {
+              g.setCredits((c: number) => c - 500);
+              g.updateReputation("guild", 50);
+              g.addToLog(
+                "Targa: 'A standard entry, but accepted. Welcome to the Guild.'",
+              );
+            },
+          },
+          {
+            label: "I have a recommendation from Greedo.",
+            nextId: "greedo_check",
+            reqQuestState: { id: "q2", step: 4, completed: true },
+          },
           { label: "Just passing through.", nextId: null },
         ],
       },
@@ -2183,37 +2470,42 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "intro",
         text: "The Bounty Hunters' Guild doesn't just take anyone who can pull a trigger. We need reliability. We need professionals. You look like you've got some miles on those boots, but are you Guild material?",
         options: [
-          { 
-            label: "I'm looking for specialized training.", 
+          {
+            label: "I'm looking for specialized training.",
             nextId: "training",
-            reqReputation: { id: "guild", min: 40 }
+            reqReputation: { id: "guild", min: 40 },
           },
-          { 
-            label: "I'm the best tracker you'll find on this dustball.", 
+          {
+            label: "I'm the best tracker you'll find on this dustball.",
             nextId: "prove_it",
             reqSkill: "per",
             reqVal: 6,
           },
-          { 
-             label: "Access Guild Contracts",
-             nextId: null,
-             reqReputation: { id: "guild", min: 40 },
-             action: (g) => g.addToLog("System: Initializing Contract Terminal... [Access Granted]")
+          {
+            label: "Access Guild Contracts",
+            nextId: null,
+            reqReputation: { id: "guild", min: 40 },
+            action: (g) =>
+              g.addToLog(
+                "System: Initializing Contract Terminal... [Access Granted]",
+              ),
           },
-          { 
-            label: "I have 500 Credits for the membership fee.", 
+          {
+            label: "I have 500 Credits for the membership fee.",
             nextId: "join_success",
             reqCredits: 500,
             action: (g: any) => {
               g.setCredits((c: number) => c - 500);
               g.updateReputation("guild", 50);
-              g.addToLog("Targa: 'A standard entry, but accepted. Welcome to the Guild.'");
-            }
+              g.addToLog(
+                "Targa: 'A standard entry, but accepted. Welcome to the Guild.'",
+              );
+            },
           },
-          { 
-            label: "I have a recommendation from Greedo.", 
+          {
+            label: "I have a recommendation from Greedo.",
             nextId: "greedo_check",
-            reqQuestState: { id: "q2", step: 4, completed: true }
+            reqQuestState: { id: "q2", step: 4, completed: true },
           },
           { label: "Maybe another time.", nextId: null },
         ],
@@ -2222,55 +2514,63 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "training",
         text: "Knowledge is as sharp as any blade. We offer combat drills and technical workshops. It will cost you 200 credits per session. Ready to sharpen your edge?",
         options: [
-          { 
-            label: "Strength Training (200 Credits)", 
-            nextId: null, 
-            reqCredits: 200, 
+          {
+            label: "Strength Training (200 Credits)",
+            nextId: null,
+            reqCredits: 200,
             action: (g) => {
               g.setCredits((c: number) => c - 200);
-              g.setStats((s: any) => ({ ...s, stats: { ...s.stats, str: s.stats.str + 1 } }));
+              g.setStats((s: any) => ({
+                ...s,
+                stats: { ...s.stats, str: s.stats.str + 1 },
+              }));
               g.addToLog("Targa: 'Push your limits. Again!' (+1 STR)");
-            }
+            },
           },
-          { 
-            label: "Bypass Protocols Workshop (200 Credits)", 
-            nextId: null, 
-            reqCredits: 200, 
+          {
+            label: "Bypass Protocols Workshop (200 Credits)",
+            nextId: null,
+            reqCredits: 200,
             action: (g) => {
               g.setCredits((c: number) => c - 200);
-              g.setStats((s: any) => ({ ...s, stats: { ...s.stats, int: s.stats.int + 1 } }));
-              g.addToLog("Targa: 'Not every door needs an explosion.' (+1 INT)");
-            }
+              g.setStats((s: any) => ({
+                ...s,
+                stats: { ...s.stats, int: s.stats.int + 1 },
+              }));
+              g.addToLog(
+                "Targa: 'Not every door needs an explosion.' (+1 INT)",
+              );
+            },
           },
-          { label: "Back", nextId: "intro" }
-        ]
+          { label: "Back", nextId: "intro" },
+        ],
       },
       prove_it: {
         id: "prove_it",
         text: "Perception is half the battle. You spotted my concealed carry, didn't you? Impressive. I'll waive the entry fee. The Guild could use eyes like yours.",
         options: [
-          { 
-            label: "Glad to be here.", 
+          {
+            label: "Glad to be here.",
             nextId: null,
             action: (g: any) => {
               g.updateReputation("guild", 75);
               g.addToLog("Targa: 'Don't make me regret this.'");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       greedo_check: {
         id: "greedo_check",
         text: "Greedo? That green lizard actually likes someone? Fine. If he trusts you enough to share his territory, the Guild will extend a hand. Basic membership active.",
         options: [
-          { 
-            label: "Tell Greedo I'm in.", 
+          {
+            label: "Tell Greedo I'm in.",
             nextId: null,
             action: (g: any) => {
               g.updateReputation("guild", 40);
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       join_success: {
         id: "join_success",
@@ -2282,15 +2582,25 @@ export const NPC_DATABASE: Record<string, NPC> = {
   quartermaster_jax: {
     id: "quartermaster_jax",
     name: "Quartermaster Jax",
-    imageUrl: "https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=1000&auto=format&fit=crop",
+    imageUrl:
+      "https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=1000&auto=format&fit=crop",
     greetingId: "intro",
-    shopInventory: ["heavy_blaster", "bounty_armor", "pulse_rifle", "blaster_rifle"],
+    shopInventory: [
+      "heavy_blaster",
+      "bounty_armor",
+      "pulse_rifle",
+      "blaster_rifle",
+    ],
     dialogueTree: {
       intro: {
         id: "intro",
         text: "You want protection or you want to deal damage? The Guild only stocks the best. Prices are non-negotiable.",
         options: [
-          { label: "Show me your gear.", nextId: null, action: (g) => g.setShopNpcId("quartermaster_jax") },
+          {
+            label: "Show me your gear.",
+            nextId: null,
+            action: (g) => g.setShopNpcId("quartermaster_jax"),
+          },
           { label: "Leave.", nextId: null },
         ],
       },
@@ -2301,13 +2611,22 @@ export const NPC_DATABASE: Record<string, NPC> = {
     name: "Rusty",
     imageUrl: IMAGES.NPC_RUSTY,
     greetingId: "intro",
-    shopInventory: ["r2_unit", "protocol_droid", "power_cell", "power_converter"],
+    shopInventory: [
+      "r2_unit",
+      "protocol_droid",
+      "power_cell",
+      "power_converter",
+    ],
     dialogueTree: {
       intro: {
         id: "intro",
         text: "Beep-boop-brrrrt! Oh, sorry. My translator module is acting up. Welcome to Circuit City. Best droids in the sector, guaranteed. Looking for a companion or just some scrap?",
         options: [
-          { label: "Show me your droids.", nextId: null, action: (g) => g.setShopNpcId("rusty") },
+          {
+            label: "Show me your droids.",
+            nextId: null,
+            action: (g) => g.setShopNpcId("rusty"),
+          },
           { label: "Do you fix droids here?", nextId: "repair" },
           { label: "Leave.", nextId: null },
         ],
@@ -2315,9 +2634,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
       repair: {
         id: "repair",
         text: "Mostly sales, but if you've got a motivator that's blown, I can take a look. It'll cost you though. Credits aren't cheap on this ball of dust.",
-        options: [
-          { label: "I'll keep that in mind.", nextId: "intro" },
-        ],
+        options: [{ label: "I'll keep that in mind.", nextId: "intro" }],
       },
     },
   },
@@ -2353,7 +2670,11 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "safehouse_greeting",
         text: "The safehouse is ready. I'm already working on the decryption modules. Do you have the components we discussed?",
         options: [
-          { label: "Give Components", nextId: "components", reqItem: "parts_kit" },
+          {
+            label: "Give Components",
+            nextId: "components",
+            reqItem: "parts_kit",
+          },
           { label: "Not yet. I'll be back.", nextId: null },
         ],
       },
@@ -2361,14 +2682,14 @@ export const NPC_DATABASE: Record<string, NPC> = {
         id: "components",
         text: "Perfect. This should be enough to bypass the first layer. I'll need more time.",
         options: [
-          { 
-            label: "Keep at it.", 
+          {
+            label: "Keep at it.",
             nextId: null,
             action: (g: any) => {
               g.addToLog("Quest Updated: Kaelen is working on the datapad.");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       rescue: {
         id: "rescue",
@@ -2842,41 +3163,44 @@ export const NPC_DATABASE: Record<string, NPC> = {
 
 export const initialLocations: Locations = {
   jabba_entrance: {
-        id: "jabba_entrance",
-        name: "Jabba's Palace Entrance",
-        description: "The ominous entrance to the Hutt's palace, guarded by security droids.",
-        imageUrl: IMAGES.CANTINA,
-        sector: "Jabba's Palace",
-        exits: ["jundland_wastes", "jabba_throne_room"],
-        actions: ["Look Around"],
-    },
-    jabba_throne_room: {
-        id: "jabba_throne_room",
-        name: "Jabba's Throne Room",
-        description: "The opulent and smelly center of Jabba's power.",
-        imageUrl: IMAGES.CANTINA,
-        sector: "Jabba's Palace",
-        exits: ["jabba_entrance", "jabba_dungeon", "jabba_kitchen"],
-        actions: ["Look Around"],
-    },
-    jabba_dungeon: {
-        id: "jabba_dungeon",
-        name: "Dungeon",
-        description: "Cold, dark, and damp, holding captives for Jabba's amusement.",
-        imageUrl: IMAGES.ALLEY_NIGHT,
-        sector: "Jabba's Palace",
-        exits: ["jabba_throne_room"],
-        actions: ["Look Around"],
-    },
-    jabba_kitchen: {
-        id: "jabba_kitchen",
-        name: "Kitchen",
-        description: "A chaotic kitchen where exotic dishes are prepared for the Hutt.",
-        imageUrl: IMAGES.GUILD,
-        sector: "Jabba's Palace",
-        exits: ["jabba_throne_room"],
-        actions: ["Look Around"],
-    },
+    id: "jabba_entrance",
+    name: "Jabba's Palace Entrance",
+    description:
+      "The ominous entrance to the Hutt's palace, guarded by security droids.",
+    imageUrl: IMAGES.CANTINA,
+    sector: "Jabba's Palace",
+    exits: ["jundland_wastes", "jabba_throne_room"],
+    actions: ["Look Around"],
+  },
+  jabba_throne_room: {
+    id: "jabba_throne_room",
+    name: "Jabba's Throne Room",
+    description: "The opulent and smelly center of Jabba's power.",
+    imageUrl: IMAGES.CANTINA,
+    sector: "Jabba's Palace",
+    exits: ["jabba_entrance", "jabba_dungeon", "jabba_kitchen"],
+    actions: ["Look Around"],
+  },
+  jabba_dungeon: {
+    id: "jabba_dungeon",
+    name: "Dungeon",
+    description:
+      "Cold, dark, and damp, holding captives for Jabba's amusement.",
+    imageUrl: IMAGES.ALLEY_NIGHT,
+    sector: "Jabba's Palace",
+    exits: ["jabba_throne_room"],
+    actions: ["Look Around"],
+  },
+  jabba_kitchen: {
+    id: "jabba_kitchen",
+    name: "Kitchen",
+    description:
+      "A chaotic kitchen where exotic dishes are prepared for the Hutt.",
+    imageUrl: IMAGES.GUILD,
+    sector: "Jabba's Palace",
+    exits: ["jabba_throne_room"],
+    actions: ["Look Around"],
+  },
   mos_eisley_street: {
     id: "mos_eisley_street",
     name: "Main Street",
@@ -2920,6 +3244,7 @@ export const initialLocations: Locations = {
     description:
       "The massive archway leading out into the Dune Sea. Guards check IDs here.",
     imageUrl: IMAGES.MOS_EISLEY_GATE,
+    nightImageUrl: IMAGES.MOS_EISLEY_GATE_NIGHT,
     exits: ["mos_eisley_street", "jundland_wastes"],
     actions: ["Look Around"],
     encounters: [
@@ -3236,6 +3561,7 @@ export const initialLocations: Locations = {
     nightDescription:
       "The office is pitch black. The protocol droid is powered down, its eyes dark. Moonlight filters through the grimy windows, illuminating dust motes dancing in the cold air.",
     imageUrl: IMAGES.TOURISM,
+    nightImageUrl: IMAGES.TOURISM_NIGHT,
     exits: ["mos_eisley_street"],
     npcs: [],
     actions: ["Look Around"],
