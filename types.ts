@@ -50,6 +50,8 @@ export interface Location {
   nightSearchables?: Searchable[];
   ambient?: string[];
   sector?: string;
+  faction?: string;
+  dangerLevel?: number;
 }
 
 export interface Locations {

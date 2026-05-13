@@ -568,6 +568,49 @@ export const Dashboard: React.FC<DashboardProps> = ({
       ? nextLoc.nightDescription || nextLoc.description
       : nextLoc.description;
     addToLog(desc);
+
+    // Random encounters based on reputation and danger levels
+    const locFaction = nextLoc.faction || (nextLoc.name.toLowerCase().includes('imperial') ? 'empire' : nextLoc.name.toLowerCase().includes('jabba') ? 'hutt' : nextLoc.name.toLowerCase().includes('mos') ? 'hutt' : 'none');
+    
+    // Default danger level from location or derived from name/sector
+    let baseDanger = nextLoc.dangerLevel || 0;
+    if (!nextLoc.dangerLevel) {
+       if (nextLoc.name.includes("Wastes") || nextLoc.name.includes("Sea")) baseDanger = 5;
+       else if (nextLoc.name.includes("Outpost") || nextLoc.name.includes("Cantina") || nextLoc.name.includes("Palace")) baseDanger = 3;
+       else baseDanger = 1;
+    }
+
+    let encounterMultiplier = 1;
+    let fallbackEnemy = 'thug';
+    
+    if (locFaction !== 'none') {
+        const rep = gameState.reputation[locFaction] || 0;
+        if (rep < 0) {
+            encounterMultiplier += Math.abs(rep) / 20; // more negative = more attacks
+        }
+        if (locFaction === 'empire') fallbackEnemy = 'stormtrooper';
+        else if (locFaction === 'hutt') fallbackEnemy = 'jabba_enforcer';
+        else if (locFaction === 'guild') fallbackEnemy = 'bounty_hunter';
+    }
+
+    // Low reputation with any faction can cause bounty hunters anywhere
+    let huntedChance = 0;
+    const lowRepFactions = Object.entries(gameState.reputation).filter(
+        ([_, rep]) => rep <= -50
+    );
+    if (lowRepFactions.length > 0) {
+        huntedChance = 0.08;
+    }
+
+    const roll = Math.random();
+    if (roll < huntedChance) {
+        startCombat('bounty_hunter');
+        addToLog(`[COMBAT] You were tracked down by a bounty hunter hired by ${lowRepFactions[0][0].toUpperCase()}!`);
+    } else if (roll < huntedChance + (baseDanger * 0.03 * encounterMultiplier)) {
+        if (baseDanger >= 5) fallbackEnemy = 'tusken'; // dangerous areas default to Tusken Raiders
+        startCombat(fallbackEnemy);
+        addToLog(`[COMBAT] You were ambushed moving into the area by a ${fallbackEnemy.replace('_', ' ')}! Danger level in this sector is high.`);
+    }
   };
 
   const handleMove = async (exitId: string) => {
