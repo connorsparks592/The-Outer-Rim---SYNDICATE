@@ -73,13 +73,13 @@ export const IMAGES = {
   MOS_EISLEY_GATE: "https://i.postimg.cc/Tw8TScKc/1778640583630.png",
   MOS_EISLEY_GATE_NIGHT: "https://i.postimg.cc/nz8n51X5/1778640576243.png",
   JUNDLAND_WASTES:
-    "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=2000&auto=format&fit=crop",
+    "https://i.postimg.cc/hGLLz2Rd/e068d217-f382-4279-b6c7-5ba84b0f0b23.jpg",
   LARS_HOMESTEAD:
     "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=2000&auto=format&fit=crop",
   KRAYT_VALLEY:
     "https://images.unsplash.com/photo-1500531279542-e3a3d5e0321f?q=80&w=2000&auto=format&fit=crop",
   JABBAS_PALACE:
-    "https://images.unsplash.com/photo-1599933597447-06834125e172?q=80&w=2000&auto=format&fit=crop",
+    "https://i.postimg.cc/yNmmgLCx/84a4f0a3-dc99-4af5-a74e-5375d2c04220.jpg",
   MOS_ESPA_GATE:
     "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2000&auto=format&fit=crop",
   MOS_ESPA:
@@ -107,7 +107,7 @@ export const IMAGES = {
   NPC_DROID_DOC:
     "https://images.unsplash.com/photo-1589254065878-42c9da9e2cb6?q=80&w=1000&auto=format&fit=crop",
   NPC_STORMTROOPER:
-    "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=1000&auto=format&fit=crop",
+    "https://i.postimg.cc/d022k5cZ/46aef0ee-1de7-4abe-b365-b1f8b1426313.jpg",
   NPC_OFFICER:
     "https://images.unsplash.com/photo-1596727147705-01a298de8ead?q=80&w=1000&auto=format&fit=crop",
   NPC_RUSTY:
@@ -136,7 +136,9 @@ export const IMAGES = {
     "https://images.unsplash.com/photo-1590487988256-9ed22133802e?q=80&w=1000&auto=format&fit=crop",
 
   ENEMY_TUSKEN:
-    "https://images.unsplash.com/photo-1605218427360-36390f85841c?q=80&w=1000&auto=format&fit=crop",
+    "https://i.postimg.cc/9fddRLH9/4a98b8ee-1411-4350-9a71-96fdef4ade94.jpg",
+  ENEMY_GAMORREAN:
+    "https://i.postimg.cc/MG77M9Jj/e614a4d2-f84c-48cd-913a-0de46aef6180.jpg",
   ENEMY_THUG:
     "https://images.unsplash.com/photo-1531278520962-f73d9733ad78?q=80&w=1000&auto=format&fit=crop",
 };
@@ -1554,15 +1556,26 @@ export const ENEMIES: Record<string, Enemy> = {
   },
   jabba_enforcer: {
     id: "jabba_enforcer",
-    name: "Jabba Enforcer",
+    name: "Gamorrean Guard",
     hp: 80,
     maxHp: 80,
     dmg: 12,
     xp: 150,
     credits: 200,
-    imageUrl: IMAGES.ENEMY_THUG,
+    imageUrl: IMAGES.ENEMY_GAMORREAN,
     introText:
-      "A massive Enforcer blocks the docking bay access. 'Vuff! No one leaves today.'",
+      "A grunting Gamorrean Guard brandishes a vibro-ax. 'Oink! No one leaves today.'",
+  },
+  stormtrooper: {
+    id: "stormtrooper",
+    name: "Stormtrooper",
+    hp: 35,
+    maxHp: 35,
+    dmg: 7,
+    xp: 30,
+    credits: 20,
+    imageUrl: IMAGES.NPC_STORMTROOPER,
+    introText: "A white-armored Stormtrooper raises his E-11 blaster. 'Stop right there!'",
   },
   teemo: {
     id: "teemo",
@@ -3119,8 +3132,8 @@ export const NPC_DATABASE: Record<string, NPC> = {
   },
   jabba_enforcer: {
     id: "jabba_enforcer",
-    name: "Jabba Enforcer",
-    imageUrl: IMAGES.ENEMY_THUG,
+    name: "Gamorrean Guard",
+    imageUrl: IMAGES.ENEMY_GAMORREAN,
     greetingId: "intro",
     dialogueTree: {
       intro: {
@@ -3132,7 +3145,7 @@ export const NPC_DATABASE: Record<string, NPC> = {
             nextId: null,
             action: (g: any) => {
               g.updateQuest("q6", 1);
-              g.addToLog("The Enforcer draws a heavy blaster cannon!");
+              g.addToLog("The Gamorrean snorts and raises a massive vibro-ax!");
               g.startCombat("jabba_enforcer");
             },
           },
@@ -3202,17 +3215,17 @@ export const initialLocations: Locations = {
     id: "jabba_entrance",
     name: "Jabba's Palace Entrance",
     description:
-      "The ominous entrance to the Hutt's palace, guarded by security droids.",
-    imageUrl: IMAGES.CANTINA,
+      "The ominous entrance to the Hutt's palace, guarded by elite Gamorrean Guards.",
+    imageUrl: IMAGES.JABBAS_PALACE,
     sector: "Jabba's Palace",
     exits: ["jundland_wastes", "jabba_throne_room"],
-    actions: ["Look Around", "Bribe Hutt Enforcer (1500cr)"],
+    actions: ["Look Around", "Bribe Gamorrean Guard (1500cr)"],
   },
   jabba_throne_room: {
     id: "jabba_throne_room",
     name: "Jabba's Throne Room",
     description: "The opulent and smelly center of Jabba's power.",
-    imageUrl: IMAGES.CANTINA,
+    imageUrl: IMAGES.JABBAS_PALACE,
     sector: "Jabba's Palace",
     exits: ["jabba_entrance", "jabba_dungeon", "jabba_kitchen"],
     actions: ["Look Around"],
