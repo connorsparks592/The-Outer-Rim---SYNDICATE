@@ -34,12 +34,12 @@ export const DailyRewards: React.FC<DailyRewardsProps> = ({ gameState, onClaimed
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in">
-            <div className="bg-gray-900 border border-cyan-500 rounded p-6 max-w-lg w-full shadow-[0_0_20px_rgba(6,182,212,0.5)]">
-                <h2 className="text-2xl text-yellow-400 font-title mb-2 text-center uppercase tracking-widest">Daily Login Reward</h2>
-                <p className="text-gray-400 text-center mb-6">Log in every day to claim increasing rewards.</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in p-4 safe-area-landscape">
+            <div className="bg-gray-900 border border-cyan-500 rounded p-4 md:p-6 landscape:p-4 max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+                <h2 className="text-xl md:text-2xl text-yellow-400 font-title mb-1 text-center uppercase tracking-widest">Daily Login Reward</h2>
+                <p className="text-gray-400 text-xs md:text-sm text-center mb-4 md:mb-6 landscape:mb-3">Log in every day to claim increasing rewards.</p>
                 
-                <div className="grid grid-cols-7 gap-2 mb-8">
+                <div className="grid grid-cols-7 gap-1.5 md:gap-2 mb-4 md:mb-8 landscape:mb-4">
                     {REWARDS.map((reward, idx) => {
                         const isPast = reward.day < nextRewardDay;
                         const isCurrent = reward.day === nextRewardDay;

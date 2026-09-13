@@ -103,10 +103,10 @@ export const Store: React.FC<StoreProps> = ({
         className="relative w-full max-w-6xl h-full md:h-[90vh] flex flex-col bg-[#080808] border-2 border-yellow-500/40 rounded-none md:rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(234,179,8,0.15)]"
       >
         {/* Terminal Header */}
-        <div className="flex items-center justify-between p-4 md:p-6 border-b border-yellow-500/20 bg-yellow-500/5 relative">
-          <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between p-3 md:p-6 landscape:p-2.5 border-b border-yellow-500/20 bg-yellow-500/5 relative">
+          <div className="flex items-center gap-3 md:gap-6">
             <div className="relative group">
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl border-2 border-yellow-500/40 overflow-hidden bg-black shadow-[0_0_20px_rgba(234,179,8,0.2)]">
+              <div className="w-12 h-12 md:w-20 md:h-20 landscape:w-10 landscape:h-10 rounded-xl md:rounded-2xl border-2 border-yellow-500/40 overflow-hidden bg-black shadow-[0_0_20px_rgba(234,179,8,0.2)]">
                 <img 
                   src={npc.imageUrl} 
                   className="w-full h-full object-cover grayscale brightness-90 contrast-125" 
@@ -115,13 +115,13 @@ export const Store: React.FC<StoreProps> = ({
                 />
                 <div className="absolute inset-0 bg-yellow-500/10 mix-blend-overlay group-hover:bg-transparent transition-colors" />
               </div>
-              <div className="absolute -bottom-2 -right-2 bg-yellow-500 text-black text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-black">
-                LEVEL 4
+              <div className="absolute -bottom-1 -right-1 bg-yellow-500 text-black text-[9px] font-bold px-1.5 py-0.2 rounded-full border-2 border-black">
+                L4
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-3">
-                <h2 className="text-2xl md:text-4xl font-title text-yellow-500 uppercase tracking-tighter glow-yellow leading-none">
+              <div className="flex items-center gap-2 md:gap-3">
+                <h2 className="text-xl md:text-4xl landscape:text-xl font-title text-yellow-500 uppercase tracking-tighter glow-yellow leading-none">
                   {npc.name.toUpperCase()}
                 </h2>
                 <div className="h-4 w-px bg-yellow-500/30 hidden md:block" />
@@ -129,13 +129,13 @@ export const Store: React.FC<StoreProps> = ({
                   VERIFIED MERCHANT
                 </span>
               </div>
-              <p className="text-yellow-500/40 text-[9px] md:text-[11px] uppercase font-mono tracking-[0.3em] mt-1 italic">
+              <p className="text-yellow-500/40 text-[8px] md:text-[11px] uppercase font-mono tracking-[0.3em] mt-0.5 italic">
                 Outer Rim Trade Registry // Protocol {npcId.toUpperCase()}-94
               </p>
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
              <div className="hidden lg:flex flex-col items-end gap-1 mr-4">
                 <span className="text-[9px] text-yellow-500/40 font-mono tracking-widest uppercase">Encryption Status</span>
                 <div className="flex gap-1">
@@ -144,38 +144,38 @@ export const Store: React.FC<StoreProps> = ({
              </div>
              <button 
               onClick={onClose}
-              className="p-3 hover:bg-yellow-500/20 rounded-2xl transition-all border-2 border-yellow-500/20 group"
+              className="p-2 md:p-3 hover:bg-yellow-500/20 rounded-xl md:rounded-2xl transition-all border-2 border-yellow-500/20 group"
             >
-              <X className="text-yellow-500 group-hover:rotate-90 transition-transform" size={28} />
+              <X className="text-yellow-500 group-hover:rotate-90 transition-transform" size={22} />
             </button>
           </div>
         </div>
 
         {/* Central HUD */}
-        <div className="px-6 py-4 bg-black/60 flex flex-wrap items-center justify-between border-b border-yellow-500/10 gap-4">
-            <div className="flex gap-6">
+        <div className="px-4 md:px-6 py-2 md:py-4 landscape:py-1.5 bg-black/60 flex flex-wrap items-center justify-between border-b border-yellow-500/10 gap-2 md:gap-4">
+            <div className="flex gap-4 md:gap-6">
                 <div className="flex flex-col">
-                  <span className="text-[8px] text-yellow-500/40 uppercase font-mono tracking-widest mb-1">Current Balance</span>
-                  <div className="flex items-center gap-3 text-yellow-500">
-                      <Coins size={20} className="glow-yellow" />
-                      <span className="text-2xl font-title tracking-tight">{gameState.credits.toLocaleString()} <span className="text-xs opacity-50">CR</span></span>
+                  <span className="text-[8px] text-yellow-500/40 uppercase font-mono tracking-widest mb-0.5">Balance</span>
+                  <div className="flex items-center gap-2 text-yellow-500">
+                      <Coins size={16} className="glow-yellow" />
+                      <span className="text-lg md:text-2xl font-title tracking-tight">{gameState.credits.toLocaleString()} <span className="text-xs opacity-50">CR</span></span>
                   </div>
                 </div>
-                <div className="h-10 w-px bg-yellow-500/10" />
+                <div className="h-8 md:h-10 w-px bg-yellow-500/10" />
                 <div className="flex flex-col">
-                  <span className="text-[8px] text-cyan-500/40 uppercase font-mono tracking-widest mb-1">Reputation Bonus</span>
-                  <div className="flex items-center gap-2 text-cyan-400">
-                      <ShieldCheck size={20} />
-                      <span className="text-2xl font-title tracking-tight">15<span className="text-xs opacity-50">%</span></span>
+                  <span className="text-[8px] text-cyan-500/40 uppercase font-mono tracking-widest mb-0.5">Reputation</span>
+                  <div className="flex items-center gap-1.5 text-cyan-400">
+                      <ShieldCheck size={16} />
+                      <span className="text-lg md:text-2xl font-title tracking-tight">15<span className="text-xs opacity-50">%</span></span>
                   </div>
                 </div>
             </div>
 
-            <div className="flex bg-black p-1 rounded-2xl border border-yellow-500/20 min-w-[280px]">
+            <div className="flex bg-black p-0.5 md:p-1 rounded-xl md:rounded-2xl border border-yellow-500/20 min-w-[220px]">
               <button 
                 onClick={() => setActiveTab("buy")}
                 className={cn(
-                  "flex-1 py-3 px-6 text-[11px] font-title uppercase tracking-[0.2em] rounded-xl transition-all flex items-center justify-center gap-3",
+                  "flex-1 py-1.5 md:py-3 px-3 md:px-6 text-[10px] md:text-[11px] font-title uppercase tracking-[0.2em] rounded-lg md:rounded-xl transition-all flex items-center justify-center gap-2",
                   activeTab === "buy" ? "bg-yellow-500 text-black shadow-[0_0_20px_rgba(234,179,8,0.4)]" : "text-yellow-500 hover:bg-yellow-500/5"
                 )}
               >
@@ -184,7 +184,7 @@ export const Store: React.FC<StoreProps> = ({
               <button 
                 onClick={() => setActiveTab("sell")}
                 className={cn(
-                  "flex-1 py-3 px-6 text-[11px] font-title uppercase tracking-[0.2em] rounded-xl transition-all flex items-center justify-center gap-3",
+                  "flex-1 py-1.5 md:py-3 px-3 md:px-6 text-[10px] md:text-[11px] font-title uppercase tracking-[0.2em] rounded-lg md:rounded-xl transition-all flex items-center justify-center gap-2",
                   activeTab === "sell" ? "bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)]" : "text-cyan-500 hover:bg-cyan-500/5"
                 )}
               >
@@ -194,7 +194,7 @@ export const Store: React.FC<StoreProps> = ({
         </div>
 
         {/* Main Interface Split */}
-        <div className="flex-1 flex overflow-hidden flex-col md:flex-row">
+        <div className="flex-1 flex overflow-hidden flex-col md:flex-row landscape:flex-row">
           {/* Left: Tactical Grid */}
           <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar bg-black/40 relative">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />

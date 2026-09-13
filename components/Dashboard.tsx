@@ -58,6 +58,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { DailyRewards } from "./DailyRewards";
+import { useGamepad } from "../hooks/useGamepad";
 
 import { Store } from "./Store";
 
@@ -450,6 +451,62 @@ export const Dashboard: React.FC<DashboardProps> = ({
       handleCombatWin();
     }
   };
+
+  const handleGamepadBack = useCallback(() => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      return;
+    }
+    if (isCharacterSheetOpen) {
+      setIsCharacterSheetOpen(false);
+      return;
+    }
+    if (shopNpcId) {
+      setShopNpcId(null);
+      return;
+    }
+    if (activeMinigame) {
+      setActiveMinigame(null);
+      return;
+    }
+    if (showDailyRewards) {
+      setShowDailyRewards(false);
+      return;
+    }
+    if (showSectorMap) {
+      setShowSectorMap(false);
+      return;
+    }
+    if (dialogueNode) {
+      setDialogueNode(null);
+      setCurrentNpcId(null);
+      return;
+    }
+    if (combatEnemy) {
+      setCombatEnemy(null);
+      return;
+    }
+  }, [
+    isMobileMenuOpen,
+    isCharacterSheetOpen,
+    shopNpcId,
+    activeMinigame,
+    showDailyRewards,
+    showSectorMap,
+    dialogueNode,
+    combatEnemy,
+  ]);
+
+  const { connected: isGamepadActive, controllerName } = useGamepad({
+    onBack: handleGamepadBack,
+    onToggleInventory: () => setIsMobileMenuOpen((prev) => !prev),
+    onToggleCharacterSheet: () => setIsCharacterSheetOpen((prev) => !prev),
+    onSave,
+    onTabCycle: (dir) => {
+      setShowSectorMap((prev) => !prev);
+    },
+    onAttack: handlePlayerAttack,
+  });
 
   const currentLocation = locations[gameState.currentLocationId];
   const isNight = gameState.isNight;
@@ -1932,30 +1989,30 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <motion.div
         initial={{ y: -50 }}
         animate={{ y: 0 }}
-        className="h-auto md:h-16 py-3 md:py-0 border-b border-cyan-900/80 bg-black/90 backdrop-blur-md flex flex-wrap md:flex-nowrap items-center justify-between px-4 md:px-6 z-30 shadow-[0_5px_30px_rgba(0,0,0,0.8)] gap-4"
+        className="h-12 md:h-14 landscape:h-11 py-1 px-3 md:px-5 border-b border-cyan-900/80 bg-black/90 backdrop-blur-md flex flex-nowrap items-center justify-between z-30 shadow-[0_5px_30px_rgba(0,0,0,0.8)] gap-2 md:gap-4 shrink-0 overflow-x-auto no-scrollbar safe-area-landscape"
       >
         {/* Left Section: Identity & Level */}
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => setIsCharacterSheetOpen(true)}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2.5 group"
           >
-            <div className="w-9 h-9 rounded bg-cyan-950 border border-cyan-800 flex items-center justify-center relative overflow-hidden shadow-inner hidden sm:flex">
-              <span className="text-cyan-500 font-title text-lg group-hover:scale-110 transition-transform tracking-tighter">
+            <div className="w-8 h-8 rounded bg-cyan-950 border border-cyan-800 flex items-center justify-center relative overflow-hidden shadow-inner hidden sm:flex">
+              <span className="text-cyan-500 font-title text-base group-hover:scale-110 transition-transform tracking-tighter">
                 {gameState.stats?.name.substring(0, 2).toUpperCase()}
               </span>
               <div className="absolute inset-x-0 bottom-0 h-1 bg-cyan-500 opacity-80"></div>
             </div>
             <div className="flex flex-col text-left justify-center pb-0.5">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-white font-title text-sm md:text-base tracking-wide uppercase group-hover:text-cyan-400 transition-colors leading-none">
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <span className="text-white font-title text-xs md:text-sm tracking-wide uppercase group-hover:text-cyan-400 transition-colors leading-none">
                   {gameState.stats?.name}
                 </span>
                 <span className="px-1.5 py-0.5 bg-yellow-500/20 text-yellow-500 font-bold text-[8px] rounded-[3px] uppercase border border-yellow-500/30 leading-none shadow-[0_0_8px_rgba(234,179,8,0.2)]">
                   LVL {gameState.stats?.level}
                 </span>
               </div>
-              <span className="text-[9px] text-cyan-600 font-display tracking-widest uppercase leading-none">
+              <span className="text-[8px] text-cyan-600 font-display tracking-widest uppercase leading-none">
                 {gameState.stats?.charClass?.name || "Unknown"}
               </span>
             </div>
@@ -1963,15 +2020,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         {/* Center Section: Core Bars (HP & XP) */}
-        <div className="flex-1 flex flex-row items-center justify-center gap-4 md:gap-8 w-full md:w-auto order-last md:order-none">
-          <div className="flex flex-col flex-1 max-w-[150px] md:max-w-[200px]">
-            <div className="flex justify-between items-end mb-1">
+        <div className="flex-1 flex flex-row items-center justify-center gap-3 md:gap-6 min-w-0 max-w-sm">
+          <div className="flex flex-col flex-1 max-w-[120px] md:max-w-[160px]">
+            <div className="flex justify-between items-end mb-0.5">
               <span className="text-[7px] text-cyan-600 uppercase tracking-widest leading-none">
                 Vitality
               </span>
               <span
                 className={cn(
-                  "font-mono text-[9px] leading-none",
+                  "font-mono text-[8px] md:text-[9px] leading-none",
                   (gameState.stats?.currentHp || 0) < 10
                     ? "text-red-500"
                     : "text-green-400",
@@ -1996,12 +2053,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-col flex-1 max-w-[150px] md:max-w-[200px]">
-            <div className="flex justify-between items-end mb-1">
+          <div className="flex flex-col flex-1 max-w-[120px] md:max-w-[160px]">
+            <div className="flex justify-between items-end mb-0.5">
               <span className="text-[7px] text-cyan-600 uppercase tracking-widest leading-none">
                 Experience
               </span>
-              <span className="text-[9px] font-mono text-white/40 leading-none">
+              <span className="text-[8px] md:text-[9px] font-mono text-white/40 leading-none">
                 {gameState.stats?.xp} / {gameState.stats?.xpToNextLevel}
               </span>
             </div>
@@ -2017,7 +2074,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         {/* Right Section: Resources & Actions */}
-        <div className="flex items-center gap-3 md:gap-4 shrink-0 justify-end">
+        <div className="flex items-center gap-2 md:gap-3 shrink-0 justify-end">
+          {isGamepadActive && (
+            <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 rounded text-[9px] text-yellow-400 font-mono tracking-wider whitespace-nowrap">
+              <Gamepad2 size={12} className="text-yellow-500 animate-pulse" />
+              <span className="hidden lg:inline uppercase">Handheld Active</span>
+              <span className="lg:hidden uppercase">Pad</span>
+            </div>
+          )}
+
           {gameState.activeSlicingTask && (
             <div className="flex items-center gap-1.5 px-2 py-1 bg-red-950/40 border border-red-500/40 backdrop-blur-md rounded-[4px] animate-pulse shrink-0">
               <Zap className="text-red-500" size={10} />
@@ -2037,37 +2102,37 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
           )}
 
-          <div className="hidden xl:flex items-center gap-4 text-[9px] font-mono border-r border-cyan-900/50 pr-5 mr-1 mb-0.5">
+          <div className="hidden xl:flex items-center gap-3 text-[9px] font-mono border-r border-cyan-900/50 pr-4 mr-0.5">
             <span className="text-cyan-700">
               STR
-              <span className="text-white ml-1.5">
+              <span className="text-white ml-1">
                 {gameState.stats?.stats.str}
               </span>
             </span>
             <span className="text-cyan-700">
               INT
-              <span className="text-white ml-1.5">
+              <span className="text-white ml-1">
                 {gameState.stats?.stats.int}
               </span>
             </span>
             <span className="text-cyan-700">
               CHA
-              <span className="text-white ml-1.5">
+              <span className="text-white ml-1">
                 {gameState.stats?.stats.cha}
               </span>
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 mb-0.5 bg-yellow-500/5 px-2 py-1 rounded border border-yellow-500/20">
+          <div className="flex items-center gap-1.5 bg-yellow-500/5 px-2 py-0.5 rounded border border-yellow-500/20">
             <Coins size={12} className="text-yellow-500/80" />
-            <span className="font-title text-[13px] text-yellow-400 font-medium tracking-wide">
+            <span className="font-title text-xs md:text-[13px] text-yellow-400 font-medium tracking-wide">
               {gameState.credits}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 mb-0.5 text-cyan-500">
+          <div className="hidden sm:flex items-center gap-1.5 text-cyan-500">
             <Clock size={12} className="opacity-60" />
-            <span className="text-[11px] font-mono tracking-widest mt-[1px]">
+            <span className="text-[10px] md:text-[11px] font-mono tracking-widest mt-[1px]">
               {realTime.toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -2076,7 +2141,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </span>
           </div>
 
-          <div className="flex items-center gap-2 md:pl-4 border-l border-cyan-900/50">
+          <div className="flex items-center gap-1.5 md:pl-2 border-l border-cyan-900/50">
             <button
               onClick={toggleFullScreen}
               className="p-1.5 bg-black border border-cyan-900/50 rounded-[4px] text-cyan-700 hover:text-cyan-400 hover:border-cyan-500/50 transition-colors"
@@ -2107,208 +2172,211 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </motion.div>
 
       {/* MAIN CONTENT AREA */}
-      <div className="flex-1 flex flex-col overflow-hidden relative min-h-0">
-        {/* VIEWPORT (30% height) */}
-        <div className="h-[30%] min-h-[220px] bg-slate-900 overflow-hidden relative shrink-0 border-b-2 border-cyan-500/10 box-border group">
-          <AnimatePresence mode="wait">
-            {isTraveling ? (
-              <motion.div
-                key="travel-overlay"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center gap-6"
-              >
-                <div className="relative">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="w-32 h-32 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Navigation
-                      className="text-cyan-400 animate-pulse"
-                      size={40}
+      <div className="flex-1 flex flex-col landscape:flex-row overflow-hidden relative min-h-0 safe-area-landscape">
+        {/* LEFT COCKPIT: VIEWPORT & COMM TERMINAL */}
+        <div className="w-full landscape:w-[42%] landscape:max-w-[480px] flex flex-col shrink-0 border-b-2 landscape:border-b-0 landscape:border-r-2 border-cyan-500/15 overflow-hidden h-[46%] landscape:h-full">
+          {/* VIEWPORT */}
+          <div className="h-[58%] landscape:h-[50%] min-h-[140px] bg-slate-900 overflow-hidden relative shrink-0 border-b-2 border-cyan-500/10 box-border group">
+            <AnimatePresence mode="wait">
+              {isTraveling ? (
+                <motion.div
+                  key="travel-overlay"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center gap-6"
+                >
+                  <div className="relative">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="w-32 h-32 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full"
                     />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Navigation
+                        className="text-cyan-400 animate-pulse"
+                        size={40}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="text-center space-y-2">
-                  <h2 className="text-xl font-title text-cyan-400 tracking-[0.5em] uppercase animate-flicker">
-                    Traveling...
-                  </h2>
-                  <p className="text-[10px] font-display text-cyan-800 uppercase tracking-widest italic">
-                    {locations[gameState.currentLocationId]?.sector ||
-                      "Tatooine"}{" "}
-                    —&gt; {locations[travelTo!]?.sector || "Deep Desert"}
-                  </p>
-                </div>
-                <div className="moving-scanline opacity-20" />
-              </motion.div>
-            ) : null}
-            {combatEnemy ? (
-              <Combat
-                type="viewport"
-                gameState={gameState}
-                enemy={combatEnemy}
-                enemyHp={enemyHp}
-                playerCooldown={playerCooldown}
-                enemyCooldown={enemyCooldown}
-                onAttack={handlePlayerAttack}
-                onUseItem={handleCombatUseItem}
-                onFlee={() => setCombatEnemy(null)}
-              />
-            ) : (
-              <motion.img
-                key={locImg}
-                initial={{ scale: 1.1, opacity: 0 }}
-                animate={{ scale: 1, opacity: 0.7 }}
-                src={locImg}
-                alt={locName}
-                className="w-full h-full object-cover"
-              />
-            )}
-          </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none" />
+                  <div className="text-center space-y-2">
+                    <h2 className="text-xl font-title text-cyan-400 tracking-[0.5em] uppercase animate-flicker">
+                      Traveling...
+                    </h2>
+                    <p className="text-[10px] font-display text-cyan-800 uppercase tracking-widest italic">
+                      {locations[gameState.currentLocationId]?.sector ||
+                        "Tatooine"}{" "}
+                      —&gt; {locations[travelTo!]?.sector || "Deep Desert"}
+                    </p>
+                  </div>
+                  <div className="moving-scanline opacity-20" />
+                </motion.div>
+              ) : null}
+              {combatEnemy ? (
+                <Combat
+                  type="viewport"
+                  gameState={gameState}
+                  enemy={combatEnemy}
+                  enemyHp={enemyHp}
+                  playerCooldown={playerCooldown}
+                  enemyCooldown={enemyCooldown}
+                  onAttack={handlePlayerAttack}
+                  onUseItem={handleCombatUseItem}
+                  onFlee={() => setCombatEnemy(null)}
+                />
+              ) : (
+                <motion.img
+                  key={locImg}
+                  initial={{ scale: 1.1, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 0.7 }}
+                  src={locImg}
+                  alt={locName}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none" />
 
-          {/* Location Badge */}
-          <div className="absolute top-2 left-4 md:top-4 md:left-6 flex items-center gap-3">
-            <div className="p-1 px-2 bg-black/60 border border-cyan-500/30 backdrop-blur-md rounded text-cyan-400">
-              <Globe size={10} className="inline mr-1" />
-              <span className="text-[8px] md:text-[10px] uppercase font-display tracking-widest">
-                Sector:{" "}
-                {currentLocation.sector ||
-                  (gameState.isNight ? "Sector Shadow" : "Sector Light")}
-              </span>
+            {/* Location Badge */}
+            <div className="absolute top-2 left-4 md:top-4 md:left-6 flex items-center gap-3">
+              <div className="p-1 px-2 bg-black/60 border border-cyan-500/30 backdrop-blur-md rounded text-cyan-400">
+                <Globe size={10} className="inline mr-1" />
+                <span className="text-[8px] md:text-[10px] uppercase font-display tracking-widest">
+                  Sector:{" "}
+                  {currentLocation.sector ||
+                    (gameState.isNight ? "Sector Shadow" : "Sector Light")}
+                </span>
+              </div>
+            </div>
+
+            {/* Title Overlay */}
+            <div className="absolute bottom-2 left-4 md:bottom-4 md:left-8 flex flex-col">
+              <h1 className="text-2xl md:text-4xl font-title text-white uppercase tracking-tighter glow-cyan leading-none mb-0.5">
+                {locName}
+              </h1>
+              <p className="max-w-xl text-[8px] md:text-[10px] text-cyan-200/60 font-display italic tracking-wide">
+                {locDesc}
+              </p>
             </div>
           </div>
 
-          {/* Title Overlay */}
-          <div className="absolute bottom-2 left-4 md:bottom-4 md:left-8 flex flex-col">
-            <h1 className="text-2xl md:text-4xl font-title text-white uppercase tracking-tighter glow-cyan leading-none mb-0.5">
-              {locName}
-            </h1>
-            <p className="max-w-xl text-[8px] md:text-[10px] text-cyan-200/60 font-display italic tracking-wide">
-              {locDesc}
-            </p>
-          </div>
-        </div>
-
-        {/* LOGS / NPC DIALOGUE (20% height) */}
-        <div className="h-[20%] min-h-0 bg-black/40 flex flex-col p-3 md:p-4 border-b-2 border-cyan-500/10 relative shrink-0 overflow-hidden box-border">
-          <div
-            className="flex-1 overflow-y-auto no-scrollbar pr-4 space-y-3"
-            ref={scrollRef}
-          >
-            <AnimatePresence mode="wait">
-              {dialogueNode ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  key={currentNpcId}
-                  className="flex flex-col border-l-4 border-yellow-500 p-4 bg-yellow-500/5 rounded-r-xl"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 text-yellow-500 font-title uppercase tracking-[0.3em] text-[10px]">
-                      <MessageSquare size={14} />
-                      <span>
-                        Communication Link: {NPC_DATABASE[currentNpcId!].name}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => {
-                        setDialogueNode(null);
-                        setCurrentNpcId(null);
-                      }}
-                      className="text-[8px] font-title text-yellow-900 hover:text-yellow-500 uppercase tracking-widest transition-colors"
-                    >
-                      [Terminate Link]
-                    </button>
-                  </div>
-                  <div className="flex gap-4 items-start">
-                    {NPC_DATABASE[currentNpcId!].imageUrl && (
-                      <div className="w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden border border-yellow-500/30 shrink-0 bg-black shadow-[0_0_20px_rgba(234,179,8,0.1)]">
-                        <img
-                          src={NPC_DATABASE[currentNpcId!].imageUrl}
-                          alt={NPC_DATABASE[currentNpcId!].name}
-                          className="w-full h-full object-cover grayscale brightness-75 contrast-125"
-                          referrerPolicy="no-referrer"
-                        />
+          {/* LOGS / NPC DIALOGUE */}
+          <div className="flex-1 min-h-0 bg-black/40 flex flex-col p-2.5 md:p-3 relative overflow-hidden box-border">
+            <div
+              className="flex-1 overflow-y-auto no-scrollbar pr-2 space-y-2.5"
+              ref={scrollRef}
+            >
+              <AnimatePresence mode="wait">
+                {dialogueNode ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    key={currentNpcId}
+                    className="flex flex-col border-l-4 border-yellow-500 p-3 bg-yellow-500/5 rounded-r-xl"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2 text-yellow-500 font-title uppercase tracking-[0.3em] text-[10px]">
+                        <MessageSquare size={14} />
+                        <span>
+                          Communication Link: {NPC_DATABASE[currentNpcId!].name}
+                        </span>
                       </div>
-                    )}
-                    <div className="text-white text-sm md:text-lg leading-relaxed italic font-display animate-flicker flex-1">
-                      {(() => {
-                        const npc = NPC_DATABASE[currentNpcId!];
-                        const needsTranslation =
-                          npc.language &&
-                          gameState.activeDroidId !== "protocol_droid";
-                        const displayText = needsTranslation
-                          ? scrambleText(dialogueNode.text)
-                          : dialogueNode.text;
-                        return (
-                          <div
-                            className={cn(
-                              needsTranslation &&
-                                "font-mono text-cyan-500 bg-cyan-950/20 p-2 rounded",
-                            )}
-                          >
-                            <Typewriter
-                              text={`"${displayText}"`}
-                              textKey={displayText}
-                              onUpdate={scrollToBottom}
-                            />
-                            {needsTranslation && (
-                              <p className="text-[10px] text-red-500 uppercase mt-2 not-italic font-bold tracking-widest">
-                                [TRANSLATION MODULE REQUIRED]
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })()}
+                      <button
+                        onClick={() => {
+                          setDialogueNode(null);
+                          setCurrentNpcId(null);
+                        }}
+                        className="text-[8px] font-title text-yellow-900 hover:text-yellow-500 uppercase tracking-widest transition-colors"
+                      >
+                        [Terminate Link]
+                      </button>
                     </div>
+                    <div className="flex gap-3 items-start">
+                      {NPC_DATABASE[currentNpcId!].imageUrl && (
+                        <div className="w-14 h-14 md:w-20 md:h-20 rounded-lg overflow-hidden border border-yellow-500/30 shrink-0 bg-black shadow-[0_0_20px_rgba(234,179,8,0.1)]">
+                          <img
+                            src={NPC_DATABASE[currentNpcId!].imageUrl}
+                            alt={NPC_DATABASE[currentNpcId!].name}
+                            className="w-full h-full object-cover grayscale brightness-75 contrast-125"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                      )}
+                      <div className="text-white text-xs md:text-base leading-relaxed italic font-display animate-flicker flex-1">
+                        {(() => {
+                          const npc = NPC_DATABASE[currentNpcId!];
+                          const needsTranslation =
+                            npc.language &&
+                            gameState.activeDroidId !== "protocol_droid";
+                          const displayText = needsTranslation
+                            ? scrambleText(dialogueNode.text)
+                            : dialogueNode.text;
+                          return (
+                            <div
+                              className={cn(
+                                needsTranslation &&
+                                  "font-mono text-cyan-500 bg-cyan-950/20 p-2 rounded",
+                              )}
+                            >
+                              <Typewriter
+                                text={`"${displayText}"`}
+                                textKey={displayText}
+                                onUpdate={scrollToBottom}
+                              />
+                              {needsTranslation && (
+                                <p className="text-[10px] text-red-500 uppercase mt-2 not-italic font-bold tracking-widest">
+                                  [TRANSLATION MODULE REQUIRED]
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <div className="flex flex-col gap-2 min-h-full">
+                    {gameState.history.map((line, i) => (
+                      <motion.div
+                        initial={
+                          i === gameState.history.length - 1
+                            ? { opacity: 0, x: -10 }
+                            : {}
+                        }
+                        animate={{ opacity: 1, x: 0 }}
+                        key={`${i}-${logKey}`}
+                        className={cn(
+                          "break-words leading-relaxed p-2 px-3 rounded-lg border-l-2 font-mono text-xs md:text-sm",
+                          line.startsWith(">")
+                            ? "text-cyan-600 italic border-cyan-900/30 bg-cyan-950/5"
+                            : line.startsWith("[COMBAT]")
+                              ? "text-red-400 border-red-500 bg-red-950/20"
+                              : line.startsWith("System")
+                                ? "text-yellow-400 border-yellow-900 bg-yellow-900/10 text-[10px] font-bold uppercase tracking-widest"
+                                : "text-gray-300 border-cyan-500/20 bg-white/5",
+                        )}
+                      >
+                        {i === gameState.history.length - 1 ? (
+                          <Typewriter text={line} textKey={logKey} onUpdate={scrollToBottom} />
+                        ) : (
+                          line
+                        )}
+                      </motion.div>
+                    ))}
                   </div>
-                </motion.div>
-              ) : (
-                <div className="flex flex-col gap-2 min-h-full">
-                  {gameState.history.map((line, i) => (
-                    <motion.div
-                      initial={
-                        i === gameState.history.length - 1
-                          ? { opacity: 0, x: -10 }
-                          : {}
-                      }
-                      animate={{ opacity: 1, x: 0 }}
-                      key={`${i}-${logKey}`}
-                      className={cn(
-                        "break-words leading-relaxed p-2 px-3 rounded-lg border-l-2 font-mono text-xs md:text-sm",
-                        line.startsWith(">")
-                          ? "text-cyan-600 italic border-cyan-900/30 bg-cyan-950/5"
-                          : line.startsWith("[COMBAT]")
-                            ? "text-red-400 border-red-500 bg-red-950/20"
-                            : line.startsWith("System")
-                              ? "text-yellow-400 border-yellow-900 bg-yellow-900/10 text-[10px] font-bold uppercase tracking-widest"
-                              : "text-gray-300 border-cyan-500/20 bg-white/5",
-                      )}
-                    >
-                      {i === gameState.history.length - 1 ? (
-                        <Typewriter text={line} textKey={logKey} onUpdate={scrollToBottom} />
-                      ) : (
-                        line
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </AnimatePresence>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
-        {/* TACTICAL CONSOLE (50% height) */}
-        <div className="h-[50%] min-h-0 bg-black/60 flex flex-col md:flex-row overflow-hidden shrink-0 border-b-2 border-cyan-500/5 box-border">
+        {/* RIGHT COCKPIT: TACTICAL CONSOLE */}
+        <div className="flex-1 min-h-0 bg-black/60 flex flex-col overflow-hidden box-border h-[54%] landscape:h-full">
           <AnimatePresence mode="wait">
             {combatEnemy ? (
               <Combat
@@ -2430,10 +2498,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 key="nav-systems"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex-1 flex flex-col md:flex-row overflow-hidden"
+                className="flex-1 flex flex-col md:flex-row landscape:flex-row overflow-hidden"
               >
                 {/* NAVIGATION SECTION */}
-                <div className="flex-1 p-4 md:p-6 flex flex-col border-r-2 border-cyan-500/10 overflow-hidden box-border">
+                <div className="flex-1 p-3 md:p-6 landscape:p-3 flex flex-col border-b-2 md:border-b-0 landscape:border-b-0 border-r-0 md:border-r-2 landscape:border-r-2 border-cyan-500/10 overflow-hidden box-border">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <History size={16} className="text-indigo-400" />
@@ -2746,7 +2814,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
 
                 {/* SYSTEMS SECTION */}
-                <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden box-border">
+                <div className="flex-1 p-3 md:p-6 landscape:p-3 flex flex-col overflow-hidden box-border">
                   <div className="flex items-center gap-3 mb-4">
                     <Zap size={16} className="text-cyan-400" />
                     <h2 className="text-[10px] font-title text-cyan-400 tracking-[0.4em] uppercase">
@@ -2848,12 +2916,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-950 border-2 border-cyan-500 rounded-3xl w-full max-w-lg overflow-hidden flex flex-col max-h-[80vh] shadow-[0_0_100px_rgba(6,182,212,0.2)]"
+              className="bg-gray-950 border-2 border-cyan-500 rounded-2xl md:rounded-3xl w-full max-w-lg landscape:max-w-2xl overflow-hidden flex flex-col max-h-[85vh] landscape:max-h-[92vh] shadow-[0_0_100px_rgba(6,182,212,0.2)] safe-area-landscape"
             >
-              <div className="bg-cyan-500 p-6 flex justify-between items-center">
+              <div className="bg-cyan-500 p-4 md:p-6 landscape:p-3 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <Backpack className="text-black" />
-                  <h2 className="text-xl font-title text-black tracking-widest uppercase">
+                  <h2 className="text-lg md:text-xl font-title text-black tracking-widest uppercase">
                     Cargo Bay 94
                   </h2>
                 </div>
@@ -2861,11 +2929,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-black hover:scale-110 transition-transform"
                 >
-                  <X size={24} />
+                  <X size={22} />
                 </button>
               </div>
 
-              <div className="p-8 space-y-8 overflow-y-auto no-scrollbar">
+              <div className="p-4 md:p-8 landscape:p-4 space-y-6 landscape:space-y-4 overflow-y-auto no-scrollbar">
                 <div>
                   <h3 className="text-cyan-500 font-display text-[10px] tracking-[0.4em] uppercase mb-4 border-b border-cyan-900 pb-2 flex justify-between items-center">
                     <span>Manifest Inventory</span>
@@ -3124,6 +3192,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* HANDHELD CONTROLLER SHORTCUT GUIDE (RETROID POCKET 5) */}
+      {isGamepadActive && (
+        <div className="absolute bottom-2 right-4 z-40 hidden landscape:flex items-center gap-2 px-3 py-1 bg-black/85 border border-yellow-500/40 rounded-full text-[9px] font-mono text-yellow-400 backdrop-blur-md shadow-[0_0_15px_rgba(234,179,8,0.25)] pointer-events-none safe-area-landscape">
+          <Gamepad2 size={12} className="text-yellow-500 animate-pulse shrink-0" />
+          <span>D-Pad: Move · [A] Select · [B] Back · [X] Cargo · [Y] Status · [Start] Save</span>
+        </div>
+      )}
     </div>
   );
 };

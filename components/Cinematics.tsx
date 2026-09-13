@@ -366,7 +366,7 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: (slot: n
     };
 
     return (
-        <div className="relative h-full w-full flex flex-col items-center justify-center bg-black overflow-hidden select-none">
+        <div className="relative h-full w-full flex flex-col items-center justify-center bg-black overflow-y-auto px-4 py-4 landscape:py-2 select-none safe-area-landscape">
             <motion.div 
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
@@ -381,21 +381,21 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: (slot: n
             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="z-10 text-center mb-16"
+                className="z-10 text-center mb-6 md:mb-12 landscape:mb-3"
             >
-                <h1 className="text-6xl md:text-9xl font-sans font-black text-yellow-500 tracking-tight uppercase leading-[0.8] drop-shadow-[0_0_30px_rgba(234,179,8,0.4)] mb-2">
+                <h1 className="text-5xl sm:text-6xl md:text-8xl landscape:text-5xl font-sans font-black text-yellow-500 tracking-tight uppercase leading-[0.85] drop-shadow-[0_0_30px_rgba(234,179,8,0.4)] mb-1">
                     THE<br/>OUTER RIM
                 </h1>
-                <p className="font-title text-cyan-600 tracking-[0.4em] text-[10px] md:text-xs uppercase opacity-70 mt-6 font-bold">
+                <p className="font-title text-cyan-600 tracking-[0.4em] text-[9px] md:text-xs uppercase opacity-70 mt-2 md:mt-4 landscape:mt-1 font-bold">
                     A Star Wars Story
                 </p>
             </motion.div>
 
-            <div className="z-10 flex flex-col gap-4 w-64 md:w-80">
+            <div className="z-10 flex flex-col gap-3 landscape:gap-2 w-64 md:w-80 landscape:w-72">
                 <CommandButton 
                     label="Initialize Pilot" 
                     onClick={handleNewGameClick} 
-                    className="w-full py-5 text-lg border-yellow-500/50 text-yellow-500 bg-yellow-500/5 hover:bg-yellow-500/20"
+                    className="w-full py-4 landscape:py-2.5 text-base md:text-lg border-yellow-500/50 text-yellow-500 bg-yellow-500/5 hover:bg-yellow-500/20"
                     icon={<Play size={18} className="text-yellow-600" />}
                 />
                 {hasSave && (
@@ -403,31 +403,31 @@ export const StartScreen: React.FC<{ onNewGame: () => void, onContinue: (slot: n
                         <CommandButton 
                             label="Restore Uplink" 
                             onClick={() => setShowSaveManager(true)} 
-                            className="w-full py-5 text-lg border-cyan-800 bg-black/40 flex-grow"
+                            className="w-full py-4 landscape:py-2.5 text-base md:text-lg border-cyan-800 bg-black/40 flex-grow"
                             icon={<Sparkles size={18} className="text-cyan-600" />}
                         />
                         <button
                             onClick={() => setShowSaveManager(true)}
-                            className="p-4 border border-cyan-800 bg-black/40 text-cyan-600 hover:text-cyan-400 hover:border-cyan-600 transition-colors"
+                            className="p-3 landscape:p-2 border border-cyan-800 bg-black/40 text-cyan-600 hover:text-cyan-400 hover:border-cyan-600 transition-colors rounded"
                         >
-                            <Settings size={20} />
+                            <Settings size={18} />
                         </button>
                     </div>
                 )}
                 
-                <div className="flex items-center justify-center gap-6 mt-4">
+                <div className="flex items-center justify-center gap-6 mt-2 md:mt-4 landscape:mt-1">
                     <button 
                         onClick={() => setShowInfo(true)}
-                        className="flex items-center justify-center gap-2 text-xs font-mono text-cyan-500/60 hover:text-cyan-400 transition-colors uppercase tracking-widest"
+                        className="flex items-center justify-center gap-1.5 text-xs font-mono text-cyan-500/60 hover:text-cyan-400 transition-colors uppercase tracking-widest"
                     >
-                        <FileText size={14} />
+                        <FileText size={13} />
                         Codex
                     </button>
                     <button 
                         onClick={() => setShowChangelog(true)}
-                        className="flex items-center justify-center gap-2 text-xs font-mono text-cyan-500/60 hover:text-cyan-400 transition-colors uppercase tracking-widest"
+                        className="flex items-center justify-center gap-1.5 text-xs font-mono text-cyan-500/60 hover:text-cyan-400 transition-colors uppercase tracking-widest"
                     >
-                        <FileText size={14} />
+                        <FileText size={13} />
                         Changelog
                     </button>
                     <PWAInstallButton className="text-xs font-mono text-cyan-500/60 hover:text-cyan-400" />
@@ -503,22 +503,22 @@ export const CharacterCreator: React.FC<{ onFinished: (char: Character) => void 
     const selectedClassData = CLASSES.find(c => c.id === selectedClassId);
 
     return (
-        <div className="h-full w-full flex items-start md:items-center justify-center md:bg-gray-950 px-4 py-8 relative overflow-y-auto">
+        <div className="h-full w-full flex items-start md:items-center justify-center md:bg-gray-950 px-3 md:px-4 py-4 landscape:py-2 relative overflow-y-auto safe-area-landscape">
             <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop')] bg-cover opacity-20 grayscale brightness-50 pointer-events-none" />
             <div className="fixed inset-0 scanline opacity-10 pointer-events-none" />
             
             <motion.div 
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="w-full max-w-2xl bg-black/80 border border-cyan-800/30 rounded-2xl p-6 md:p-10 backdrop-blur-xl shadow-2xl relative z-10 m-auto flex-shrink-0"
+                className="w-full max-w-2xl landscape:max-w-3xl bg-black/80 border border-cyan-800/30 rounded-2xl p-4 md:p-8 landscape:p-4 backdrop-blur-xl shadow-2xl relative z-10 m-auto flex-shrink-0"
             >
-                <div className="flex items-center gap-4 mb-8">
-                    <div className="bg-cyan-500/10 p-3 rounded-xl border border-cyan-500/20">
-                        <User className="text-cyan-400" size={32} />
+                <div className="flex items-center gap-3 mb-4 md:mb-6 landscape:mb-3">
+                    <div className="bg-cyan-500/10 p-2.5 rounded-xl border border-cyan-500/20">
+                        <User className="text-cyan-400" size={24} />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-title text-white tracking-tight uppercase">Pilot Registration</h2>
-                        <div className="h-1 w-24 bg-cyan-700 mt-2 rounded-full" />
+                        <h2 className="text-2xl md:text-3xl font-title text-white tracking-tight uppercase">Pilot Registration</h2>
+                        <div className="h-0.5 w-16 bg-cyan-700 mt-1 rounded-full" />
                     </div>
                 </div>
 
